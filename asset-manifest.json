@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/literate-octo-robot/static/css/main.177e6c23.css",
+    "main.js": "/literate-octo-robot/static/js/main.a9581a27.js",
+    "index.html": "/literate-octo-robot/index.html",
+    "main.177e6c23.css.map": "/literate-octo-robot/static/css/main.177e6c23.css.map",
+    "main.a9581a27.js.map": "/literate-octo-robot/static/js/main.a9581a27.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.177e6c23.css",
+    "static/js/main.a9581a27.js"
+  ]
+}
