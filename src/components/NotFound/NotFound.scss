@@ -1,0 +1,55 @@
+@import 'styles/shared.scss';
+
+.error {
+  padding: 100px 0;
+  @media screen and (min-width: 768px) {
+    padding: 140px 0;
+  }
+
+  &__picture {
+    width: 260px;
+    margin: 0 auto;
+    margin-bottom: 14px;
+    @media screen and (min-width: 768px) {
+      width: 500px;
+      margin-bottom: 32px;
+    }
+  }
+
+  &__message {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 209px;
+    margin: 0 auto;
+    font-family: $secondary-font-stack;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #010101;
+    @media screen and (min-width: 768px) {
+      gap: 14px;
+      width: auto;
+    }
+
+    &--sorry {
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 1.11;
+      @media screen and (min-width: 768px) {
+        font-size: 24px;
+        line-height: 1;
+      }
+    }
+
+    &--not-found {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.29;
+      opacity: 0.5;
+      @media screen and (min-width: 768px) {
+        font-size: 18px;
+        line-height: 1.33;
+      }
+    }
+  }
+}

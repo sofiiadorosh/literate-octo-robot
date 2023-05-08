@@ -1,6 +1,11 @@
 @import-normalize;
 @import './shared.scss';
 
+body {
+  font-family: $primary-font-stack;
+  font-size: 12px;
+}
+
 img {
   display: block;
   max-width: 100%;
