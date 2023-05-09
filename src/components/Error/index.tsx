@@ -4,7 +4,7 @@ import { Container } from '@components/Container';
 
 import error from '@assets/error.png';
 
-import './NotFound.scss';
+import './Error.scss';
 
 type ErrorProps = {
   message: string;
