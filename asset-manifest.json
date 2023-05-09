@@ -1,14 +1,19 @@
 {
   "files": {
-    "main.css": "/literate-octo-robot/static/css/main.1dab52ad.css",
-    "main.js": "/literate-octo-robot/static/js/main.523fdbe7.js",
+    "main.css": "/literate-octo-robot/static/css/main.d1194ed0.css",
+    "main.js": "/literate-octo-robot/static/js/main.3e26e86c.js",
     "static/media/error.png": "/literate-octo-robot/static/media/error.cbf9823f2352379ffaa9.png",
+    "static/media/logo.svg": "/literate-octo-robot/static/media/logo.13f8819d9e8942da5d3c94833f0310d6.svg",
+    "static/media/cart.svg": "/literate-octo-robot/static/media/cart.f36e95a3d1c8056884aec6eb03b5ee45.svg",
     "index.html": "/literate-octo-robot/index.html",
-    "main.1dab52ad.css.map": "/literate-octo-robot/static/css/main.1dab52ad.css.map",
-    "main.523fdbe7.js.map": "/literate-octo-robot/static/js/main.523fdbe7.js.map"
+    "static/media/search.svg": "/literate-octo-robot/static/media/search.6715458dcf0b4b9c1b491982042f2a1b.svg",
+    "static/media/user.svg": "/literate-octo-robot/static/media/user.017ec8163c9bf429444293abcb7bcbd0.svg",
+    "static/media/arrow.svg": "/literate-octo-robot/static/media/arrow.45ee5cb4aaa4cbeab46c11d0300997df.svg",
+    "main.d1194ed0.css.map": "/literate-octo-robot/static/css/main.d1194ed0.css.map",
+    "main.3e26e86c.js.map": "/literate-octo-robot/static/js/main.3e26e86c.js.map"
   },
   "entrypoints": [
-    "static/css/main.1dab52ad.css",
-    "static/js/main.523fdbe7.js"
+    "static/css/main.d1194ed0.css",
+    "static/js/main.3e26e86c.js"
   ]
 }
