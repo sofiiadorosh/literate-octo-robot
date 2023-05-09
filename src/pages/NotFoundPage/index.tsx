@@ -1,13 +1,9 @@
 import React, { FC } from 'react';
 
-import { NotFound } from 'components/NotFound';
+import { NotFound } from '@components/NotFound';
 
 const NotFoundPage: FC = () => {
-  return (
-    <>
-      <NotFound />
-    </>
-  );
+  return <NotFound />;
 };
 
 export default NotFoundPage;
