@@ -20,5 +20,8 @@
     font-size: 14px;
     line-height: 1.36;
     color: $accent;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

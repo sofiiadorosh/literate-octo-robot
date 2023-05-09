@@ -14,5 +14,8 @@
     padding: 16px 0;
     font-weight: 400;
     line-height: 1.33;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
