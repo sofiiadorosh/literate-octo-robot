@@ -1,11 +1,15 @@
+'use client';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { store } from '@store';
 
 import App from 'App';
+import { ErrorFallback } from '@components/ErrorFallback';
 
 import './styles/base.scss';
 
@@ -16,7 +20,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter basename="/literate-octo-robot">
-        <App />
+        <ErrorBoundary fallback={<ErrorFallback />}>
+          <App />
+        </ErrorBoundary>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Container } from '@components/Container';
 
@@ -6,7 +6,11 @@ import error from '@assets/error.png';
 
 import './NotFound.scss';
 
-export const NotFound = () => {
+type ErrorProps = {
+  message: string;
+};
+
+export const Error: FC<ErrorProps> = ({ message }) => {
   return (
     <section className="error">
       <Container>
@@ -18,9 +22,7 @@ export const NotFound = () => {
         </div>
         <div className="error__message">
           <p className="error__message--sorry">We are sorry,</p>
-          <p className="error__message--not-found">
-            but the page you were looking for can’t be found...
-          </p>
+          <p className="error__message--reason">{message}</p>
         </div>
       </Container>
     </section>

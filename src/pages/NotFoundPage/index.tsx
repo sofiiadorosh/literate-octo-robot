@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
 
-import { NotFound } from '@components/NotFound';
+import { Error } from '@components/Error';
+
+const notFoundMessage = 'but the page you were looking for can’t be found...';
 
 const NotFoundPage: FC = () => {
-  return <NotFound />;
+  return <Error message={notFoundMessage} />;
 };
 
 export default NotFoundPage;
