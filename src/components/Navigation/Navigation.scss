@@ -1,0 +1,14 @@
+@import '@styles/shared.scss';
+
+.nav-list {
+  display: flex;
+  gap: 38px;
+
+  &__link {
+    display: block;
+    padding: 16px 0;
+    font-weight: 400;
+    line-height: 1.33;
+    color: $accent;
+  }
+}

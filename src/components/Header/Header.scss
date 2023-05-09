@@ -1,0 +1,16 @@
+.contacts-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+
+.search-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 36px;
+  row-gap: 10px;
+  margin-bottom: 10px;
+}

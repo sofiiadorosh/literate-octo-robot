@@ -1,0 +1,24 @@
+@import '@styles/shared.scss';
+
+.footer-link {
+  &__title {
+    margin-bottom: 16px;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__link {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    color: $accent;
+  }
+}
