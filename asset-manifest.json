@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/literate-octo-robot/static/css/main.177e6c23.css",
-    "main.js": "/literate-octo-robot/static/js/main.a9581a27.js",
+    "main.css": "/literate-octo-robot/static/css/main.7e0dbcb4.css",
+    "main.js": "/literate-octo-robot/static/js/main.31ad0f9d.js",
+    "static/media/error.png": "/literate-octo-robot/static/media/error.cbf9823f2352379ffaa9.png",
     "index.html": "/literate-octo-robot/index.html",
-    "main.177e6c23.css.map": "/literate-octo-robot/static/css/main.177e6c23.css.map",
-    "main.a9581a27.js.map": "/literate-octo-robot/static/js/main.a9581a27.js.map"
+    "main.7e0dbcb4.css.map": "/literate-octo-robot/static/css/main.7e0dbcb4.css.map",
+    "main.31ad0f9d.js.map": "/literate-octo-robot/static/js/main.31ad0f9d.js.map"
   },
   "entrypoints": [
-    "static/css/main.177e6c23.css",
-    "static/js/main.a9581a27.js"
+    "static/css/main.7e0dbcb4.css",
+    "static/js/main.31ad0f9d.js"
   ]
 }
