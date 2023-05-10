@@ -18,13 +18,17 @@ export const Header: FC = () => {
           <Contacts />
           <Navigation />
         </div>
-        <div className="search-navigation">
-          <Logo />
-          <SearchBar />
-          <UserMenu />
-        </div>
-        <Categories />
       </Container>
+      <div className="main-navigation">
+        <Container>
+          <div className="search-navigation">
+            <Logo />
+            <SearchBar />
+            <UserMenu />
+          </div>
+          <Categories />
+        </Container>
+      </div>
     </header>
   );
 };

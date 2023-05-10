@@ -4,12 +4,19 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  column-gap: 40px;
+  column-gap: 20px;
   row-gap: 20px;
   padding: 16px 0;
   background-color: $primary-white-background;
-  @media screen and (min-width: 1170px) {
+  @media screen and (min-width: 768px) {
     justify-content: center;
+    column-gap: 40px;
+    width: 90%;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 1170px) {
+    width: auto;
+    margin: 0;
   }
 }
 

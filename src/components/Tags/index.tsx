@@ -1,27 +1,8 @@
 import React, { FC } from 'react';
 
-import './Tags.scss';
+import { tagItems } from '@constants';
 
-const tagItems = [
-  'Beans',
-  'Carrots',
-  'Apples',
-  'Garlic',
-  'Mushrooms',
-  'Tomatoes',
-  'Chili peppers',
-  'Broccoli',
-  'Watermelons',
-  'Oranges',
-  'Bananas',
-  'Grapes',
-  'Cherries',
-  'Meat',
-  'Seo tag',
-  'Fish',
-  'Fresh food',
-  'Lemons',
-];
+import './Tags.scss';
 
 export const Tags: FC = () => {
   return (

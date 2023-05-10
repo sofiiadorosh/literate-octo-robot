@@ -1,13 +1,9 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import './Navigation.scss';
+import { navItems } from '@constants';
 
-const navItems = [
-  { href: '/blog', text: 'Blog' },
-  { href: '/about', text: 'About Us' },
-  { href: '/career', text: 'Careers' },
-];
+import './Navigation.scss';
 
 export const Navigation: FC = () => {
   return (

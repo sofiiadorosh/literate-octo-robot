@@ -1,8 +1,15 @@
+@import '@styles/shared.scss';
+
 .contacts-navigation {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 13px;
+  border-bottom: 1px solid $tertiary-grey;
+}
+
+.main-navigation {
+  padding-top: 13px;
+  background-color: $tertiary-white-background;
 }
 
 .search-navigation {

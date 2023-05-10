@@ -16,6 +16,8 @@ body {
   font-family: $primary-font-stack;
   font-size: 12px;
   color: $primary-dark-text;
+  background-color: $white-background;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 img {

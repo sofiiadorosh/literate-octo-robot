@@ -1,25 +1,16 @@
 import React, { FC } from 'react';
 
-import './DropDown.scss';
+import { categories } from '@constants';
 
-const items = [
-  'Electronics',
-  'Food',
-  'Clothes',
-  'Skin and care',
-  'Toys',
-  'Special nutrition',
-  'Sports and outdoors',
-  'Books',
-];
+import './DropDown.scss';
 
 export const DropDown: FC = () => {
   return (
     <div className="dropdown">
       <ul className="dropdown__list">
-        {items.map(item => (
-          <li key={item} className="dropdown__item">
-            {item}
+        {categories.map(category => (
+          <li key={category} className="dropdown__item">
+            {category}
           </li>
         ))}
       </ul>

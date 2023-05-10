@@ -2,20 +2,10 @@ import React, { FC } from 'react';
 
 import { DropDown } from '@components/DropDown';
 
+import { categories } from '@constants';
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 
 import './Categories.scss';
-
-const categories = [
-  'Electronics',
-  'Food',
-  'Clothes',
-  'Skin and care',
-  'Toys',
-  'Special nutrition',
-  'Sports and outdoors',
-  'Books',
-];
 
 export const Categories: FC = () => {
   return (

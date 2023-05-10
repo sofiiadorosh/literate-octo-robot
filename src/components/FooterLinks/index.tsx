@@ -11,7 +11,7 @@ type FooterLinksProps = {
 export const FooterLinks: FC<FooterLinksProps> = ({ title, array }) => {
   return (
     <div className="footer-link__wrapper">
-      <p className="footer-link__title">{title}</p>
+      <h3 className="footer-link__title">{title}</h3>
       <ul className="footer-link__list">
         {array.map(({ href, text }) => (
           <li key={href} className="footer-link">
