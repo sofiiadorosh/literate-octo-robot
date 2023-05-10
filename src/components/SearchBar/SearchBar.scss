@@ -44,6 +44,7 @@
   }
 
   &__icon {
+    stroke: $accent;
     transition: transform 250ms $timing-function;
   }
 
@@ -103,5 +104,6 @@
   &__icon {
     width: 16px;
     height: 16px;
+    stroke: $primary-dark-text;
   }
 }

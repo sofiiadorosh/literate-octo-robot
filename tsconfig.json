@@ -23,8 +23,8 @@
       "@store": ["store"],
       "@assets/*": ["assets/*"],
       "@styles/*": ["styles/*"],
-      "@types/*": ["types/*"],
-      "@hooks/*": ["hooks/*"],
+      "@types": ["types"],
+      "@hooks": ["hooks"],
       "@constants": ["constants"],
       "@utils/*": ["utils/*"]
     }

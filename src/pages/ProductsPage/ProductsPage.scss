@@ -1,0 +1,52 @@
+@import '@styles/base.scss';
+
+.products {
+  padding: 16px 0;
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  &__heading {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.5;
+    @media screen and (min-width: 360px) {
+      font-size: 32px;
+    }
+  }
+
+  &__quantity {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.33;
+    color: $secondary-grey;
+
+    &--number {
+      padding: 0 8px;
+      font-family: $secondary-font-stack;
+      font-weight: 600;
+      color: $accent;
+      background-color: $light-green;
+      border-radius: 12px;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-rows: 218px 1fr;
+    margin-bottom: 34px;
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: 279px 1fr;
+      grid-template-rows: 1fr;
+      gap: 32px;
+    }
+  }
+}

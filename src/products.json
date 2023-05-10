@@ -1,0 +1,70 @@
+[
+  {
+    "image": "https://www.allrecipes.com/thmb/092uk7yXvVgwb3Fd0OXD7zEBW0E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Fresh-Salmon-Fillets-by-FudioGetty-Images-2000-02c1384d705a42e5a7801923a51b4377.jpg",
+    "title": "Salmon",
+    "description": "This salmon is deserving of its royal title. Many consider it to be the best salmon you can buy. High in fat, rich, and large in size, King salmon (also known as Chinook) is loaded with omega-3s. King salmon have reached up to five feet in size and over 100 pounds in weight, showing up everywhere from the Pacific waters of southern California to the freezing rivers of northern Alaska.",
+    "rating": 5,
+    "fresheness": "Extra fresh",
+    "farm": "Jacobs LLC",
+    "delivery": "Netherlands",
+    "stock": "3 kgs",
+    "price": {
+      "old": 99.99,
+      "new": 79.99
+    },
+    "shipping": "Free",
+    "deliveryTime": "2",
+    "id": "1"
+  },
+  {
+    "image": "https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2022/08/Hummus-9.jpg",
+    "title": "Hummus",
+    "description": "Chickpeas are wonderful for gut health as they’re loaded with fiber and keep things moving through your digestive system (in other words, they help with constipation). But here’s the really good part. The type of fiber they’re loaded with is insoluble fiber – the kind that helps to lower “bad” cholesterol while feeding the “good” gut bugs in your microbiome. That’s because insoluble fiber doesn’t break down until it hits the large intestine. And when it does hit the large intestine, those good gut bugs feed off the insoluble fiber, creating short-chain-fatty-acids, giving you energy and protecting the health of your colon.",
+    "rating": 4,
+    "fresheness": "Fresh",
+    "farm": "Abernathy - Schuppe",
+    "delivery": "Spain",
+    "stock": "8 packs",
+    "price": {
+      "old": 49.99,
+      "new": 39.99
+    },
+    "shipping": "Paid",
+    "deliveryTime": "8",
+    "id": "2"
+  },
+  {
+    "image": "https://img.freepik.com/premium-photo/variety-raw-beef-meat-steaks-grilling-with-seasoning-meat-butcher-knife-banner-menu-recipe-top-view_114941-1917.jpg?w=1380",
+    "title": "Rib eye (without the bone)",
+    "description": "The rib eye is cut out of a prime rib roast, and can be served as individual steaks with the bone in or out, or roasted whole on the rack. While eating around the bone can make it slightly harder to tackle this cut with a knife and fork, the bone does provide extra moisture and fat that will make your meal even more delectable.",
+    "rating": 5,
+    "fresheness": "Extra fresh",
+    "farm": "Ankundin and Erdman",
+    "delivery": "Montserrat",
+    "stock": "40 kgs",
+    "price": {
+      "old": 229.99,
+      "new": 199.99
+    },
+    "shipping": "Paid",
+    "deliveryTime": "7",
+    "id": "3"
+  },
+  {
+    "image": "https://www.eatthis.com/wp-content/uploads/sites/4/2022/07/ripe-pears-bowl.jpg?quality=82&strip=1&w=640",
+    "title": "Pears",
+    "description": "Due to their high fibre content, pears are great for gut health. One medium pear contains a whopping six grams of fibre – that’s a quarter of the recommended daily amount for adults.5 Why is fibre so good for you? Well, we briefly touched upon it in the nutritional profile above, but fibre is essential for helping the digestive track run smoothly and keeps everything regular.6 Diverticulitis is when the lining of the large intestine develops an infection and becomes inflamed. A 2014 UK study7 linked a high fibre intake can reduce the risk of this infection. However, the authors of the study did claim that this was dependant on the source of the fibre.",
+    "rating": 3,
+    "fresheness": "Fresh",
+    "farm": "Runte - Hickle",
+    "delivery": "Macao",
+    "stock": "30 kgs",
+    "price": {
+      "old": 19.99,
+      "new": 14.99
+    },
+    "shipping": "Free",
+    "deliveryTime": "2",
+    "id": "4"
+  }
+]
