@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/literate-octo-robot/static/css/main.82882b86.css",
-    "main.js": "/literate-octo-robot/static/js/main.d46d7f6f.js",
+    "main.css": "/literate-octo-robot/static/css/main.8d723c1d.css",
+    "main.js": "/literate-octo-robot/static/js/main.54698443.js",
     "static/media/error.png": "/literate-octo-robot/static/media/error.cbf9823f2352379ffaa9.png",
     "static/media/logo.svg": "/literate-octo-robot/static/media/logo.13f8819d9e8942da5d3c94833f0310d6.svg",
     "static/media/cart.svg": "/literate-octo-robot/static/media/cart.f36e95a3d1c8056884aec6eb03b5ee45.svg",
@@ -9,11 +9,11 @@
     "static/media/search.svg": "/literate-octo-robot/static/media/search.6715458dcf0b4b9c1b491982042f2a1b.svg",
     "static/media/user.svg": "/literate-octo-robot/static/media/user.017ec8163c9bf429444293abcb7bcbd0.svg",
     "static/media/arrow.svg": "/literate-octo-robot/static/media/arrow.45ee5cb4aaa4cbeab46c11d0300997df.svg",
-    "main.82882b86.css.map": "/literate-octo-robot/static/css/main.82882b86.css.map",
-    "main.d46d7f6f.js.map": "/literate-octo-robot/static/js/main.d46d7f6f.js.map"
+    "main.8d723c1d.css.map": "/literate-octo-robot/static/css/main.8d723c1d.css.map",
+    "main.54698443.js.map": "/literate-octo-robot/static/js/main.54698443.js.map"
   },
   "entrypoints": [
-    "static/css/main.82882b86.css",
-    "static/js/main.d46d7f6f.js"
+    "static/css/main.8d723c1d.css",
+    "static/js/main.54698443.js"
   ]
 }
