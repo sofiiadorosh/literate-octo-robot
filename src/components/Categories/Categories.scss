@@ -1,0 +1,51 @@
+@import '@styles/shared.scss';
+
+.categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: 20px;
+  row-gap: 20px;
+  padding: 16px 0;
+  background-color: $primary-white-background;
+  @media screen and (min-width: 768px) {
+    justify-content: center;
+    column-gap: 40px;
+    width: 90%;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 1170px) {
+    width: auto;
+    margin: 0;
+  }
+}
+
+.category-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  &:hover .dropdown {
+    display: block;
+  }
+
+  &:hover .category-item__icon {
+    transform: rotate(180deg);
+  }
+
+  &__title {
+    font-family: $secondary-font-stack;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+    transition: transform 250ms $timing-function;
+  }
+}

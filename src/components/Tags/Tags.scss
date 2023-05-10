@@ -1,0 +1,30 @@
+@import '@styles/shared.scss';
+
+.footer-tag {
+  margin-bottom: 48px;
+
+  &__title {
+    margin-bottom: 16px;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  &__item {
+    padding: 4px 10px;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1.5;
+    background-color: $secondary-white-background;
+    border-radius: 12px;
+  }
+}

@@ -1,0 +1,23 @@
+@import '@styles/shared.scss';
+
+.contacts-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid $tertiary-grey;
+}
+
+.main-navigation {
+  padding-top: 13px;
+  background-color: $tertiary-white-background;
+}
+
+.search-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 36px;
+  row-gap: 10px;
+  margin-bottom: 10px;
+}
