@@ -60,14 +60,13 @@ export const ProductItem: FC<ProductItemProps> = ({
           <ul className="product-info__list">
             <li className="product-info__item">
               <span>Fresheness</span>
-              <span>
-                <span className="product-info__item--accent">New </span>(
-                {fresheness})
+              <span className="product-info__item--accent product-info__word">
+                {fresheness}
               </span>
             </li>
             <li className="product-info__item">
               <span>Farm</span>
-              <span>{farm}</span>
+              <span className="product-info__word">{farm}</span>
             </li>
             <li className="product-info__item">
               <span>Delivery</span>
@@ -80,12 +79,16 @@ export const ProductItem: FC<ProductItemProps> = ({
           </ul>
         </div>
         <div className="product-order">
-          <span className="product-order__price--old">{price.new} USD</span>
-          <span className="product-order__price--new">{price.old}</span>
-          <span className="product-order__shipping">{shipping} Shipping</span>
-          <span className="product-order__delivery">
-            Delivery in {deliveryTime} days
-          </span>
+          <div className="product-order__price">
+            <span className="product-order__price--old">{price.new} USD</span>
+            <span className="product-order__price--new">{price.old}</span>
+          </div>
+          <div className="product-order__info">
+            <span className="product-order__shipping">{shipping} Shipping</span>
+            <span className="product-order__delivery">
+              Delivery in {deliveryTime} days
+            </span>
+          </div>
           <div className="product-order__button">
             <NavLink to={id} className="primary-button">
               <span>Product Detail</span>

@@ -17,6 +17,7 @@
   }
   @media screen and (min-width: 1170px) {
     flex-direction: row;
+    align-items: center;
     width: 100%;
     max-width: 100%;
   }
@@ -60,7 +61,6 @@
     @media screen and (min-width: 1170px) {
       flex-direction: row;
       justify-content: space-between;
-      gap: unset;
       width: calc(100% - 268px);
       padding: 32px;
     }
@@ -102,6 +102,10 @@
       color: $accent;
     }
   }
+
+  &__word {
+    word-break: break-word;
+  }
 }
 
 .rating-item {
@@ -126,19 +130,27 @@
   flex-direction: column;
   font-family: $secondary-font-stack;
   &__price {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
     &--old {
       font-weight: 600;
       font-size: 18px;
       line-height: 1.5;
     }
     &--new {
-      margin-bottom: 16px;
       font-weight: 600;
       font-size: 12px;
       line-height: 1.5;
       text-decoration-line: line-through;
       color: $secondary-grey;
     }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 26px;
   }
 
   &__shipping {
@@ -149,7 +161,6 @@
   }
 
   &__delivery {
-    margin-bottom: 26px;
     font-family: $primary-font-stack;
     font-weight: 400;
     font-size: 12px;
