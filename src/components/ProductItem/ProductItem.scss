@@ -22,14 +22,26 @@
   }
 
   &__thumb {
+    display: block;
     width: 100%;
     height: 312px;
-    background-color: grey;
     border-radius: 12px;
     overflow: hidden;
     @media screen and (min-width: 1170px) {
       width: 268px;
       height: 280px;
+    }
+  }
+
+  &__link {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+    transition: text-decoration 250ms $timing-function;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 
@@ -58,10 +70,6 @@
 .product-info {
   &__title {
     margin-bottom: 4px;
-    font-family: $secondary-font-stack;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 1.5;
   }
 
   &__description {
@@ -98,10 +106,19 @@
 
 .rating-item {
   &__icon {
-    width: 20px;
-    height: 20px;
-    fill: $yellow;
-    stroke: $yellow;
+    &--filled {
+      width: 20px;
+      height: 20px;
+      fill: $yellow;
+      stroke: $yellow;
+    }
+
+    &--empty {
+      width: 20px;
+      height: 20px;
+      fill: transparent;
+      stroke: $grey;
+    }
   }
 }
 
@@ -163,12 +180,17 @@
   background-color: $accent;
   border: 2px solid $green;
   border-radius: 12px;
+  transition: background-color 250ms $timing-function;
 
   &__icon {
     width: 16px;
     height: 16px;
     stroke: $white-background;
     transform: rotateZ(-90deg);
+  }
+
+  &:hover {
+    background-color: $green;
   }
 }
 
@@ -180,6 +202,7 @@
   font-weight: 700;
   font-size: 15px;
   line-height: 1.47;
+  color: inherit;
   background-color: $secondary-white-background;
   border-radius: 12px;
 
