@@ -1,4 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+import { useAppSelector } from '@hooks';
+import { selectProducts } from '@store/products/selectors';
+import { getCategories } from '@services';
 
 import { DropDown } from '@components/DropDown';
 
@@ -8,12 +13,29 @@ import { ReactComponent as Search } from '@assets/search.svg';
 import './SearchBar.scss';
 
 export const SearchBar: FC = () => {
+  const products = useAppSelector(selectProducts);
+  const categories = getCategories(products);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const [selectedCategory, setSelectedCategory] = useState(
+    categoryParam || 'All categories'
+  );
+
+  useEffect(() => {
+    if (selectedCategory === 'All categories') return;
+    setSearchParams({ category: selectedCategory.toLowerCase() });
+  }, [selectedCategory]);
+
   return (
     <div className="search-bar">
       <div className="search-bar__category">
-        <span>All categories</span>
+        <span>
+          {selectedCategory.length > 14
+            ? selectedCategory.substring(0, 14) + '...'
+            : selectedCategory}
+        </span>
         <Arrow className="search-bar__icon" />
-        <DropDown />
+        <DropDown items={categories} onChooseOption={setSelectedCategory} />
       </div>
       <div className="search-bar__line"></div>
       <form autoComplete="off" className="search-form">

@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { getProducts } from '@store/products/operations';
+import { Product } from '@types';
+import { useAppSelector } from '@hooks';
 import { selectProducts, selectIsLoading } from '@store/products/selectors';
+import { getProductsByCategory } from '@services';
 
 import { ProductItem } from '@components/ProductItem';
 import { Loader } from '@components/Loader';
@@ -10,14 +12,21 @@ import { Notification } from '@components/Notification';
 
 import './ProductsList.scss';
 
-export const ProductsList = () => {
-  const products = useAppSelector(selectProducts);
+export const ProductsList: FC = () => {
+  const allProducts = useAppSelector(selectProducts);
   const isLoading = useAppSelector(selectIsLoading);
-  const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const [products, setProducts] = useState<Product[] | []>([]);
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+    if (!categoryParam) {
+      setProducts(allProducts);
+    } else {
+      const products = getProductsByCategory(allProducts, categoryParam);
+      setProducts(products);
+    }
+  }, [categoryParam]);
 
   return (
     <>
