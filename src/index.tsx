@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { store } from '@store';
@@ -19,11 +19,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter basename="/literate-octo-robot">
+      <Router>
         <ErrorBoundary fallback={<ErrorFallback />}>
           <App />
         </ErrorBoundary>
-      </BrowserRouter>
+      </Router>
     </Provider>
   </React.StrictMode>
 );
