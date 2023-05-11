@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/literate-octo-robot/static/css/main.fb37c7ea.css",
-    "main.js": "/literate-octo-robot/static/js/main.7012a9be.js",
+    "main.css": "/literate-octo-robot/static/css/main.aa24ad7f.css",
+    "main.js": "/literate-octo-robot/static/js/main.441d811d.js",
     "static/media/error.png": "/literate-octo-robot/static/media/error.cbf9823f2352379ffaa9.png",
     "static/media/logo.svg": "/literate-octo-robot/static/media/logo.252b1df6bf156f513dcacabda5c370af.svg",
-    "static/media/star.svg": "/literate-octo-robot/static/media/star.ad132f1731840aea11bbb5cb1813fb58.svg",
+    "static/media/star.svg": "/literate-octo-robot/static/media/star.3171228c8052741c14c398fedd698294.svg",
     "static/media/cart.svg": "/literate-octo-robot/static/media/cart.39d0a49ac0ec072ea5207c4b31cfb879.svg",
-    "static/media/heart.svg": "/literate-octo-robot/static/media/heart.05a5c38857f49470a96065d068ae2d2c.svg",
+    "static/media/heart.svg": "/literate-octo-robot/static/media/heart.77c946b0e5580970666d02ba6af91497.svg",
     "index.html": "/literate-octo-robot/index.html",
     "static/media/search.svg": "/literate-octo-robot/static/media/search.9040720909db09936fe7adc59316b49d.svg",
     "static/media/user.svg": "/literate-octo-robot/static/media/user.a50d3db7bb73453755dab16cea135c88.svg",
     "static/media/arrow.svg": "/literate-octo-robot/static/media/arrow.e21ef35e3fb12b40f5a0dbda92b549a0.svg",
-    "main.fb37c7ea.css.map": "/literate-octo-robot/static/css/main.fb37c7ea.css.map",
-    "main.7012a9be.js.map": "/literate-octo-robot/static/js/main.7012a9be.js.map"
+    "main.aa24ad7f.css.map": "/literate-octo-robot/static/css/main.aa24ad7f.css.map",
+    "main.441d811d.js.map": "/literate-octo-robot/static/js/main.441d811d.js.map"
   },
   "entrypoints": [
-    "static/css/main.fb37c7ea.css",
-    "static/js/main.7012a9be.js"
+    "static/css/main.aa24ad7f.css",
+    "static/js/main.441d811d.js"
   ]
 }
