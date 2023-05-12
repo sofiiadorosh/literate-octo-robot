@@ -4,6 +4,9 @@ import { useAppSelector } from '@hooks';
 import { selectProducts } from '@store/products/selectors';
 
 import { Container } from '@components/Container';
+import { Breadcrumbs } from '@components/Breadcrumbs';
+import { Sort } from '@components/Sort';
+import { Sidebar } from '@components/Sidebar';
 import { ProductsList } from '@components/ProductsList';
 
 import './ProductsPage.scss';
@@ -13,6 +16,7 @@ const ProductsPage: FC = () => {
   return (
     <section className="products">
       <Container>
+        <Breadcrumbs />
         <div className="products__title">
           <h1 className="products__heading">All Products</h1>
           <div className="products__quantity">
@@ -20,8 +24,9 @@ const ProductsPage: FC = () => {
             <span>Products</span>
           </div>
         </div>
+        <Sort />
         <div className="products__content">
-          <div>Sidebar</div>
+          <Sidebar />
           <ProductsList />
         </div>
       </Container>

@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 import { Product } from '@types';
 
-import { ReactComponent as Star } from '@assets/star.svg';
+import { Stars } from '@components/Stars';
+
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
 
@@ -36,27 +37,17 @@ export const ProductItem: FC<ProductItemProps> = ({
       </NavLink>
       <div className="product__content">
         <div className="product-info">
-          <h2 className="product-info__title">
-            <NavLink to={id} className="product__link">
-              {title}
-            </NavLink>
-          </h2>
-          <p className="product-info__description">
-            {description.substring(0, 51)}...
-          </p>
-          <ul className="product-info__rating">
-            {[...Array(rating)].map((_, index) => (
-              <li key={index} className="rating-item">
-                <Star className="rating-item__icon--filled" />
-              </li>
-            ))}
-            {rating < 5 &&
-              [...Array(5 - rating)].map((_, index) => (
-                <li key={index} className="rating-item">
-                  <Star className="rating-item__icon--empty" />
-                </li>
-              ))}
-          </ul>
+          <div className="product-info__main">
+            <h2 className="product-info__title">
+              <NavLink to={id} className="product__link">
+                {title}
+              </NavLink>
+            </h2>
+            <p className="product-info__description">
+              {description.substring(0, 51)}...
+            </p>
+            <Stars rating={rating} />
+          </div>
           <ul className="product-info__list">
             <li className="product-info__item">
               <span>Fresheness</span>

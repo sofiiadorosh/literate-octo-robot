@@ -68,6 +68,10 @@
 }
 
 .product-info {
+  &__main {
+    margin-bottom: 25px;
+  }
+
   &__title {
     margin-bottom: 4px;
   }
@@ -77,11 +81,6 @@
     font-weight: 400;
     line-height: 1.33;
     color: $quaternary-grey;
-  }
-
-  &__rating {
-    display: flex;
-    margin-bottom: 25px;
   }
 
   &__list {
@@ -105,23 +104,6 @@
 
   &__word {
     word-break: break-word;
-  }
-}
-
-.rating-item {
-  &__icon {
-    &--filled {
-      width: 20px;
-      height: 20px;
-      fill: $primary-dark-text;
-    }
-
-    &--empty {
-      width: 20px;
-      height: 20px;
-      fill: transparent;
-      stroke: $grey;
-    }
   }
 }
 
