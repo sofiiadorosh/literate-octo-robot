@@ -1,10 +1,10 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { Product } from '@types';
 import { useAppSelector } from '@hooks';
 import { selectProducts, selectIsLoading } from '@store/products/selectors';
-import { getProductsByCategory } from '@services';
+import { getFilteredProducts } from '@utils/getFilteredProducts';
 
 import { ProductItem } from '@components/ProductItem';
 import { Loader } from '@components/Loader';
@@ -13,28 +13,28 @@ import { Notification } from '@components/Notification';
 import './ProductsList.scss';
 
 export const ProductsList: FC = () => {
-  const allProducts = useAppSelector(selectProducts);
+  const [filteredProducts, setFilteredProducts] = useState<Product[] | []>([]);
+  const products = useAppSelector(selectProducts);
   const isLoading = useAppSelector(selectIsLoading);
   const [searchParams] = useSearchParams();
-  const categoryParam = searchParams.get('category');
-  const [products, setProducts] = useState<Product[] | []>([]);
+  const params = useMemo(
+    () => Object.fromEntries(searchParams.entries()),
+    [searchParams]
+  );
+  const { category, query } = params;
 
   useEffect(() => {
-    if (!categoryParam) {
-      setProducts(allProducts);
-    } else {
-      const products = getProductsByCategory(allProducts, categoryParam);
-      setProducts(products);
-    }
-  }, [categoryParam]);
+    const allProducts = getFilteredProducts({ category, query, products });
+    setFilteredProducts(allProducts);
+  }, [category, query, products]);
 
   return (
     <>
       {isLoading ? (
         <Loader />
-      ) : products.length ? (
+      ) : filteredProducts.length ? (
         <ul className="products-list">
-          {products.map(product => (
+          {filteredProducts.map(product => (
             <ProductItem key={product.id} item={product} />
           ))}
         </ul>
