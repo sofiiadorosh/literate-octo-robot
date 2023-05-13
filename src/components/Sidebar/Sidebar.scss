@@ -4,6 +4,24 @@
   display: flex;
   flex-direction: column;
   gap: 48px;
+  @media screen and (max-width: 1023px) {
+    position: fixed;
+    bottom: -100%;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding: 48px 36px 24px;
+    background-color: $white-background;
+    transition: bottom 300ms $timing-function;
+  }
+
+  &--opened {
+    bottom: 0;
+    overflow-y: scroll;
+  }
 }
 
 .reset-button {
@@ -18,4 +36,15 @@
   color: $secondary-grey;
   background-color: $white-background;
   border-radius: 12px;
+}
+
+.close-button {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 94px;
+
+  @media screen and (min-width: 1024px) {
+    display: none;
+  }
 }
