@@ -24,7 +24,7 @@ const productsSlice = createSlice({
       return { ...state, isLoading: true };
     });
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
-      return { ...state, isLoading: false, items: [...payload] };
+      return { ...state, items: [...payload], isLoading: false };
     });
     builder.addCase(getProducts.rejected, (state, { payload }) => {
       return {

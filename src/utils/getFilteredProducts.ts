@@ -1,28 +1,19 @@
 import { Product } from '@types';
 
 type Filter = {
+  products: Product[];
   category?: string;
   query?: string;
-  products: Product[];
 };
 
 export const getFilteredProducts = ({ category, query, products }: Filter) => {
-  if (category && query) {
-    return products
-      .filter(product => product.category.toLowerCase() === category)
-      .filter(product =>
-        product.title.trim().toLowerCase().includes(query.trim())
-      );
-  }
-  if (category && !query) {
-    return products.filter(
-      product => product.category.toLowerCase() === category
+  return products.filter(product => {
+    const productCategory = product.category?.toLowerCase();
+    const productTitle = product.title?.trim().toLowerCase();
+
+    return (
+      (!category || productCategory === category.toLowerCase()) &&
+      (!query || productTitle?.includes(query.trim()))
     );
-  }
-  if (!category && query) {
-    return products.filter(product =>
-      product.title.trim().toLowerCase().includes(query.trim())
-    );
-  }
-  return products;
+  });
 };

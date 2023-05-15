@@ -9,7 +9,7 @@ export const Loader: FC = () => {
       radius="9"
       color="#6a983c"
       ariaLabel="three-dots-loading"
-      wrapperStyle={{ margin: '0 auto' }}
+      wrapperStyle={{ justifyContent: 'center' }}
       visible={true}
     />
   );

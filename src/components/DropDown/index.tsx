@@ -8,9 +8,6 @@ type DropDownProps = {
 };
 
 export const DropDown: FC<DropDownProps> = ({ items, onChooseOption }) => {
-  const chooseCategoryHandler = (name: string) => {
-    onChooseOption(name);
-  };
   return (
     <div className="dropdown">
       <ul className="dropdown__list">
@@ -18,7 +15,7 @@ export const DropDown: FC<DropDownProps> = ({ items, onChooseOption }) => {
           <li
             key={item}
             className="dropdown__item"
-            onClick={() => chooseCategoryHandler(item)}
+            onClick={() => onChooseOption(item)}
           >
             {item}
           </li>
