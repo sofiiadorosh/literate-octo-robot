@@ -43,14 +43,18 @@ export const PriceFilter: FC<PriceFilterProps> = ({ min, max }) => {
 
   const changeMinNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxVal - 1);
-    setMinVal(value);
-    minValRef.current = value;
+    if (value < maxVal && value >= min) {
+      setMinVal(value);
+      minValRef.current = value;
+    }
   };
 
   const changeMaxNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(Number(e.target.value), minVal + 1);
-    setMaxVal(value);
-    maxValRef.current = value;
+    if (value > minVal && value <= max) {
+      setMaxVal(value);
+      maxValRef.current = value;
+    }
   };
 
   return (
@@ -89,7 +93,6 @@ export const PriceFilter: FC<PriceFilterProps> = ({ min, max }) => {
             type="number"
             value={minVal}
             onChange={changeMinNumberHandler}
-            placeholder="0"
             className="control__input"
           />
         </div>
@@ -103,7 +106,6 @@ export const PriceFilter: FC<PriceFilterProps> = ({ min, max }) => {
             type="number"
             value={maxVal}
             onChange={changeMaxNumberHandler}
-            placeholder="000"
             className="control__input"
           />
         </div>

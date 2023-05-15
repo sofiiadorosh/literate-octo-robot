@@ -5,20 +5,27 @@ import { BiFilterAlt } from 'react-icons/bi';
 import { Product } from '@types';
 
 import { useAppSelector } from '@hooks';
-import { selectProducts } from '@store/products/selectors';
+import { selectProducts, selectIsLoading } from '@store/products/selectors';
 
 import { getFilteredProducts } from '@utils/getFilteredProducts';
+
+import { getCategories, getBrands, getPrices } from '@services';
 
 import { Container } from '@components/Container';
 import { Breadcrumbs } from '@components/Breadcrumbs';
 import { Sort } from '@components/Sort';
 import { Sidebar } from '@components/Sidebar';
 import { ProductsList } from '@components/ProductsList';
+import { Loader } from '@components/Loader';
 
 import './ProductsPage.scss';
 
 const ProductsPage: FC = () => {
   const products = useAppSelector(selectProducts);
+  const isLoading = useAppSelector(selectIsLoading);
+  const categoriesObject = getCategories(products);
+  const brands = getBrands(products);
+  const price = getPrices(products);
   const [filteredProducts, setFilteredProducts] = useState<Product[] | []>([]);
   const [searchParams] = useSearchParams();
   const params = useMemo(
@@ -35,13 +42,16 @@ const ProductsPage: FC = () => {
   }, [category, query, products]);
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        isSidebarOpen &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        setIsSidebarOpen(prevState => !prevState);
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (isSidebarOpen && sidebarRef.current) {
+        const clickedElement = e.target as HTMLElement;
+        const isSidebar = clickedElement.classList.contains('sidebar');
+        const isSidebarOverlay =
+          clickedElement.classList.contains('sidebar__overlay');
+
+        if (isSidebar && !isSidebarOverlay) {
+          setIsSidebarOpen(prevState => !prevState);
+        }
       }
     };
 
@@ -89,10 +99,19 @@ const ProductsPage: FC = () => {
             <span>Filters</span>
           </button>
         </div>
-        <div className="products__content">
-          <Sidebar ref={sidebarRef} />
-          <ProductsList products={filteredProducts} />
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="products__content">
+            <Sidebar
+              ref={sidebarRef}
+              categories={categoriesObject}
+              brands={brands}
+              price={price}
+            />
+            <ProductsList products={filteredProducts} />
+          </div>
+        )}
       </Container>
     </section>
   );

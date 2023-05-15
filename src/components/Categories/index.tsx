@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { useAppSelector } from '@hooks';
 import { selectProducts } from '@store/products/selectors';
+
 import { getCategories } from '@services';
 
 // import { DropDown } from '@components/DropDown';
@@ -12,7 +13,7 @@ import './Categories.scss';
 
 export const Categories: FC = () => {
   const products = useAppSelector(selectProducts);
-  const categories = getCategories(products);
+  const categories = Object.keys(getCategories(products));
 
   return (
     <ul className="categories-list">

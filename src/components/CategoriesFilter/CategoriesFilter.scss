@@ -16,6 +16,18 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    height: 168px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $primary-grey;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $accent;
+    }
   }
 
   &__field {
@@ -54,6 +66,7 @@
     height: 20px;
     border: 1.5px solid $primary-grey;
     border-radius: 4px;
+    cursor: pointer;
     transition: background-color 250ms $timing-function,
       border-color 250ms $timing-function;
   }

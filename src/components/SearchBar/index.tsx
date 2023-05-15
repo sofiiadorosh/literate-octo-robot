@@ -21,7 +21,7 @@ type Params = {
 export const SearchBar: FC = () => {
   const products = useAppSelector(selectProducts);
   const categories = getCategories(products);
-  const dropdownCategories = ['All categories', ...categories];
+  const dropdownCategories = ['All categories', ...Object.keys(categories)];
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
   const queryParam = searchParams.get('query');
