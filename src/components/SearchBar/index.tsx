@@ -1,9 +1,10 @@
-import React, { FC, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { FC } from 'react';
 import { IoClose } from 'react-icons/io5';
 
-import { useAppSelector } from '@hooks';
+import { useAppSelector, useAppDispatch } from '@hooks';
 import { selectProducts } from '@store/products/selectors';
+import { selectCategory, selectQuery } from '@store/filters/selectors';
+import { setCategory, setQuery } from '@store/filters/slice';
 import { getCategories } from '@services';
 
 import { DropDown } from '@components/DropDown';
@@ -13,44 +14,25 @@ import { ReactComponent as Search } from '@assets/search.svg';
 
 import './SearchBar.scss';
 
-type Params = {
-  category?: string;
-  query?: string;
-};
-
 export const SearchBar: FC = () => {
+  const dispatch = useAppDispatch();
   const products = useAppSelector(selectProducts);
   const categories = getCategories(products);
   const dropdownCategories = ['All categories', ...Object.keys(categories)];
-  const [searchParams, setSearchParams] = useSearchParams();
-  const categoryParam = searchParams.get('category');
-  const queryParam = searchParams.get('query');
-  const [query, setQuery] = useState<string>(queryParam ?? '');
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    categoryParam
-      ? categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1)
-      : 'All categories'
-  );
-
-  useEffect(() => {
-    const params: Params = {};
-    if (selectedCategory !== 'All categories') {
-      params.category = selectedCategory.toLowerCase();
-    }
-    if (query) {
-      params.query = query.toLowerCase();
-    }
-    setSearchParams(params);
-  }, [selectedCategory, query]);
+  const selectedCategory = useAppSelector(selectCategory);
+  const typedQuery = useAppSelector(selectQuery);
 
   const queryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    setQuery(value);
+    dispatch(setQuery(value));
   };
 
   const clearInputHandler: React.MouseEventHandler<HTMLButtonElement> = () =>
-    setQuery('');
+    dispatch(setQuery(''));
 
+  const chooseOptionHandler = (name: string) => {
+    dispatch(setCategory(name));
+  };
   return (
     <div className="search-bar">
       <div className="search-bar__category">
@@ -58,7 +40,7 @@ export const SearchBar: FC = () => {
         <Arrow className="search-bar__icon" />
         <DropDown
           items={dropdownCategories}
-          onChooseOption={setSelectedCategory}
+          onChooseOption={chooseOptionHandler}
         />
       </div>
       <div className="search-bar__line"></div>
@@ -70,7 +52,7 @@ export const SearchBar: FC = () => {
           <input
             id="query"
             type="text"
-            value={query}
+            value={typedQuery ?? ''}
             onChange={queryChangeHandler}
             placeholder="Search Products, categories ..."
             className="search-form__input"
@@ -81,7 +63,7 @@ export const SearchBar: FC = () => {
           className="search-button"
           onClick={clearInputHandler}
         >
-          {query.length ? (
+          {typedQuery?.length ? (
             <IoClose size={20} />
           ) : (
             <Search className="search-button__icon" />

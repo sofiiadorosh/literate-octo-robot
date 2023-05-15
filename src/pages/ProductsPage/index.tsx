@@ -1,13 +1,12 @@
-import React, { FC, useState, useEffect, useRef, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import { BiFilterAlt } from 'react-icons/bi';
 
-import { Product } from '@types';
-
 import { useAppSelector } from '@hooks';
-import { selectProducts, selectIsLoading } from '@store/products/selectors';
-
-import { getFilteredProducts } from '@utils/getFilteredProducts';
+import {
+  selectProducts,
+  selectVisibleProducts,
+  selectIsLoading,
+} from '@store/products/selectors';
 
 import { getCategories, getBrands, getPrices } from '@services';
 
@@ -17,29 +16,19 @@ import { Sort } from '@components/Sort';
 import { Sidebar } from '@components/Sidebar';
 import { ProductsList } from '@components/ProductsList';
 import { Loader } from '@components/Loader';
+import { Notification } from '@components/Notification';
 
 import './ProductsPage.scss';
 
 const ProductsPage: FC = () => {
   const products = useAppSelector(selectProducts);
+  const visibleProducts = useAppSelector(selectVisibleProducts);
   const isLoading = useAppSelector(selectIsLoading);
   const categoriesObject = getCategories(products);
   const brands = getBrands(products);
   const price = getPrices(products);
-  const [filteredProducts, setFilteredProducts] = useState<Product[] | []>([]);
-  const [searchParams] = useSearchParams();
-  const params = useMemo(
-    () => Object.fromEntries(searchParams.entries()),
-    [searchParams]
-  );
-  const { category, query } = params;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLBaseElement>(null);
-
-  useEffect(() => {
-    const allProducts = getFilteredProducts({ category, query, products });
-    setFilteredProducts(allProducts);
-  }, [category, query, products]);
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -83,7 +72,7 @@ const ProductsPage: FC = () => {
           <h1 className="products__heading">All Products</h1>
           <div className="products__quantity">
             <span className="products__quantity--number">
-              {filteredProducts.length}
+              {visibleProducts.length}
             </span>
             <span>Products</span>
           </div>
@@ -109,7 +98,11 @@ const ProductsPage: FC = () => {
               brands={brands}
               price={price}
             />
-            <ProductsList products={filteredProducts} />
+            {!isLoading && products.length && !visibleProducts.length ? (
+              <Notification message="We're sorry, but there are no products." />
+            ) : (
+              <ProductsList products={visibleProducts} />
+            )}
           </div>
         )}
       </Container>
