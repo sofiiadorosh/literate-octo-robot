@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkliterate_octo_robot=self.webpackChunkliterate_octo_robot||[]).push([[883],{2883:function(t,e,o){o.r(e);o(2791);var r=o(1087),c=o(7457),n=o(3329);e.default=function(){return(0,n.jsx)("div",{children:(0,n.jsx)(c.W,{children:(0,n.jsx)(r.OL,{to:"/products",style:{fontSize:20},children:"Link to Products Page"})})})}}}]);
+//# sourceMappingURL=883.03612f29.chunk.js.map
