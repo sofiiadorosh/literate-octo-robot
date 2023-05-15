@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
+import { useAppDispatch } from '@hooks';
+import { getProducts } from '@store/products/operations';
 
 import SharedLayout from '@components/SharedLayout';
 import HomePage from '@pages/HomePage';
@@ -9,6 +12,12 @@ import CheckoutPage from '@pages/CheckoutPage';
 import NotFoundPage from '@pages/NotFoundPage';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>

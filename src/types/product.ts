@@ -14,4 +14,5 @@ export type Product = {
   };
   shipping: 'free' | 'paid';
   deliveryTime: number;
+  category: string;
 };

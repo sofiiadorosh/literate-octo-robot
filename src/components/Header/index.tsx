@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { Container } from '@components/Container';
 import { Contacts } from '@components/Contacts';
@@ -11,6 +12,9 @@ import { Categories } from '@components/Categories';
 import './Header.scss';
 
 export const Header: FC = () => {
+  const location = useLocation();
+  const isSearchBarVisible = location.pathname === '/products';
+
   return (
     <header>
       <Container>
@@ -23,7 +27,7 @@ export const Header: FC = () => {
         <Container>
           <div className="search-navigation">
             <Logo />
-            <SearchBar />
+            {isSearchBarVisible && <SearchBar />}
             <UserMenu />
           </div>
           <Categories />
