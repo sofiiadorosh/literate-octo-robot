@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { DropDown } from '@components/DropDown';
+// import { DropDown } from '@components/DropDown';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 
@@ -14,7 +14,7 @@ export const Sort: FC = () => {
       <div className="sort__options">
         <span>Select</span>
         <Arrow className="sort__icon" />
-        <DropDown />
+        {/* <DropDown /> */}
       </div>
     </div>
   );

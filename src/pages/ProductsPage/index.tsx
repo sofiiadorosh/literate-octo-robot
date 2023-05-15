@@ -1,8 +1,13 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { FC, useState, useEffect, useRef, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { BiFilterAlt } from 'react-icons/bi';
+
+import { Product } from '@types';
 
 import { useAppSelector } from '@hooks';
 import { selectProducts } from '@store/products/selectors';
+
+import { getFilteredProducts } from '@utils/getFilteredProducts';
 
 import { Container } from '@components/Container';
 import { Breadcrumbs } from '@components/Breadcrumbs';
@@ -13,13 +18,21 @@ import { ProductsList } from '@components/ProductsList';
 import './ProductsPage.scss';
 
 const ProductsPage: FC = () => {
+  const products = useAppSelector(selectProducts);
+  const [filteredProducts, setFilteredProducts] = useState<Product[] | []>([]);
+  const [searchParams] = useSearchParams();
+  const params = useMemo(
+    () => Object.fromEntries(searchParams.entries()),
+    [searchParams]
+  );
+  const { category, query } = params;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const products = useAppSelector(selectProducts).length;
   const sidebarRef = useRef<HTMLBaseElement>(null);
 
-  const openSidebarHandler: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setIsSidebarOpen(prevState => !prevState);
-  };
+  useEffect(() => {
+    const allProducts = getFilteredProducts({ category, query, products });
+    setFilteredProducts(allProducts);
+  }, [category, query, products]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -48,6 +61,10 @@ const ProductsPage: FC = () => {
     };
   }, [isSidebarOpen]);
 
+  const openSidebarHandler: React.MouseEventHandler<HTMLButtonElement> = () => {
+    setIsSidebarOpen(prevState => !prevState);
+  };
+
   return (
     <section className="products">
       <Container>
@@ -55,7 +72,9 @@ const ProductsPage: FC = () => {
         <div className="products__title">
           <h1 className="products__heading">All Products</h1>
           <div className="products__quantity">
-            <span className="products__quantity--number">{products}</span>
+            <span className="products__quantity--number">
+              {filteredProducts.length}
+            </span>
             <span>Products</span>
           </div>
         </div>
@@ -72,7 +91,7 @@ const ProductsPage: FC = () => {
         </div>
         <div className="products__content">
           <Sidebar ref={sidebarRef} />
-          <ProductsList />
+          <ProductsList products={filteredProducts} />
         </div>
       </Container>
     </section>

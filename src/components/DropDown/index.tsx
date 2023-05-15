@@ -1,16 +1,23 @@
 import React, { FC } from 'react';
 
-import { categories } from '@constants';
-
 import './DropDown.scss';
 
-export const DropDown: FC = () => {
+type DropDownProps = {
+  items: string[];
+  onChooseOption: (name: string) => void;
+};
+
+export const DropDown: FC<DropDownProps> = ({ items, onChooseOption }) => {
   return (
     <div className="dropdown">
       <ul className="dropdown__list">
-        {categories.map(category => (
-          <li key={category} className="dropdown__item">
-            {category}
+        {items.map(item => (
+          <li
+            key={item}
+            className="dropdown__item"
+            onClick={() => onChooseOption(item)}
+          >
+            {item}
           </li>
         ))}
       </ul>

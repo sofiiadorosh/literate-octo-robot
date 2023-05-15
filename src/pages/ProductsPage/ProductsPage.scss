@@ -50,10 +50,10 @@
   &__content {
     display: grid;
     grid-template-columns: 1fr;
+    gap: 32px;
     @media screen and (min-width: 1024px) {
       grid-template-columns: 279px 1fr;
       grid-template-rows: 1fr;
-      gap: 32px;
     }
   }
 }

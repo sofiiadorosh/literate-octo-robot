@@ -1,37 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { FC } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { getProducts } from '@store/products/operations';
-import { selectProducts, selectIsLoading } from '@store/products/selectors';
+import { Product } from '@types';
 
 import { ProductItem } from '@components/ProductItem';
-import { Loader } from '@components/Loader';
 import { Notification } from '@components/Notification';
 
 import './ProductsList.scss';
 
-export const ProductsList = () => {
-  const products = useAppSelector(selectProducts);
-  const isLoading = useAppSelector(selectIsLoading);
-  const dispatch = useAppDispatch();
+type ProductListProps = {
+  products: Product[];
+};
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
+export const ProductsList: FC<ProductListProps> = ({ products }) => {
+  if (!products.length) {
+    return <Notification message="We're sorry, but there are no products." />;
+  }
   return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : products.length ? (
-        <ul className="products-list">
-          {products.map(product => (
-            <ProductItem key={product.id} item={product} />
-          ))}
-        </ul>
-      ) : (
-        <Notification message="We are sorry, but there are no products." />
-      )}
-    </>
+    <ul className="products-list">
+      {products.map(product => (
+        <ProductItem key={product.id} item={product} />
+      ))}
+    </ul>
   );
 };

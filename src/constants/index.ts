@@ -1,14 +1,3 @@
-const categories = [
-  'Electronics',
-  'Food',
-  'Clothes',
-  'Skin and care',
-  'Toys',
-  'Special nutrition',
-  'Sports and outdoors',
-  'Books',
-];
-
 const contacts = [
   { href: '/chat', text: 'Chat with us' },
   { href: 'tel:+420336775664', text: '+420 336 775 664' },
@@ -72,7 +61,6 @@ const tagItems = [
 ];
 
 export {
-  categories,
   contacts,
   touchItems,
   connectionItems,
