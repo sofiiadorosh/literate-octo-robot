@@ -1,9 +1,4 @@
-import { Product } from '@types';
-
-type Price = {
-  maxPrice: number;
-  minPrice: number;
-};
+import { Product, Price } from '@types';
 
 export const getPrices = (products: Product[]): Price => {
   const prices = products.map(({ price }) => price.new);
