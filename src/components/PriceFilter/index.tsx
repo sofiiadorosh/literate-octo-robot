@@ -68,6 +68,9 @@ export const PriceFilter: FC = () => {
   useEffect(() => {
     if (maxInput > max || maxInput <= minInput) {
       setIncorrectMaxInput(true);
+      setError(
+        `The prices should be between ${min} and ${max} USD. Min price can't be greater/equal than max.`
+      );
     } else {
       setIncorrectMaxInput(false);
       setError(null);
@@ -99,10 +102,6 @@ export const PriceFilter: FC = () => {
     if (value >= 0 && value <= maxInput) {
       dispatch(setMinPrice(value));
       minValRef.current = value;
-    } else {
-      setError(
-        `Min price can't be less than ${min} or greater/equal than ${maxVal}. Try again!`
-      );
     }
   };
 
@@ -113,10 +112,6 @@ export const PriceFilter: FC = () => {
     if (value <= max && value >= minInput) {
       dispatch(setMaxPrice(value));
       maxValRef.current = value;
-    } else {
-      setError(
-        `Max price can't be greater than ${max} or less/equal than ${minVal}. Try again!`
-      );
     }
   };
 
