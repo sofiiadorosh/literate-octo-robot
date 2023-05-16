@@ -96,7 +96,6 @@ export const PriceFilter: FC = () => {
     const value = Number(e.target.value);
     if (Number.isNaN(value)) return;
     setMinInput(value);
-    dispatch(setMinPrice(value));
     if (value >= 0 && value <= maxInput) {
       dispatch(setMinPrice(value));
       minValRef.current = value;
