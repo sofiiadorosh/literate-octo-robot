@@ -1,8 +1,19 @@
 @import '@styles/shared.scss';
 
-.price-filter {
-  width: 251px;
-  margin-bottom: 10px;
+.price {
+  &__filter {
+    position: relative;
+    width: 251px;
+    margin-bottom: 10px;
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: translateY(100%);
+    color: $red;
+  }
 }
 
 .range-input {
@@ -42,6 +53,9 @@
     border: 1px solid $primary-grey;
     border-radius: 12px;
     outline: none;
+    &--incorrect {
+      border-color: $red;
+    }
 
     &::placeholder {
       font-family: inherit;

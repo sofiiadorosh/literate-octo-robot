@@ -3,6 +3,9 @@ import { IoMdClose } from 'react-icons/io';
 
 import { CategoryCount } from '@types';
 
+import { useAppDispatch } from '@hooks';
+import { resetFilters } from '@store/filters/slice';
+
 import { CategoriesFilter } from '@components/CategoriesFilter';
 import { BrandsFilter } from '@components/BrandsFilter';
 import { RatingFilter } from '@components/RatingFilter';
@@ -13,16 +16,13 @@ import './Sidebar.scss';
 type SidebarProps = {
   categories: CategoryCount;
   brands: string[];
-  price: {
-    maxPrice: number;
-    minPrice: number;
-  };
 } & React.HTMLProps<HTMLBaseElement>;
 
 export const Sidebar = forwardRef(function Sidebar(
   props: SidebarProps,
   ref: ForwardedRef<HTMLBaseElement>
 ) {
+  const dispatch = useAppDispatch();
   const closeSidebarHandler = (ref: ForwardedRef<HTMLBaseElement>) => {
     if (ref && 'current' in ref) {
       ref.current?.classList.remove('sidebar--opened');
@@ -30,6 +30,12 @@ export const Sidebar = forwardRef(function Sidebar(
     } else if (typeof ref === 'function') {
       ref(null);
     }
+  };
+
+  const resetFiltersHandler: React.MouseEventHandler<
+    HTMLButtonElement
+  > = () => {
+    dispatch(resetFilters());
   };
 
   return (
@@ -46,8 +52,12 @@ export const Sidebar = forwardRef(function Sidebar(
         <CategoriesFilter categories={props.categories} />
         <BrandsFilter brands={props.brands} />
         <RatingFilter />
-        <PriceFilter min={props.price.minPrice} max={props.price.maxPrice} />
-        <button type="button" className="reset-button">
+        <PriceFilter />
+        <button
+          type="button"
+          className="reset-button"
+          onClick={resetFiltersHandler}
+        >
           Reset
         </button>
       </div>

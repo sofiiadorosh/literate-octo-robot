@@ -1,4 +1,4 @@
 export type Price = {
-  maxPrice: number;
-  minPrice: number;
+  max: number;
+  min: number;
 };
