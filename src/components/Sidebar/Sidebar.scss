@@ -1,0 +1,72 @@
+@import '@styles/shared.scss';
+
+.sidebar {
+  @media screen and (max-width: 1023px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: auto;
+    transition: opacity 250ms $timing-function,
+      visibility 250ms $timing-function;
+  }
+
+  &--opened {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    @media screen and (max-width: 1023px) {
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 320px;
+      height: 100%;
+      margin-left: auto;
+      padding: 48px 36px 24px;
+      background-color: $white-background;
+      overflow-y: scroll;
+      transition: right 300ms $timing-function;
+    }
+  }
+}
+
+.sidebar.sidebar--opened .sidebar__overlay {
+  right: 0;
+}
+
+.reset-button {
+  @extend %button;
+  width: 67px;
+  margin-left: 112px;
+  padding: 6px 12px;
+  font-family: $secondary-font-stack;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.47;
+  color: $secondary-grey;
+  background-color: $white-background;
+  border-radius: 12px;
+}
+
+.close-button {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 94px;
+
+  @media screen and (min-width: 1024px) {
+    display: none;
+  }
+}

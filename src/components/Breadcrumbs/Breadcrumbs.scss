@@ -1,0 +1,18 @@
+@import '@styles/shared.scss';
+
+.breadcrumbs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  &__page {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.33;
+    color: $secondary-grey;
+
+    &--active {
+      color: $primary-dark-text;
+    }
+  }
+}

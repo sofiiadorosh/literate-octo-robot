@@ -1,6 +1,7 @@
 @import '@styles/base.scss';
 
 .products {
+  position: relative;
   padding: 16px 0;
 
   &__title {
@@ -39,13 +40,37 @@
     }
   }
 
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 81px;
+  }
+
   &__content {
     display: grid;
-    grid-template-rows: 218px 1fr;
-    margin-bottom: 34px;
+    grid-template-columns: 1fr;
+    gap: 32px;
     @media screen and (min-width: 1024px) {
       grid-template-columns: 279px 1fr;
-      grid-template-rows: 1fr;
+      align-items: flex-start;
     }
+  }
+}
+
+.filter-button {
+  @extend %button;
+  gap: 4px;
+  padding: 6.5px 12px;
+  font-family: $secondary-font-stack;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.47;
+  color: $primary-dark-text;
+  background-color: $secondary-white-background;
+  border-radius: 12px;
+
+  @media screen and (min-width: 1024px) {
+    display: none;
   }
 }

@@ -1,0 +1,101 @@
+@import '@styles/shared.scss';
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__title {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 168px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $primary-grey;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $accent;
+    }
+  }
+
+  &__field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+
+    &:checked + .filter__checkbox > .filter__icon {
+      opacity: 1;
+    }
+    &:checked + .filter__checkbox {
+      background-color: $accent;
+      border-color: $green;
+    }
+  }
+
+  &__checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid $primary-grey;
+    border-radius: 4px;
+    transition: background-color 250ms $timing-function,
+      border-color 250ms $timing-function;
+  }
+
+  &__icon {
+    stroke: $tertiary-white-background;
+    opacity: 0;
+    transition: opacity 250ms $timing-function;
+  }
+}
+
+.category-filter {
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    cursor: pointer;
+  }
+
+  &__number {
+    padding: 0 8px;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1.5;
+    color: $accent;
+    background: $light-green;
+    border-radius: 12px;
+  }
+}

@@ -1,0 +1,24 @@
+@import '@styles/shared.scss';
+
+.product-info {
+  &__rating {
+    display: flex;
+  }
+}
+
+.rating-item {
+  &__icon {
+    &--filled {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    &--empty {
+      width: 20px;
+      height: 20px;
+      fill: transparent;
+      stroke: $grey;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@import '@styles/shared.scss';
+
+.rating-list {
+  flex-direction: column-reverse;
+}
+
+.rating-filter {
+  color: $yellow;
+}
