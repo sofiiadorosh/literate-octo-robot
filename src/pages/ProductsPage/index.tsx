@@ -30,20 +30,20 @@ const ProductsPage: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLBaseElement>(null);
 
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (isSidebarOpen && sidebarRef.current) {
-        const clickedElement = e.target as HTMLElement;
-        const isSidebar = clickedElement.classList.contains('sidebar');
-        const isSidebarOverlay =
-          clickedElement.classList.contains('sidebar__overlay');
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (isSidebarOpen && sidebarRef.current) {
+      const clickedElement = e.target as HTMLElement;
+      const isSidebar = clickedElement.classList.contains('sidebar');
+      const isSidebarOverlay =
+        clickedElement.classList.contains('sidebar__overlay');
 
-        if (isSidebar && !isSidebarOverlay) {
-          setIsSidebarOpen(prevState => !prevState);
-        }
+      if (isSidebar && !isSidebarOverlay) {
+        setIsSidebarOpen(prevState => !prevState);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     if (sidebarRef.current) {
       if (isSidebarOpen) {
         sidebarRef.current.classList.add('sidebar--opened');

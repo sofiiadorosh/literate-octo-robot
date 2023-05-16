@@ -34,6 +34,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
   }
 
   &__input {
@@ -66,7 +67,6 @@
     height: 20px;
     border: 1.5px solid $primary-grey;
     border-radius: 4px;
-    cursor: pointer;
     transition: background-color 250ms $timing-function,
       border-color 250ms $timing-function;
   }
@@ -85,6 +85,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 1.36;
+    cursor: pointer;
   }
 
   &__number {

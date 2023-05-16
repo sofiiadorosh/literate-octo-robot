@@ -1,6 +1,6 @@
 import { Product, CategoryCount } from '@types';
 
-export const getCategories = (products: Product[]) => {
+export const getCategories = (products: Product[]): CategoryCount => {
   return products
     .map(({ category }) => category)
     .reduce((acc: CategoryCount, category) => {
