@@ -7,8 +7,9 @@ import {
   selectVisibleProducts,
   selectIsLoading,
 } from '@store/products/selectors';
+import { selectCategory } from '@store/filters/selectors';
 
-import { getCategories, getBrands, getPrices } from '@services';
+import { getCategories, getBrandsByCategory } from '@services';
 
 import { Container } from '@components/Container';
 import { Breadcrumbs } from '@components/Breadcrumbs';
@@ -25,8 +26,8 @@ const ProductsPage: FC = () => {
   const visibleProducts = useAppSelector(selectVisibleProducts);
   const isLoading = useAppSelector(selectIsLoading);
   const categoriesObject = getCategories(products);
-  const brands = getBrands(products);
-  const price = getPrices(products);
+  const selectedCategory = useAppSelector(selectCategory);
+  const brands = getBrandsByCategory(products, selectedCategory);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLBaseElement>(null);
 
@@ -96,7 +97,6 @@ const ProductsPage: FC = () => {
               ref={sidebarRef}
               categories={categoriesObject}
               brands={brands}
-              price={price}
             />
             {!isLoading && products.length && !visibleProducts.length ? (
               <Notification message="We're sorry, but there are no products." />

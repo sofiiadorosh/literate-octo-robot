@@ -1,5 +1,9 @@
 import React, { FC } from 'react';
 
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { setBrand } from '@store/filters/slice';
+import { selectBrand } from '@store/filters/selectors';
+
 import { ReactComponent as Check } from '@assets/check.svg';
 
 import './BrandsFilter.scss';
@@ -9,6 +13,18 @@ type BrandsFilterProps = {
 };
 
 export const BrandsFilter: FC<BrandsFilterProps> = ({ brands }) => {
+  const dispatch = useAppDispatch();
+  const selectedBrands = useAppSelector(selectBrand);
+
+  const setBrandHandler = (brand: string) => {
+    dispatch(setBrand(brand));
+  };
+
+  const setCheckedBrands = (productBrand: string) =>
+    selectedBrands.some(
+      brand => brand.trim().toLowerCase() === productBrand.trim().toLowerCase()
+    );
+
   return (
     <div className="filter">
       <h3 className="filter__title">Brands</h3>
@@ -16,7 +32,13 @@ export const BrandsFilter: FC<BrandsFilterProps> = ({ brands }) => {
         {brands.map(brand => (
           <li key={brand} className="filter__item">
             <label htmlFor={brand} className="filter__field">
-              <input id={brand} type="checkbox" className="filter__input" />
+              <input
+                id={brand}
+                type="checkbox"
+                checked={setCheckedBrands(brand)}
+                className="filter__input"
+                onChange={() => setBrandHandler(brand)}
+              />
               <span className="filter__checkbox">
                 <Check className="filter__icon" />
               </span>

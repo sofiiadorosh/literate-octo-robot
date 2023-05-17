@@ -44,7 +44,7 @@ export const ProductItem: FC<ProductItemProps> = ({
               </NavLink>
             </h2>
             <p className="product-info__description">
-              {description.substring(0, 51)}...
+              {description.substring(0, 50)}...
             </p>
             <Stars rating={rating} />
           </div>
