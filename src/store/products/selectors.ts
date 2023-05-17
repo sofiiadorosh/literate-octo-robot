@@ -13,6 +13,26 @@ export const selectProducts = (state: RootState) => state.products.items;
 
 export const selectIsLoading = (state: RootState) => state.products.isLoading;
 
+export const selectPrices = createSelector([selectProducts], products => {
+  let min = products[0].price.new;
+  let max = products[0].price.new;
+
+  products.forEach(product => {
+    const newPrice = product.price['new'];
+    if (newPrice < min) {
+      min = newPrice;
+    }
+    if (newPrice > max) {
+      max = newPrice;
+    }
+  });
+
+  const roundedMin = Math.floor(min);
+  const roundedMax = Math.ceil(max);
+
+  return { min: roundedMin, max: roundedMax };
+});
+
 export const selectVisibleProducts = createSelector(
   [
     selectProducts,

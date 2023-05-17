@@ -3,8 +3,9 @@ import { IoMdClose } from 'react-icons/io';
 
 import { CategoryCount } from '@types';
 
-import { useAppDispatch } from '@hooks';
+import { useAppSelector, useAppDispatch } from '@hooks';
 import { resetFilters } from '@store/filters/slice';
+import { selectPrices } from '@store/products/selectors';
 
 import { CategoriesFilter } from '@components/CategoriesFilter';
 import { BrandsFilter } from '@components/BrandsFilter';
@@ -23,6 +24,7 @@ export const Sidebar = forwardRef(function Sidebar(
   ref: ForwardedRef<HTMLBaseElement>
 ) {
   const dispatch = useAppDispatch();
+  const prices = useAppSelector(selectPrices);
   const closeSidebarHandler = (ref: ForwardedRef<HTMLBaseElement>) => {
     if (ref && 'current' in ref) {
       ref.current?.classList.remove('sidebar--opened');
@@ -52,7 +54,7 @@ export const Sidebar = forwardRef(function Sidebar(
         <CategoriesFilter categories={props.categories} />
         <BrandsFilter brands={props.brands} />
         <RatingFilter />
-        <PriceFilter />
+        <PriceFilter priceRange={prices} />
         <button
           type="button"
           className="reset-button"

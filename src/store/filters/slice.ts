@@ -17,8 +17,8 @@ const filtersInitialState = {
   brand: [],
   rating: [],
   price: {
-    min: 2,
-    max: 400,
+    min: 0,
+    max: 0,
   },
 } as FiltersState;
 
@@ -65,7 +65,7 @@ const filtersSlice = createSlice({
         query: '',
         brand: [],
         rating: [],
-        price: { min: 2, max: 400 },
+        price: { min: 0, max: 0 },
       };
     },
   },

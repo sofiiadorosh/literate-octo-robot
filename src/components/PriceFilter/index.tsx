@@ -1,18 +1,21 @@
 import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
 
+import { Price } from '@types';
+
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { setMinPrice, setMaxPrice } from '@store/filters/slice';
-import { selectProducts } from '@store/products/selectors';
 import { selectPrice } from '@store/filters/selectors';
-
-import { getPrices } from '@services';
 
 import './PriceFilter.scss';
 
-export const PriceFilter: FC = () => {
+type PriceFilterProps = {
+  priceRange: Price;
+};
+
+export const PriceFilter: FC<PriceFilterProps> = ({
+  priceRange: { min, max },
+}) => {
   const dispatch = useAppDispatch();
-  const products = useAppSelector(selectProducts);
-  const { min, max } = getPrices(products);
   const selectedPrice = useAppSelector(selectPrice);
   const minVal = selectedPrice.min;
   const maxVal = selectedPrice.max;
@@ -24,6 +27,13 @@ export const PriceFilter: FC = () => {
   const [incorrectMinInput, setIncorrectMinInput] = useState(false);
   const [incorrectMaxInput, setIncorrectMaxInput] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedPrice.min && !selectedPrice.max) {
+      dispatch(setMinPrice(min));
+      dispatch(setMaxPrice(max));
+    }
+  }, [selectedPrice.min, selectedPrice.max]);
 
   useEffect(() => {
     setMinInput(minVal);
@@ -61,21 +71,26 @@ export const PriceFilter: FC = () => {
       setIncorrectMinInput(true);
     } else {
       setIncorrectMinInput(false);
-      setError(null);
     }
   }, [minInput, maxInput]);
 
   useEffect(() => {
     if (maxInput > max || maxInput <= minInput) {
       setIncorrectMaxInput(true);
+    } else {
+      setIncorrectMaxInput(false);
+    }
+  }, [maxInput, minInput]);
+
+  useEffect(() => {
+    if (incorrectMinInput || incorrectMaxInput) {
       setError(
         `The prices should be between ${min} and ${max} USD. Min price can't be greater/equal than max.`
       );
     } else {
-      setIncorrectMaxInput(false);
       setError(null);
     }
-  }, [maxInput, minInput]);
+  }, [incorrectMinInput, incorrectMaxInput]);
 
   const changeMinNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxVal - 1);
@@ -99,7 +114,7 @@ export const PriceFilter: FC = () => {
     const value = Number(e.target.value);
     if (Number.isNaN(value)) return;
     setMinInput(value);
-    if (value >= 0 && value <= maxInput) {
+    if (value >= min && value <= maxInput) {
       dispatch(setMinPrice(value));
       minValRef.current = value;
     }
