@@ -3,7 +3,7 @@
 .sort {
   display: flex;
   justify-content: space-between;
-  width: 181px;
+  width: 240px;
   height: 38px;
   padding: 9.5px 16px;
   background-color: $primary-white-background;
@@ -11,6 +11,8 @@
   border-radius: 12px;
 
   &__title {
+    flex-shrink: 0;
+    width: 56px;
     font-weight: 400;
     font-size: 14px;
     line-height: 1.36;
@@ -23,13 +25,25 @@
   }
 
   &__options {
+    position: relative;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 4px;
+    width: 184px;
     font-family: $secondary-font-stack;
     font-weight: 600;
     font-size: 12px;
     line-height: 1.5;
+    cursor: pointer;
+
+    &:hover .dropdown {
+      display: block;
+    }
+
+    &:hover .sort__icon {
+      transform: rotate(180deg);
+    }
   }
 
   &__icon {

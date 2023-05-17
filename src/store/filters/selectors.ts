@@ -9,3 +9,5 @@ export const selectBrand = (state: RootState) => state.filters.brand;
 export const selectRating = (state: RootState) => state.filters.rating;
 
 export const selectPrice = (state: RootState) => state.filters.price;
+
+export const selectSort = (state: RootState) => state.filters.sort;
