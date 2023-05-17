@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { Price } from '@types';
+import { Price, SortingFilters } from '@types';
 
 export interface FiltersState {
   category: string;
@@ -9,6 +9,7 @@ export interface FiltersState {
   brand: string[];
   rating: number[];
   price: Price;
+  sort: SortingFilters;
 }
 
 const filtersInitialState = {
@@ -20,6 +21,7 @@ const filtersInitialState = {
     min: 0,
     max: 0,
   },
+  sort: SortingFilters.SELECT,
 } as FiltersState;
 
 const filtersSlice = createSlice({
@@ -66,7 +68,11 @@ const filtersSlice = createSlice({
         brand: [],
         rating: [],
         price: { min: 0, max: 0 },
+        sort: SortingFilters.SELECT,
       };
+    },
+    setSort(state, action: PayloadAction<SortingFilters>) {
+      return { ...state, sort: action.payload };
     },
   },
 });
@@ -79,5 +85,6 @@ export const {
   setMinPrice,
   setMaxPrice,
   resetFilters,
+  setSort,
 } = filtersSlice.actions;
 export const filtersReducer = filtersSlice.reducer;
