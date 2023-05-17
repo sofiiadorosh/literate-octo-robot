@@ -15,6 +15,10 @@ export const Sort: FC = () => {
   const selectedSort = useAppSelector(selectSort);
   const options = Object.values(SortingFilters);
 
+  const setSortHandler = (sort: SortingFilters) => {
+    dispatch(setSort(sort));
+  };
+
   return (
     <div className="sort">
       <div className="sort__title">Sort by</div>
@@ -28,7 +32,7 @@ export const Sort: FC = () => {
               <li
                 key={option}
                 className="dropdown__item"
-                onClick={() => dispatch(setSort(option))}
+                onClick={() => setSortHandler(option)}
               >
                 {option}
               </li>
