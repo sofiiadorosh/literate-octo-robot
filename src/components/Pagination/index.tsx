@@ -1,11 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { useAppSelector, useAppDispatch } from '@hooks';
 import {
   selectProducts,
   selectVisibleProducts,
 } from '@store/products/selectors';
-import { selectPage, selectLimit } from '@store/filters/selectors';
+import {
+  selectPage,
+  selectLimit,
+  selectCategory,
+} from '@store/filters/selectors';
 import { setPage, setNextPage } from '@store/filters/slice';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
@@ -30,6 +34,11 @@ export const Pagination: FC<PaginationProps> = ({
   const products = useAppSelector(selectProducts);
   const pages = Math.ceil(visibleProducts.length / limit);
   const [activePages, setActivePages] = useState<number[]>([selectedPage]);
+  const category = useAppSelector(selectCategory);
+
+  useEffect(() => {
+    setActivePages([selectedPage]);
+  }, [category]);
 
   const setPageHandler = (page: number) => {
     dispatch(setPage(page));
