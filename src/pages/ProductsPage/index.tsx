@@ -76,7 +76,7 @@ const ProductsPage: FC = () => {
 
   useEffect(() => {
     const products = getProductPerPage({
-      page: selectedPage,
+      page: 1,
       limit,
       products: visibleProducts,
     });

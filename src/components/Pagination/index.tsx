@@ -214,19 +214,6 @@ export const Pagination: FC<PaginationProps> = ({
             <Arrow className="arrow-button__icon arrow-button__left" />
           </button>
           {renderPageNumbers()}
-          {/* {[...Array(pages)].map((_, index) => (
-            <li
-              key={index}
-              onClick={() => setPageHandler(index + 1)}
-              className={
-                selectedPage === index + 1
-                  ? 'page-list__item page-list__item--active'
-                  : 'page-list__item'
-              }
-            >
-              {index + 1}
-            </li>
-          ))} */}
           <button
             type="button"
             disabled={selectedPage === pages}
