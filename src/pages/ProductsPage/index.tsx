@@ -39,7 +39,7 @@ const ProductsPage: FC = () => {
   const selectedCategory = useAppSelector(selectCategory);
   const brands = getBrandsByCategory(products, selectedCategory);
   const sidebarRef = useRef<HTMLBaseElement>(null);
-  const productsListRef = useRef<HTMLUListElement>(null);
+  const productsListRef = useRef<HTMLDivElement>(null);
   const selectedPage = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
   const isVisibleButton = selectedPage * limit < visibleProducts.length;
@@ -138,7 +138,7 @@ const ProductsPage: FC = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="products__content">
+          <div className="products__content" ref={productsListRef}>
             <Sidebar
               ref={sidebarRef}
               categories={categoriesObject}
@@ -147,7 +147,7 @@ const ProductsPage: FC = () => {
             {!isLoading && products.length && !visibleProducts.length ? (
               <Notification message="We're sorry, but there are no products." />
             ) : (
-              <ProductsList ref={productsListRef} products={productsPerPage} />
+              <ProductsList products={productsPerPage} />
             )}
           </div>
         )}

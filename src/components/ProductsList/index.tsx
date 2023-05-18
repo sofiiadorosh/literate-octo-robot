@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { FC } from 'react';
 
 import { Product } from '@types';
 
@@ -10,14 +10,12 @@ type ProductsListProps = {
   products: Product[];
 };
 
-export const ProductsList = forwardRef<HTMLUListElement, ProductsListProps>(
-  function ProductsList({ products }, ref) {
-    return (
-      <ul className="products-list" ref={ref}>
-        {products.map(product => (
-          <ProductItem key={product.id} item={product} />
-        ))}
-      </ul>
-    );
-  }
-);
+export const ProductsList: FC<ProductsListProps> = ({ products }) => {
+  return (
+    <ul className="products-list">
+      {products.map(product => (
+        <ProductItem key={product.id} item={product} />
+      ))}
+    </ul>
+  );
+};

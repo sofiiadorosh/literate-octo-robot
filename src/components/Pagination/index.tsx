@@ -61,7 +61,7 @@ export const Pagination: FC<PaginationProps> = ({
   };
 
   const renderPageNumbers = () => {
-    const pageNumbers = [];
+    const pageNumbers: React.ReactElement[] = [];
     if (pages <= 5) {
       for (let i = 1; i <= pages; i++) {
         pageNumbers.push(
