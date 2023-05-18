@@ -1,7 +1,7 @@
 .products-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 16px;
 
   @media screen and (min-width: 1170px) {
