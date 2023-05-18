@@ -110,6 +110,9 @@
     height: 16px;
     stroke: $accent;
   }
+  &:disabled {
+    cursor: auto;
+  }
 
   &:disabled .arrow-button__icon {
     stroke: $primary-grey;
