@@ -39,6 +39,7 @@ const ProductsPage: FC = () => {
   const selectedCategory = useAppSelector(selectCategory);
   const brands = getBrandsByCategory(products, selectedCategory);
   const sidebarRef = useRef<HTMLBaseElement>(null);
+  const productsListRef = useRef<HTMLUListElement>(null);
   const selectedPage = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
   const isVisibleButton = selectedPage * limit < visibleProducts.length;
@@ -89,6 +90,12 @@ const ProductsPage: FC = () => {
       products: visibleProducts,
     });
     setProductsPerPage(products);
+    if (productsListRef.current) {
+      productsListRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
   };
 
   const showMoreHandler = (page: number) => {
@@ -140,7 +147,7 @@ const ProductsPage: FC = () => {
             {!isLoading && products.length && !visibleProducts.length ? (
               <Notification message="We're sorry, but there are no products." />
             ) : (
-              <ProductsList products={productsPerPage} />
+              <ProductsList ref={productsListRef} products={productsPerPage} />
             )}
           </div>
         )}

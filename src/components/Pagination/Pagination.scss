@@ -2,10 +2,15 @@
 
 .pagination {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 24px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 
   &__page {
     display: flex;
@@ -27,18 +32,22 @@
 
   &__list {
     display: flex;
+    align-items: center;
     gap: 8px;
   }
 }
 
 .page-list__item {
   cursor: pointer;
-  &:hover {
+  &:hover:not(.page-list__item--ellipsis) {
     text-decoration: underline;
     color: $accent;
   }
   &--active {
     color: $accent;
+  }
+  &--ellipsis {
+    cursor: auto;
   }
 }
 
@@ -46,7 +55,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  order: 3;
   gap: 6px;
   width: 214px;
   height: 47px;
@@ -62,10 +70,6 @@
   outline: none;
   cursor: pointer;
   transition: background-color 250ms $timing-function;
-  @media screen and (min-width: 447px) {
-    order: 0;
-    margin: 0;
-  }
 
   &:hover {
     background-color: $green;
@@ -95,5 +99,27 @@
     font-weight: 400;
     line-height: 1.33;
     color: $secondary-grey;
+  }
+}
+
+.arrow-button {
+  @extend %button;
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    stroke: $accent;
+  }
+
+  &:disabled .arrow-button__icon {
+    stroke: $primary-grey;
+  }
+
+  &__left {
+    transform: rotateZ(90deg);
+  }
+
+  &__right {
+    transform: rotateZ(-90deg);
   }
 }

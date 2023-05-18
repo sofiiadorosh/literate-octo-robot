@@ -40,12 +40,178 @@ export const Pagination: FC<PaginationProps> = ({
     onShowMore(selectedPage + 1);
   };
 
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    if (pages <= 5) {
+      for (let i = 1; i <= pages; i++) {
+        pageNumbers.push(
+          <li
+            key={i}
+            onClick={() => setPageHandler(i)}
+            className={
+              selectedPage === i
+                ? 'page-list__item page-list__item--active'
+                : 'page-list__item'
+            }
+          >
+            {i}
+          </li>
+        );
+      }
+    } else {
+      if (selectedPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pageNumbers.push(
+            <li
+              key={i}
+              onClick={() => setPageHandler(i)}
+              className={
+                selectedPage === i
+                  ? 'page-list__item page-list__item--active'
+                  : 'page-list__item'
+              }
+            >
+              {i}
+            </li>
+          );
+        }
+        pageNumbers.push(
+          <li
+            key="elleipsis-left"
+            className="page-list__item page-list__item--ellipsis"
+          >
+            ...
+          </li>
+        );
+        pageNumbers.push(
+          <li
+            key={pages}
+            onClick={() => setPageHandler(pages)}
+            className={
+              selectedPage === pages
+                ? 'page-list__item page-list__item--active'
+                : 'page-list__item'
+            }
+          >
+            {pages}
+          </li>
+        );
+      } else if (selectedPage > pages - 3) {
+        pageNumbers.push(
+          <li
+            key={1}
+            onClick={() => setPageHandler(1)}
+            className={
+              selectedPage === 1
+                ? 'page-list__item page-list__item--active'
+                : 'page-list__item'
+            }
+          >
+            1
+          </li>
+        );
+        pageNumbers.push(
+          <li
+            key="ellipsis-right"
+            className="page-list__item page-list__item--ellipsis"
+          >
+            ...
+          </li>
+        );
+        for (let i = pages - 3; i <= pages; i++) {
+          pageNumbers.push(
+            <li
+              key={i}
+              onClick={() => setPageHandler(i)}
+              className={
+                selectedPage === i
+                  ? 'page-list__item page-list__item--active'
+                  : 'page-list__item'
+              }
+            >
+              {i}
+            </li>
+          );
+        }
+      } else {
+        pageNumbers.push(
+          <li
+            key={1}
+            onClick={() => setPageHandler(1)}
+            className={
+              selectedPage === 1
+                ? 'page-list__item page-list__item--active'
+                : 'page-list__item'
+            }
+          >
+            1
+          </li>
+        );
+        pageNumbers.push(
+          <li
+            key="ellipsis-left"
+            className="page-list__item page-list__item--ellipsis"
+          >
+            ...
+          </li>
+        );
+        for (let i = selectedPage - 1; i <= selectedPage + 1; i++) {
+          pageNumbers.push(
+            <li
+              key={i}
+              onClick={() => setPageHandler(i)}
+              className={
+                selectedPage === i
+                  ? 'page-list__item page-list__item--active'
+                  : 'page-list__item'
+              }
+            >
+              {i}
+            </li>
+          );
+        }
+        pageNumbers.push(
+          <li
+            key="ellipsis-right"
+            className="page-list__item page-list__item--ellipsis"
+          >
+            ...
+          </li>
+        );
+        pageNumbers.push(
+          <li
+            key={pages}
+            onClick={() => setPageHandler(pages)}
+            className={
+              selectedPage === pages
+                ? 'page-list__item page-list__item--active'
+                : 'page-list__item'
+            }
+          >
+            {pages}
+          </li>
+        );
+      }
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <div className="pagination">
       <div className="pagination__page">
         <span className="page__title">Page:</span>
         <ul className="page__list">
-          {[...Array(pages)].map((_, index) => (
+          <button
+            type="button"
+            disabled={selectedPage === 1}
+            className="arrow-button"
+            onClick={() => setPageHandler(selectedPage - 1)}
+          >
+            <Arrow className="arrow-button__icon arrow-button__left" />
+          </button>
+          {renderPageNumbers()}
+          {/* {[...Array(pages)].map((_, index) => (
             <li
               key={index}
               onClick={() => setPageHandler(index + 1)}
@@ -57,7 +223,15 @@ export const Pagination: FC<PaginationProps> = ({
             >
               {index + 1}
             </li>
-          ))}
+          ))} */}
+          <button
+            type="button"
+            disabled={selectedPage === pages}
+            className="arrow-button"
+            onClick={() => setPageHandler(selectedPage + 1)}
+          >
+            <Arrow className="arrow-button__icon arrow-button__right" />
+          </button>
         </ul>
       </div>
       {(selectedPage !== pages || isVisible) && (
