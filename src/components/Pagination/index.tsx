@@ -13,6 +13,7 @@ import {
   selectQuery,
   selectRating,
   selectSort,
+  selectPrice,
 } from '@store/filters/selectors';
 import { setPage, setNextPage } from '@store/filters/slice';
 
@@ -43,10 +44,11 @@ export const Pagination: FC<PaginationProps> = ({
   const query = useAppSelector(selectQuery);
   const rating = useAppSelector(selectRating);
   const sort = useAppSelector(selectSort);
+  const price = useAppSelector(selectPrice);
 
   useEffect(() => {
     setActivePages([selectedPage]);
-  }, [category, brand, query, rating, sort]);
+  }, [category, brand, query, rating, sort, price]);
 
   const setPageHandler = (page: number) => {
     dispatch(setPage(page));
