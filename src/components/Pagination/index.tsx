@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { useAppSelector, useAppDispatch } from '@hooks';
 import {
@@ -29,15 +29,18 @@ export const Pagination: FC<PaginationProps> = ({
   const visibleProducts = useAppSelector(selectVisibleProducts);
   const products = useAppSelector(selectProducts);
   const pages = Math.ceil(visibleProducts.length / limit);
+  const [activePages, setActivePages] = useState<number[]>([selectedPage]);
 
   const setPageHandler = (page: number) => {
     dispatch(setPage(page));
     onShowNext(page);
+    setActivePages([page]);
   };
 
   const showMoreHandler = () => {
     dispatch(setNextPage());
     onShowMore(selectedPage + 1);
+    setActivePages(prevState => [...prevState, selectedPage + 1]);
   };
 
   const renderPageNumbers = () => {
@@ -49,7 +52,7 @@ export const Pagination: FC<PaginationProps> = ({
             key={i}
             onClick={() => setPageHandler(i)}
             className={
-              selectedPage === i
+              activePages.includes(i)
                 ? 'page-list__item page-list__item--active'
                 : 'page-list__item'
             }
@@ -66,7 +69,7 @@ export const Pagination: FC<PaginationProps> = ({
               key={i}
               onClick={() => setPageHandler(i)}
               className={
-                selectedPage === i
+                activePages.includes(i)
                   ? 'page-list__item page-list__item--active'
                   : 'page-list__item'
               }
@@ -88,7 +91,7 @@ export const Pagination: FC<PaginationProps> = ({
             key={pages}
             onClick={() => setPageHandler(pages)}
             className={
-              selectedPage === pages
+              activePages.includes(pages)
                 ? 'page-list__item page-list__item--active'
                 : 'page-list__item'
             }
@@ -102,7 +105,7 @@ export const Pagination: FC<PaginationProps> = ({
             key={1}
             onClick={() => setPageHandler(1)}
             className={
-              selectedPage === 1
+              activePages.includes(1)
                 ? 'page-list__item page-list__item--active'
                 : 'page-list__item'
             }
@@ -124,7 +127,7 @@ export const Pagination: FC<PaginationProps> = ({
               key={i}
               onClick={() => setPageHandler(i)}
               className={
-                selectedPage === i
+                activePages.includes(i)
                   ? 'page-list__item page-list__item--active'
                   : 'page-list__item'
               }
@@ -139,7 +142,7 @@ export const Pagination: FC<PaginationProps> = ({
             key={1}
             onClick={() => setPageHandler(1)}
             className={
-              selectedPage === 1
+              activePages.includes(1)
                 ? 'page-list__item page-list__item--active'
                 : 'page-list__item'
             }
@@ -161,7 +164,7 @@ export const Pagination: FC<PaginationProps> = ({
               key={i}
               onClick={() => setPageHandler(i)}
               className={
-                selectedPage === i
+                activePages.includes(i)
                   ? 'page-list__item page-list__item--active'
                   : 'page-list__item'
               }
@@ -183,7 +186,7 @@ export const Pagination: FC<PaginationProps> = ({
             key={pages}
             onClick={() => setPageHandler(pages)}
             className={
-              selectedPage === pages
+              activePages.includes(pages)
                 ? 'page-list__item page-list__item--active'
                 : 'page-list__item'
             }
