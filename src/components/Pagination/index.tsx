@@ -9,6 +9,10 @@ import {
   selectPage,
   selectLimit,
   selectCategory,
+  selectBrand,
+  selectQuery,
+  selectRating,
+  selectSort,
 } from '@store/filters/selectors';
 import { setPage, setNextPage } from '@store/filters/slice';
 
@@ -35,10 +39,14 @@ export const Pagination: FC<PaginationProps> = ({
   const pages = Math.ceil(visibleProducts.length / limit);
   const [activePages, setActivePages] = useState<number[]>([selectedPage]);
   const category = useAppSelector(selectCategory);
+  const brand = useAppSelector(selectBrand);
+  const query = useAppSelector(selectQuery);
+  const rating = useAppSelector(selectRating);
+  const sort = useAppSelector(selectSort);
 
   useEffect(() => {
     setActivePages([selectedPage]);
-  }, [category]);
+  }, [category, brand, query, rating, sort]);
 
   const setPageHandler = (page: number) => {
     dispatch(setPage(page));
