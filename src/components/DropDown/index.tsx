@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import './DropDown.scss';
 
@@ -17,7 +18,7 @@ export const DropDown: FC<DropDownProps> = ({ items, onChooseOption }) => {
             className="dropdown__item"
             onClick={() => onChooseOption(item)}
           >
-            {item}
+            <NavLink to="/products">{item}</NavLink>
           </li>
         ))}
       </ul>
