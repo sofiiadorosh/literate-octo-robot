@@ -1,12 +1,17 @@
 .products-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
 
+  @media screen and (min-width: 706px) {
+    width: 666px;
+    margin: 0 auto;
+  }
+
   @media screen and (min-width: 1170px) {
-    width: 100%;
     flex-direction: column;
     gap: 32px;
+    width: 100%;
   }
 }
