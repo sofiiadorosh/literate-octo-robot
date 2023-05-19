@@ -8,11 +8,8 @@ import {
   selectIsLoading,
 } from '@store/products/selectors';
 import { selectCategory } from '@store/filters/selectors';
-
 import { getCategories, getBrandsByCategory } from '@services';
-
 import { Container } from '@components/Container';
-import { Breadcrumbs } from '@components/Breadcrumbs';
 import { Sort } from '@components/Sort';
 import { Sidebar } from '@components/Sidebar';
 import { ProductsList } from '@components/ProductsList';
@@ -25,11 +22,14 @@ const ProductsPage: FC = () => {
   const products = useAppSelector(selectProducts);
   const visibleProducts = useAppSelector(selectVisibleProducts);
   const isLoading = useAppSelector(selectIsLoading);
-  const categoriesObject = getCategories(products);
   const selectedCategory = useAppSelector(selectCategory);
-  const brands = getBrandsByCategory(products, selectedCategory);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const sidebarRef = useRef<HTMLBaseElement>(null);
+
+  const categoriesObject = getCategories(products);
+  const brands = getBrandsByCategory(products, selectedCategory);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleOutsideClick = (e: MouseEvent) => {
     if (isSidebarOpen && sidebarRef.current) {
@@ -47,11 +47,11 @@ const ProductsPage: FC = () => {
   useEffect(() => {
     if (sidebarRef.current) {
       if (isSidebarOpen) {
-        sidebarRef.current.classList.add('sidebar--opened');
+        sidebarRef.current.classList.add('sidebar_opened');
         document.body.style.overflow = 'hidden';
         document.addEventListener('mousedown', handleOutsideClick);
       } else {
-        sidebarRef.current.classList.remove('sidebar--opened');
+        sidebarRef.current.classList.remove('sidebar_opened');
         document.body.style.overflow = 'auto';
       }
     }
@@ -68,13 +68,10 @@ const ProductsPage: FC = () => {
   return (
     <section className="products">
       <Container>
-        <Breadcrumbs />
         <div className="products__title">
           <h1 className="products__heading">All Products</h1>
           <div className="products__quantity">
-            <span className="products__quantity--number">
-              {visibleProducts.length}
-            </span>
+            <span className="products__number">{visibleProducts.length}</span>
             <span>Products</span>
           </div>
         </div>
@@ -83,7 +80,7 @@ const ProductsPage: FC = () => {
           <button
             type="button"
             onClick={openSidebarHandler}
-            className="filter-button"
+            className="secondary-button filter-button"
           >
             <BiFilterAlt size={20} />
             <span>Filters</span>

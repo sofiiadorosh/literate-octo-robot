@@ -10,16 +10,16 @@ type StarsProps = {
 
 export const Stars: FC<StarsProps> = ({ rating }) => {
   return (
-    <ul className="product-info__rating">
+    <ul className="rating-list">
       {[...Array(rating)].map((_, index) => (
-        <li key={index} className="rating-item">
-          <Star className="rating-item__icon--filled" />
+        <li key={index} className="rating-list__item">
+          <Star className="rating-list__icon" />
         </li>
       ))}
       {rating < 5 &&
         [...Array(5 - rating)].map((_, index) => (
           <li key={index} className="rating-item">
-            <Star className="rating-item__icon--empty" />
+            <Star className="rating-list__icon rating-list__icon_empty" />
           </li>
         ))}
     </ul>

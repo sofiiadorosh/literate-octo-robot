@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { setBrand } from '@store/filters/slice';
-import { selectBrand } from '@store/filters/selectors';
-
 import { ReactComponent as Check } from '@assets/check.svg';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { selectBrand } from '@store/filters/selectors';
+import { setBrand } from '@store/filters/slice';
 
 import './BrandsFilter.scss';
 

@@ -3,9 +3,7 @@ import React, { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { setRating } from '@store/filters/slice';
 import { selectRating } from '@store/filters/selectors';
-
 import { Stars } from '@components/Stars';
-
 import { ReactComponent as Check } from '@assets/check.svg';
 
 import './RatingFilter.scss';
@@ -23,9 +21,9 @@ export const RatingFilter: FC = () => {
   return (
     <div className="filter">
       <h3 className="filter__title">Rating</h3>
-      <ul className="filter__list rating-list">
+      <ul className="filter__list rating__list">
         {[...Array(5)].map((_, index) => (
-          <li key={index} className="filter__item rating-filter">
+          <li key={index} className="filter__item rating__filter">
             <label htmlFor={`${index}`} className="filter__field">
               <input
                 id={`${index}`}

@@ -7,7 +7,7 @@
   column-gap: 20px;
   row-gap: 20px;
   padding: 16px 0;
-  background-color: $primary-white-background;
+  background-color: $secondary-dark-white;
   @media screen and (min-width: 768px) {
     justify-content: center;
     column-gap: 40px;
@@ -17,23 +17,24 @@
   @media screen and (min-width: 1170px) {
     width: auto;
     margin: 0;
-  }
-}
-
-.category-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  flex-shrink: 0;
-  cursor: pointer;
-
-  &:hover .dropdown {
-    display: block;
+    margin-bottom: 43px;
   }
 
-  &:hover .category-item__icon {
-    transform: rotate(180deg);
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    &:hover .dropdown {
+      display: block;
+    }
+
+    &:hover .category-item__icon {
+      transform: rotate(180deg);
+    }
   }
 
   &__title {

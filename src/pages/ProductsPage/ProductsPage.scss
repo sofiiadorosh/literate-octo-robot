@@ -29,15 +29,14 @@
     font-size: 12px;
     line-height: 1.33;
     color: $secondary-grey;
+  }
 
-    &--number {
-      padding: 0 8px;
-      font-family: $secondary-font-stack;
-      font-weight: 600;
-      color: $accent;
-      background-color: $light-green;
-      border-radius: 12px;
-    }
+  &__number {
+    padding: 0 8px;
+    font-weight: 600;
+    color: $accent;
+    background-color: $light-green;
+    border-radius: 12px;
   }
 
   &__filter {
@@ -59,17 +58,6 @@
 }
 
 .filter-button {
-  @extend %button;
-  gap: 4px;
-  padding: 6.5px 12px;
-  font-family: $secondary-font-stack;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.47;
-  color: $primary-dark-text;
-  background-color: $secondary-white-background;
-  border-radius: 12px;
-
   @media screen and (min-width: 1024px) {
     display: none;
   }

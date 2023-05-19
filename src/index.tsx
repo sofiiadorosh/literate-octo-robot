@@ -7,10 +7,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { HashRouter as Router } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { store, persistor } from '@store';
-
-import App from 'App';
 import { ErrorFallback } from '@components/ErrorFallback';
+import { store, persistor } from '@store';
+import App from 'App';
 
 import './styles/base.scss';
 

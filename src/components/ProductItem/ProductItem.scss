@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: $white-background;
+  background-color: $white;
   border: 1px solid $primary-grey;
   border-radius: 12px;
   @media screen and (min-width: 425px) {
@@ -96,14 +96,14 @@
     font-size: 14px;
     line-height: 1.36;
     color: $secondary-grey;
-
-    &--accent {
-      color: $accent;
-    }
   }
 
-  &__word {
+  &__name {
     word-break: break-word;
+
+    &_accent {
+      color: $accent;
+    }
   }
 }
 
@@ -111,19 +111,18 @@
   display: flex;
   flex-direction: column;
   font-family: $secondary-font-stack;
+
   &__price {
     display: flex;
     flex-direction: column;
+    font-weight: 600;
+    line-height: 1.5;
     margin-bottom: 16px;
-    &--old {
-      font-weight: 600;
+    &_price_old {
       font-size: 18px;
-      line-height: 1.5;
     }
-    &--new {
-      font-weight: 600;
+    &_price_new {
       font-size: 12px;
-      line-height: 1.5;
       text-decoration-line: line-through;
       color: $secondary-grey;
     }
@@ -161,46 +160,18 @@
 }
 
 .primary-button {
-  @extend %button;
-  gap: 6px;
-  width: 164px;
-  height: 47px;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.47;
-  color: $white-text;
-  background-color: $accent;
-  border: 2px solid $green;
-  border-radius: 12px;
-  transition: background-color 250ms $timing-function;
-
   &__icon {
     width: 16px;
     height: 16px;
-    stroke: $white-background;
+    stroke: $white;
     transform: rotateZ(-90deg);
-  }
-
-  &:hover {
-    background-color: $green;
   }
 }
 
 .secondary-button {
-  @extend %button;
-  gap: 8px;
-  width: 164px;
-  height: 36px;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.47;
-  color: inherit;
-  background-color: $secondary-white-background;
-  border-radius: 12px;
-
   &__icon {
     width: 16px;
     height: 16px;
-    stroke: $primary-dark-text;
+    stroke: $primary-dark;
   }
 }

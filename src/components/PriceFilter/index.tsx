@@ -1,7 +1,6 @@
 import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
 
 import { Price } from '@types';
-
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { setMinPrice, setMaxPrice } from '@store/filters/slice';
 import { selectPrice } from '@store/filters/selectors';
@@ -17,16 +16,22 @@ export const PriceFilter: FC<PriceFilterProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const selectedPrice = useAppSelector(selectPrice);
+
   const minVal = selectedPrice.min;
   const maxVal = selectedPrice.max;
+
   const minValRef = useRef(minVal);
   const maxValRef = useRef(maxVal);
   const range = useRef<HTMLDivElement>(null);
+
   const [minInput, setMinInput] = useState(minVal);
   const [maxInput, setMaxInput] = useState(maxVal);
   const [incorrectMinInput, setIncorrectMinInput] = useState(false);
   const [incorrectMaxInput, setIncorrectMaxInput] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const incorrectMinValue = minInput < min || minInput >= maxInput;
+  const incorrectMaxValue = maxInput > max || maxInput <= minInput;
 
   useEffect(() => {
     if (!selectedPrice.min && !selectedPrice.max) {
@@ -67,18 +72,14 @@ export const PriceFilter: FC<PriceFilterProps> = ({
   }, [maxVal, getPercent]);
 
   useEffect(() => {
-    if (minInput < min || minInput >= maxInput) {
-      setIncorrectMinInput(true);
-    } else {
-      setIncorrectMinInput(false);
+    if (incorrectMinValue) {
+      setIncorrectMinInput(prevState => !prevState);
     }
   }, [minInput, maxInput]);
 
   useEffect(() => {
-    if (maxInput > max || maxInput <= minInput) {
-      setIncorrectMaxInput(true);
-    } else {
-      setIncorrectMaxInput(false);
+    if (incorrectMaxValue) {
+      setIncorrectMaxInput(prevState => !prevState);
     }
   }, [maxInput, minInput]);
 
@@ -133,14 +134,14 @@ export const PriceFilter: FC<PriceFilterProps> = ({
   return (
     <div className="filter price__filter">
       <h3 className="filter__title">Price</h3>
-      <div className="range-input">
+      <div className="price__range-input">
         <input
           type="range"
           min={min}
           max={max}
           value={minVal}
           onChange={changeMinNumberHandler}
-          className="thumb thumb--left"
+          className="price__thumb price__thumb_left"
           style={{ zIndex: minVal > max - min ? 5 : 4 }}
         />
         <input
@@ -149,16 +150,16 @@ export const PriceFilter: FC<PriceFilterProps> = ({
           max={max}
           value={maxVal}
           onChange={changeMaxNumberHandler}
-          className="thumb thumb--right"
+          className="price__thumb price__thumb_right"
         />
-        <div className="slider">
-          <div className="slider__track" />
-          <div ref={range} className="slider__range" />
+        <div className="price__slider">
+          <div className="price__track" />
+          <div ref={range} className="price__range" />
         </div>
       </div>
-      <div className="range-input__control">
-        <div className="control__container">
-          <label htmlFor="min" className="control__label">
+      <div className="price__control">
+        <div className="price__container">
+          <label htmlFor="min" className="price__label">
             Min
           </label>
           <input
@@ -168,14 +169,14 @@ export const PriceFilter: FC<PriceFilterProps> = ({
             onChange={changeMinInputHandler}
             className={
               incorrectMinInput
-                ? 'control__input control__input--incorrect'
-                : 'control__input'
+                ? 'price__input price__input_incorrect'
+                : 'price__input'
             }
           />
         </div>
-        <span className="control__dash">-</span>
-        <div className="control__container">
-          <label htmlFor="max" className="control__label">
+        <span className="price__dash">-</span>
+        <div className="price__container">
+          <label htmlFor="max" className="price__label">
             Max
           </label>
           <input
@@ -185,8 +186,8 @@ export const PriceFilter: FC<PriceFilterProps> = ({
             onChange={changeMaxInputHandler}
             className={
               incorrectMaxInput
-                ? 'control__input control__input--incorrect'
-                : 'control__input'
+                ? 'price__input price__input_incorrect'
+                : 'price__input'
             }
           />
         </div>

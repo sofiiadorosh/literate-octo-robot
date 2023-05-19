@@ -30,26 +30,26 @@
       gap: 14px;
       width: auto;
     }
+  }
 
-    &--sorry {
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 1.11;
-      @media screen and (min-width: 768px) {
-        font-size: 24px;
-        line-height: 1;
-      }
+  &__sorry {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.11;
+    @media screen and (min-width: 768px) {
+      font-size: 24px;
+      line-height: 1;
     }
+  }
 
-    &--reason {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 1.29;
-      opacity: 0.5;
-      @media screen and (min-width: 768px) {
-        font-size: 18px;
-        line-height: 1.33;
-      }
+  &__reason {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.29;
+    opacity: 0.5;
+    @media screen and (min-width: 768px) {
+      font-size: 18px;
+      line-height: 1.33;
     }
   }
 }

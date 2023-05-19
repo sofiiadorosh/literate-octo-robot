@@ -2,11 +2,9 @@ import React, { forwardRef, ForwardedRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 
 import { CategoryCount } from '@types';
-
 import { useAppSelector, useAppDispatch } from '@hooks';
 import { resetFilters } from '@store/filters/slice';
 import { selectPrices } from '@store/products/selectors';
-
 import { CategoriesFilter } from '@components/CategoriesFilter';
 import { BrandsFilter } from '@components/BrandsFilter';
 import { RatingFilter } from '@components/RatingFilter';
@@ -25,9 +23,10 @@ export const Sidebar = forwardRef(function Sidebar(
 ) {
   const dispatch = useAppDispatch();
   const prices = useAppSelector(selectPrices);
+
   const closeSidebarHandler = (ref: ForwardedRef<HTMLBaseElement>) => {
     if (ref && 'current' in ref) {
-      ref.current?.classList.remove('sidebar--opened');
+      ref.current?.classList.remove('sidebar_opened');
       document.body.style.overflow = 'auto';
     } else if (typeof ref === 'function') {
       ref(null);
@@ -42,11 +41,11 @@ export const Sidebar = forwardRef(function Sidebar(
 
   return (
     <aside {...props} ref={ref} className="sidebar">
-      <div className="sidebar__overlay">
+      <div className="sidebar__content">
         <button
           type="button"
           onClick={() => closeSidebarHandler(ref)}
-          className="filter-button close-button"
+          className="secondary-button filter-button close-button"
         >
           <IoMdClose size={20} />
           <span>Close</span>

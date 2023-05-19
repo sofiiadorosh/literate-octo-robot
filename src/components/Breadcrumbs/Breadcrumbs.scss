@@ -3,7 +3,6 @@
 .breadcrumbs {
   display: flex;
   gap: 8px;
-  margin-bottom: 24px;
 
   &__page {
     font-weight: 400;
@@ -11,8 +10,8 @@
     line-height: 1.33;
     color: $secondary-grey;
 
-    &--active {
-      color: $primary-dark-text;
+    &_active {
+      color: $primary-dark;
     }
   }
 }

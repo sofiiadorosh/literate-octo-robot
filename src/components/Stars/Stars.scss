@@ -1,22 +1,15 @@
 @import '@styles/shared.scss';
 
-.product-info {
-  &__rating {
-    display: flex;
-  }
-}
+.rating-list {
+  display: flex;
+  gap: 2px;
 
-.rating-item {
   &__icon {
-    &--filled {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
 
-    &--empty {
-      width: 20px;
-      height: 20px;
+    &_empty {
       fill: transparent;
       stroke: $grey;
     }

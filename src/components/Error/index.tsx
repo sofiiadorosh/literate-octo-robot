@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { Container } from '@components/Container';
-
 import error from '@assets/error.png';
 
 import './Error.scss';
@@ -21,8 +20,8 @@ export const Error: FC<ErrorProps> = ({ message }) => {
           />
         </div>
         <div className="error__message">
-          <p className="error__message--sorry">We are sorry,</p>
-          <p className="error__message--reason">{message}</p>
+          <p className="error__sorry">We are sorry,</p>
+          <p className="error__reason">{message}</p>
         </div>
       </Container>
     </section>

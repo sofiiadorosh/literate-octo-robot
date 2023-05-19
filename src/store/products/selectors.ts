@@ -3,7 +3,6 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../index';
 
 import { SortingFilters } from '@types';
-
 import {
   selectCategory,
   selectQuery,

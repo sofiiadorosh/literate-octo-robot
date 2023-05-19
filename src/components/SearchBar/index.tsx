@@ -6,9 +6,7 @@ import { selectProducts } from '@store/products/selectors';
 import { selectCategory, selectQuery } from '@store/filters/selectors';
 import { setCategory, setQuery } from '@store/filters/slice';
 import { getCategories } from '@services';
-
 import { DropDown } from '@components/DropDown';
-
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Search } from '@assets/search.svg';
 
@@ -17,10 +15,11 @@ import './SearchBar.scss';
 export const SearchBar: FC = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectProducts);
-  const categories = getCategories(products);
-  const dropdownCategories = ['All categories', ...Object.keys(categories)];
   const selectedCategory = useAppSelector(selectCategory);
   const typedQuery = useAppSelector(selectQuery);
+
+  const categories = getCategories(products);
+  const dropdownCategories = ['All categories', ...Object.keys(categories)];
 
   const queryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
@@ -33,6 +32,7 @@ export const SearchBar: FC = () => {
   const chooseOptionHandler = (name: string) => {
     dispatch(setCategory(name));
   };
+
   return (
     <div className="search-bar">
       <div className="search-bar__category">
@@ -44,10 +44,10 @@ export const SearchBar: FC = () => {
         />
       </div>
       <div className="search-bar__line"></div>
-      <form autoComplete="off" className="search-form">
-        <div className="search-form__field">
-          <label htmlFor="query" className="search-form__label">
-            Search Products, categories ...
+      <form autoComplete="off" className="search-bar__form">
+        <div className="search-bar__field">
+          <label htmlFor="query" className="search-bar__label">
+            Search products...
           </label>
           <input
             id="query"
@@ -55,7 +55,7 @@ export const SearchBar: FC = () => {
             value={typedQuery ?? ''}
             onChange={queryChangeHandler}
             placeholder="Search Products, categories ..."
-            className="search-form__input"
+            className="search-bar__input"
           />
         </div>
         <button

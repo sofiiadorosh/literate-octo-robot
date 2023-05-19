@@ -39,17 +39,7 @@
   }
 
   &__input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    border: 0;
-    padding: 0;
-
-    white-space: nowrap;
-    clip-path: inset(100%);
-    clip: rect(0 0 0 0);
-    overflow: hidden;
+    @extend %hidden;
 
     &:checked + .filter__checkbox > .filter__icon {
       opacity: 1;
@@ -73,7 +63,7 @@
   }
 
   &__icon {
-    stroke: $tertiary-white-background;
+    stroke: $secondary-dark-white;
     opacity: 0;
     transition: opacity 250ms $timing-function;
   }
@@ -88,7 +78,7 @@
     line-height: 1.36;
     cursor: pointer;
 
-    &--active {
+    &_active {
       font-weight: 600;
       color: $accent;
     }

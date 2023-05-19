@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { Product } from '@types';
-
 import { ProductItem } from '@components/ProductItem';
 
 import './ProductsList.scss';

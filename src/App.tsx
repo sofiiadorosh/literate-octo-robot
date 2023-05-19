@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 
 import { useAppDispatch } from '@hooks';
 import { getProducts } from '@store/products/operations';
-
 import SharedLayout from '@components/SharedLayout';
 const HomePage = lazy(() => import('@pages/HomePage'));
 const ProductsPage = lazy(() => import('@pages/ProductsPage'));
