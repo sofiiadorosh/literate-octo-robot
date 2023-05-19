@@ -19,10 +19,11 @@ export const BrandsFilter: FC<BrandsFilterProps> = ({ brands }) => {
     dispatch(setBrand(brand));
   };
 
-  const setCheckedBrands = (productBrand: string) =>
-    selectedBrands.some(
+  const setCheckedBrands = (productBrand: string) => {
+    return selectedBrands.some(
       brand => brand.trim().toLowerCase() === productBrand.trim().toLowerCase()
     );
+  };
 
   return (
     <div className="filter">

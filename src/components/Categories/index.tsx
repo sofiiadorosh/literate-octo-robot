@@ -15,6 +15,7 @@ export const Categories: FC = () => {
   const products = useAppSelector(selectProducts);
 
   const categories = Object.keys(getCategories(products));
+
   const getBrands = (products: Product[], category: string) =>
     getBrandsByCategory(products, category);
 

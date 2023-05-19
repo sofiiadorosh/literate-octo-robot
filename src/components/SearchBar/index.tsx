@@ -54,7 +54,7 @@ export const SearchBar: FC = () => {
             type="text"
             value={typedQuery ?? ''}
             onChange={queryChangeHandler}
-            placeholder="Search Products, categories ..."
+            placeholder="Search products..."
             className="search-bar__input"
           />
         </div>

@@ -18,6 +18,7 @@ export const RatingFilter: FC = () => {
 
   const setCheckedRating = (productRating: number) =>
     selectedrating.some(element => element === productRating);
+
   return (
     <div className="filter">
       <h3 className="filter__title">Rating</h3>
