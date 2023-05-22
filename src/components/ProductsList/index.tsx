@@ -5,11 +5,11 @@ import { ProductItem } from '@components/ProductItem';
 
 import './ProductsList.scss';
 
-type ProductListProps = {
+type ProductsListProps = {
   products: Product[];
 };
 
-export const ProductsList: FC<ProductListProps> = ({ products }) => {
+export const ProductsList: FC<ProductsListProps> = ({ products }) => {
   return (
     <ul className="products-list">
       {products.map(product => (
