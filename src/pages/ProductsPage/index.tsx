@@ -116,7 +116,7 @@ const ProductsPage: FC = () => {
         <div className="products__title">
           <h1 className="products__heading">All Products</h1>
           <div className="products__quantity">
-            <span className="products__quantity--number">
+            <span className="products__quantity_number">
               {productsPerPage.length}
             </span>
             <span>Products</span>

@@ -29,14 +29,14 @@
     font-size: 12px;
     line-height: 1.33;
     color: $secondary-grey;
-  }
 
-  &__number {
-    padding: 0 8px;
-    font-weight: 600;
-    color: $accent;
-    background-color: $light-green;
-    border-radius: 12px;
+    &_number {
+      padding: 0 8px;
+      font-weight: 600;
+      color: $accent;
+      background-color: $light-green;
+      border-radius: 12px;
+    }
   }
 
   &__filter {
