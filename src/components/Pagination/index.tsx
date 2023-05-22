@@ -45,6 +45,8 @@ export const Pagination: FC<PaginationProps> = ({
   const rating = useAppSelector(selectRating);
   const sort = useAppSelector(selectSort);
   const price = useAppSelector(selectPrice);
+  const nextPage = selectedPage + 1;
+  const prevPage = selectedPage - 1;
 
   useEffect(() => {
     setActivePages([selectedPage]);
@@ -228,7 +230,7 @@ export const Pagination: FC<PaginationProps> = ({
             type="button"
             disabled={selectedPage === 1}
             className="arrow-button"
-            onClick={() => setPageHandler(selectedPage - 1)}
+            onClick={() => setPageHandler(prevPage)}
           >
             <Arrow className="arrow-button__icon arrow-button__left" />
           </button>
@@ -237,7 +239,7 @@ export const Pagination: FC<PaginationProps> = ({
             type="button"
             disabled={selectedPage === pages}
             className="arrow-button"
-            onClick={() => setPageHandler(selectedPage + 1)}
+            onClick={() => setPageHandler(nextPage)}
           >
             <Arrow className="arrow-button__icon arrow-button__right" />
           </button>
