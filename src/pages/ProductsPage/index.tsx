@@ -1,27 +1,27 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import { BiFilterAlt } from 'react-icons/bi';
 
-import { Product } from '@types';
+import { Container } from '@components/Container';
+import { Loader } from '@components/Loader';
+import { Notification } from '@components/Notification';
+import { Pagination } from '@components/Pagination';
+import { ProductsList } from '@components/ProductsList';
+import { Sidebar } from '@components/Sidebar';
+import { Sort } from '@components/Sort';
 import { useAppSelector } from '@hooks';
-import {
-  selectProducts,
-  selectVisibleProducts,
-  selectIsLoading,
-} from '@store/products/selectors';
+import { getCategories, getBrandsByCategory } from '@services';
 import {
   selectCategory,
   selectLimit,
   selectPage,
 } from '@store/filters/selectors';
-import { getCategories, getBrandsByCategory } from '@services';
+import {
+  selectProducts,
+  selectVisibleProducts,
+  selectIsLoading,
+} from '@store/products/selectors';
+import { Product } from '@types';
 import { getProductPerPage } from '@utils';
-import { Container } from '@components/Container';
-import { Sort } from '@components/Sort';
-import { Sidebar } from '@components/Sidebar';
-import { ProductsList } from '@components/ProductsList';
-import { Pagination } from '@components/Pagination';
-import { Loader } from '@components/Loader';
-import { Notification } from '@components/Notification';
 
 import './ProductsPage.scss';
 

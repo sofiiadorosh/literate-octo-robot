@@ -1,9 +1,9 @@
 import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
 
-import { Price } from '@types';
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { setMinPrice, setMaxPrice } from '@store/filters/slice';
 import { selectPrice } from '@store/filters/selectors';
+import { setMinPrice, setMaxPrice } from '@store/filters/slice';
+import { Price } from '@types';
 
 import './PriceFilter.scss';
 

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { setRating } from '@store/filters/slice';
-import { selectRating } from '@store/filters/selectors';
-import { Stars } from '@components/Stars';
 import { ReactComponent as Check } from '@assets/check.svg';
+import { Stars } from '@components/Stars';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { selectRating } from '@store/filters/selectors';
+import { setRating } from '@store/filters/slice';
 
 import './RatingFilter.scss';
 

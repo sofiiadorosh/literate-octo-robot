@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
-import { Product } from '@types';
-import { useAppSelector, useAppDispatch } from '@hooks';
-import { selectProducts } from '@store/products/selectors';
-import { setBrand, setCategory } from '@store/filters/slice';
-import { getCategories, getBrandsByCategory } from '@services';
-import { DropDown } from '@components/DropDown';
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
+import { DropDown } from '@components/DropDown';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { getCategories, getBrandsByCategory } from '@services';
+import { setBrand, setCategory } from '@store/filters/slice';
+import { selectProducts } from '@store/products/selectors';
+import { Product } from '@types';
 
 import './Categories.scss';
 

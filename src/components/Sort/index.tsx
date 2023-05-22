@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import { SortingFilters } from '@types';
-import { useAppSelector, useAppDispatch } from '@hooks';
-import { setSort } from '@store/filters/slice';
-import { selectSort } from '@store/filters/selectors';
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { selectSort } from '@store/filters/selectors';
+import { setSort } from '@store/filters/slice';
+import { SortingFilters } from '@types';
 
 import './Sort.scss';
 

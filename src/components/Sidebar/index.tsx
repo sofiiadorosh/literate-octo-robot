@@ -1,14 +1,14 @@
 import React, { forwardRef, ForwardedRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 
-import { CategoryCount } from '@types';
+import { BrandsFilter } from '@components/BrandsFilter';
+import { CategoriesFilter } from '@components/CategoriesFilter';
+import { PriceFilter } from '@components/PriceFilter';
+import { RatingFilter } from '@components/RatingFilter';
 import { useAppSelector, useAppDispatch } from '@hooks';
 import { resetFilters } from '@store/filters/slice';
 import { selectPrices } from '@store/products/selectors';
-import { CategoriesFilter } from '@components/CategoriesFilter';
-import { BrandsFilter } from '@components/BrandsFilter';
-import { RatingFilter } from '@components/RatingFilter';
-import { PriceFilter } from '@components/PriceFilter';
+import { CategoryCount } from '@types';
 
 import './Sidebar.scss';
 

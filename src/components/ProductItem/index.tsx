@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Product } from '@types';
-import { Stars } from '@components/Stars';
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
+import { Stars } from '@components/Stars';
+import { Product } from '@types';
 
 import './ProductItem.scss';
 

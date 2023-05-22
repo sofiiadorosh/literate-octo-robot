@@ -1,7 +1,6 @@
 @import '@styles/shared.scss';
 
 .header {
-  padding-bottom: 24px;
   &__contacts-nav {
     display: flex;
     flex-wrap: wrap;
@@ -10,7 +9,7 @@
   }
 
   &__main-nav {
-    padding-top: 13px;
+    padding: 13px 0 24px;
     background-color: $secondary-light-white;
   }
 

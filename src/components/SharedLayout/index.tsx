@@ -1,8 +1,8 @@
 import React, { FC, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Header } from '@components/Header';
 import { Footer } from '@components/Footer';
+import { Header } from '@components/Header';
 import { Loader } from '@components/Loader';
 
 import './SharedLayout.scss';

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import { CategoryCount } from '@types';
 import { useAppSelector, useAppDispatch } from '@hooks';
+import { selectCategory } from '@store/filters/selectors';
 import { setCategory } from '@store/filters/slice';
 import { selectProducts } from '@store/products/selectors';
-import { selectCategory } from '@store/filters/selectors';
+import { CategoryCount } from '@types';
 
 import './CategoriesFilter.scss';
 

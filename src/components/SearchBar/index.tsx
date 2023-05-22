@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { IoClose } from 'react-icons/io5';
 
-import { useAppSelector, useAppDispatch } from '@hooks';
-import { selectProducts } from '@store/products/selectors';
-import { selectCategory, selectQuery } from '@store/filters/selectors';
-import { setCategory, setQuery } from '@store/filters/slice';
-import { getCategories } from '@services';
-import { DropDown } from '@components/DropDown';
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Search } from '@assets/search.svg';
+import { DropDown } from '@components/DropDown';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { getCategories } from '@services';
+import { selectCategory, selectQuery } from '@store/filters/selectors';
+import { setCategory, setQuery } from '@store/filters/slice';
+import { selectProducts } from '@store/products/selectors';
 
 import './SearchBar.scss';
 

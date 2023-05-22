@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Container } from '@components/Container';
+import { Copyright } from '@components/Copyright';
 import { FooterLinks } from '@components/FooterLinks';
 import { Tags } from '@components/Tags';
-import { Copyright } from '@components/Copyright';
 import {
   touchItems,
   connectionItems,

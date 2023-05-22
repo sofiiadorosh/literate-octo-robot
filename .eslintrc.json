@@ -21,15 +21,14 @@
     "import/order": [
       "error",
       {
-        "newlines-between": "always",
-        "pathGroups": [
-          {
-            "pattern": "@app/**",
-            "group": "external",
-            "position": "after"
-          }
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling", "index"]
         ],
-        "distinctGroup": false
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
     ],
     "react/prop-types": "off"

@@ -1,10 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 
+import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { useAppSelector, useAppDispatch } from '@hooks';
-import {
-  selectProducts,
-  selectVisibleProducts,
-} from '@store/products/selectors';
 import {
   selectPage,
   selectLimit,
@@ -16,7 +13,10 @@ import {
   selectPrice,
 } from '@store/filters/selectors';
 import { setPage, setNextPage } from '@store/filters/slice';
-import { ReactComponent as Arrow } from '@assets/arrow.svg';
+import {
+  selectProducts,
+  selectVisibleProducts,
+} from '@store/products/selectors';
 
 import './Pagination.scss';
 

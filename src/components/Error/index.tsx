@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { Container } from '@components/Container';
 import error from '@assets/error.png';
+import { Container } from '@components/Container';
 
 import './Error.scss';
 
