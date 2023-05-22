@@ -44,15 +44,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
     margin-bottom: 81px;
   }
 
   &__content {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
     gap: 32px;
+    margin-bottom: 50px;
     @media screen and (min-width: 1024px) {
-      grid-template-columns: 279px 1fr;
       align-items: flex-start;
     }
   }
