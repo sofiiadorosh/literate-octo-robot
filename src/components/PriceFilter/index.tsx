@@ -11,6 +11,11 @@ type PriceFilterProps = {
   priceRange: Price;
 };
 
+enum InputNames {
+  'MIN' = 'min',
+  'MAX' = 'max',
+}
+
 export const PriceFilter: FC<PriceFilterProps> = ({
   priceRange: { min, max },
 }) => {
@@ -74,18 +79,12 @@ export const PriceFilter: FC<PriceFilterProps> = ({
   }, [maxVal, getPercent]);
 
   useEffect(() => {
-    if (incorrectMinValue) {
-      return setIncorrectInput(prevState => ({ ...prevState, min: true }));
-    }
-    return setIncorrectInput(prevState => ({ ...prevState, min: false }));
+    setIncorrectInput(prevState => ({
+      ...prevState,
+      min: incorrectMinValue,
+      max: incorrectMaxValue,
+    }));
   }, [inputValue.min, inputValue.max]);
-
-  useEffect(() => {
-    if (incorrectMaxValue) {
-      return setIncorrectInput(prevState => ({ ...prevState, max: true }));
-    }
-    return setIncorrectInput(prevState => ({ ...prevState, max: false }));
-  }, [inputValue.max, inputValue.min]);
 
   useEffect(() => {
     if (incorrectInput.min || incorrectInput.max) {
@@ -120,11 +119,15 @@ export const PriceFilter: FC<PriceFilterProps> = ({
       const value = Number(e.target.value);
       if (Number.isNaN(value)) return;
       setInputValue(prevState => ({ ...prevState, [inputName]: value }));
-      if (inputName === 'min' && value >= min && value <= inputValue.max) {
+      if (
+        inputName === InputNames.MIN &&
+        value >= min &&
+        value <= inputValue.max
+      ) {
         dispatch(setMinPrice(value));
         minValRef.current = value;
       } else if (
-        inputName === 'max' &&
+        inputName === InputNames.MAX &&
         value <= max &&
         value >= inputValue.min
       ) {

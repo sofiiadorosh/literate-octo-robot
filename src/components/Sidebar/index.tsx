@@ -25,11 +25,11 @@ export const Sidebar = forwardRef(function Sidebar(
   const prices = useAppSelector(selectPrices);
 
   const closeSidebarHandler = (ref: ForwardedRef<HTMLBaseElement>) => {
-    if (ref && 'current' in ref) {
-      ref.current?.classList.remove('sidebar_opened');
-      document.body.style.overflow = 'auto';
-    } else if (typeof ref === 'function') {
+    if (ref instanceof Function) {
       ref(null);
+    } else if (ref?.current) {
+      ref.current.classList.remove('sidebar_opened');
+      document.body.style.overflow = 'auto';
     }
   };
 
