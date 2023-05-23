@@ -12,6 +12,7 @@ interface BreadcrumbPath {
 }
 
 export const Breadcrumbs: FC = () => {
+  const selectedProduct = useAppSelector(selectProductDetails);
   const location = useLocation();
   const { pathname } = location;
 
@@ -39,8 +40,9 @@ export const Breadcrumbs: FC = () => {
     }
     const isProductId = /^\d+$/.test(part);
     if (isProductId) {
-      const selectedProduct = useAppSelector(selectProductDetails);
       if (selectedProduct) return selectedProduct?.title;
+    } else {
+      return 'Not found';
     }
 
     return part.charAt(0).toUpperCase() + part.slice(1);
