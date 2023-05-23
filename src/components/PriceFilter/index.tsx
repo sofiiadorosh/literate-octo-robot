@@ -1,10 +1,9 @@
 import React, { FC, useState, useCallback, useEffect, useRef } from 'react';
 
-import { Price } from '@types';
-
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { setMinPrice, setMaxPrice } from '@store/filters/slice';
 import { selectPrice } from '@store/filters/selectors';
+import { setMinPrice, setMaxPrice } from '@store/filters/slice';
+import { Price } from '@types';
 
 import './PriceFilter.scss';
 
@@ -12,21 +11,35 @@ type PriceFilterProps = {
   priceRange: Price;
 };
 
+enum InputNames {
+  'MIN' = 'min',
+  'MAX' = 'max',
+}
+
 export const PriceFilter: FC<PriceFilterProps> = ({
   priceRange: { min, max },
 }) => {
   const dispatch = useAppDispatch();
   const selectedPrice = useAppSelector(selectPrice);
+
   const minVal = selectedPrice.min;
   const maxVal = selectedPrice.max;
+
   const minValRef = useRef(minVal);
   const maxValRef = useRef(maxVal);
   const range = useRef<HTMLDivElement>(null);
-  const [minInput, setMinInput] = useState(minVal);
-  const [maxInput, setMaxInput] = useState(maxVal);
-  const [incorrectMinInput, setIncorrectMinInput] = useState(false);
-  const [incorrectMaxInput, setIncorrectMaxInput] = useState(false);
+
+  const [inputValue, setInputValue] = useState({ min: minVal, max: maxVal });
+  const [incorrectInput, setIncorrectInput] = useState({
+    min: false,
+    max: false,
+  });
   const [error, setError] = useState<string | null>(null);
+
+  const incorrectMinValue =
+    inputValue.min < min || inputValue.min >= inputValue.max;
+  const incorrectMaxValue =
+    inputValue.max > max || inputValue.max <= inputValue.min;
 
   useEffect(() => {
     if (!selectedPrice.min && !selectedPrice.max) {
@@ -36,8 +49,7 @@ export const PriceFilter: FC<PriceFilterProps> = ({
   }, [selectedPrice.min, selectedPrice.max]);
 
   useEffect(() => {
-    setMinInput(minVal);
-    setMaxInput(maxVal);
+    setInputValue({ min: minVal, max: maxVal });
     minValRef.current = minVal;
     maxValRef.current = maxVal;
   }, [minVal, maxVal, selectedPrice.min, selectedPrice.max]);
@@ -67,36 +79,28 @@ export const PriceFilter: FC<PriceFilterProps> = ({
   }, [maxVal, getPercent]);
 
   useEffect(() => {
-    if (minInput < min || minInput >= maxInput) {
-      setIncorrectMinInput(true);
-    } else {
-      setIncorrectMinInput(false);
-    }
-  }, [minInput, maxInput]);
+    setIncorrectInput(prevState => ({
+      ...prevState,
+      min: incorrectMinValue,
+      max: incorrectMaxValue,
+    }));
+  }, [inputValue.min, inputValue.max]);
 
   useEffect(() => {
-    if (maxInput > max || maxInput <= minInput) {
-      setIncorrectMaxInput(true);
-    } else {
-      setIncorrectMaxInput(false);
-    }
-  }, [maxInput, minInput]);
-
-  useEffect(() => {
-    if (incorrectMinInput || incorrectMaxInput) {
+    if (incorrectInput.min || incorrectInput.max) {
       setError(
         `The prices should be between ${min} and ${max} USD. Min price can't be greater/equal than max.`
       );
     } else {
       setError(null);
     }
-  }, [incorrectMinInput, incorrectMaxInput]);
+  }, [incorrectInput.min, incorrectInput.max]);
 
   const changeMinNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.min(Number(e.target.value), maxVal - 1);
     if (value < maxVal && value >= min) {
       dispatch(setMinPrice(value));
-      setMinInput(value);
+      setInputValue(prevState => ({ ...prevState, min: value }));
       minValRef.current = value;
     }
   };
@@ -105,42 +109,46 @@ export const PriceFilter: FC<PriceFilterProps> = ({
     const value = Math.max(Number(e.target.value), minVal + 1);
     if (value > minVal && value <= max) {
       dispatch(setMaxPrice(value));
-      setMaxInput(value);
+      setInputValue(prevState => ({ ...prevState, max: value }));
       maxValRef.current = value;
     }
   };
 
-  const changeMinInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    if (Number.isNaN(value)) return;
-    setMinInput(value);
-    if (value >= min && value <= maxInput) {
-      dispatch(setMinPrice(value));
-      minValRef.current = value;
-    }
-  };
-
-  const changeMaxInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    if (Number.isNaN(value)) return;
-    setMaxInput(value);
-    if (value <= max && value >= minInput) {
-      dispatch(setMaxPrice(value));
-      maxValRef.current = value;
-    }
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, inputName: 'min' | 'max') => {
+      const value = Number(e.target.value);
+      if (Number.isNaN(value)) return;
+      setInputValue(prevState => ({ ...prevState, [inputName]: value }));
+      if (
+        inputName === InputNames.MIN &&
+        value >= min &&
+        value <= inputValue.max
+      ) {
+        dispatch(setMinPrice(value));
+        minValRef.current = value;
+      } else if (
+        inputName === InputNames.MAX &&
+        value <= max &&
+        value >= inputValue.min
+      ) {
+        dispatch(setMaxPrice(value));
+        maxValRef.current = value;
+      }
+    },
+    [dispatch]
+  );
 
   return (
     <div className="filter price__filter">
       <h3 className="filter__title">Price</h3>
-      <div className="range-input">
+      <div className="price__range-input">
         <input
           type="range"
           min={min}
           max={max}
           value={minVal}
           onChange={changeMinNumberHandler}
-          className="thumb thumb--left"
+          className="price__thumb price__thumb_left"
           style={{ zIndex: minVal > max - min ? 5 : 4 }}
         />
         <input
@@ -149,44 +157,44 @@ export const PriceFilter: FC<PriceFilterProps> = ({
           max={max}
           value={maxVal}
           onChange={changeMaxNumberHandler}
-          className="thumb thumb--right"
+          className="price__thumb price__thumb_right"
         />
-        <div className="slider">
-          <div className="slider__track" />
-          <div ref={range} className="slider__range" />
+        <div className="price__slider">
+          <div className="price__track" />
+          <div ref={range} className="price__range" />
         </div>
       </div>
-      <div className="range-input__control">
-        <div className="control__container">
-          <label htmlFor="min" className="control__label">
+      <div className="price__control">
+        <div className="price__container">
+          <label htmlFor="min" className="price__label">
             Min
           </label>
           <input
             id="min"
             type="text"
-            value={minInput}
-            onChange={changeMinInputHandler}
+            value={inputValue.min}
+            onChange={e => handleInputChange(e, 'min')}
             className={
-              incorrectMinInput
-                ? 'control__input control__input--incorrect'
-                : 'control__input'
+              incorrectInput.min
+                ? 'price__input price__input_incorrect'
+                : 'price__input'
             }
           />
         </div>
-        <span className="control__dash">-</span>
-        <div className="control__container">
-          <label htmlFor="max" className="control__label">
+        <span className="price__dash">-</span>
+        <div className="price__container">
+          <label htmlFor="max" className="price__label">
             Max
           </label>
           <input
             id="max"
             type="text"
-            value={maxInput}
-            onChange={changeMaxInputHandler}
+            value={inputValue.max}
+            onChange={e => handleInputChange(e, 'max')}
             className={
-              incorrectMaxInput
-                ? 'control__input control__input--incorrect'
-                : 'control__input'
+              incorrectInput.max
+                ? 'price__input price__input_incorrect'
+                : 'price__input'
             }
           />
         </div>

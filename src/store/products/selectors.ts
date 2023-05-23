@@ -1,9 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState } from '../index';
-
-import { SortingFilters } from '@types';
-
 import {
   selectCategory,
   selectQuery,
@@ -12,6 +8,9 @@ import {
   selectPrice,
   selectSort,
 } from '@store/filters/selectors';
+import { SortingFilters } from '@types';
+
+import { RootState } from '../index';
 
 export const selectProducts = (state: RootState) => state.products.items;
 

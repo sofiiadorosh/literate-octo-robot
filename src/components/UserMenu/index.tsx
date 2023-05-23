@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { ReactComponent as User } from '@assets/user.svg';
 import { ReactComponent as Cart } from '@assets/cart.svg';
+import { ReactComponent as User } from '@assets/user.svg';
 
 import './UserMenu.scss';
 

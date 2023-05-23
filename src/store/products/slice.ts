@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getProducts } from './operations';
 import { Product } from '@types';
+
+import { getProducts } from './operations';
 
 interface ProductsState {
   items: Product[];

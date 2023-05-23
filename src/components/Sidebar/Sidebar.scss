@@ -20,12 +20,12 @@
       visibility 250ms $timing-function;
   }
 
-  &--opened {
+  &_opened {
     opacity: 1;
     visibility: visible;
   }
 
-  &__overlay {
+  &__content {
     display: flex;
     flex-direction: column;
     gap: 48px;
@@ -37,14 +37,14 @@
       height: 100%;
       margin-left: auto;
       padding: 48px 36px 24px;
-      background-color: $white-background;
+      background-color: $white;
       overflow-y: scroll;
       transition: right 300ms $timing-function;
     }
   }
 }
 
-.sidebar.sidebar--opened .sidebar__overlay {
+.sidebar.sidebar_opened .sidebar__content {
   right: 0;
 }
 
@@ -54,12 +54,8 @@
   margin-left: 112px;
   padding: 6px 12px;
   font-family: $secondary-font-stack;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.47;
   color: $secondary-grey;
-  background-color: $white-background;
-  border-radius: 12px;
+  background-color: $white;
 }
 
 .close-button {
@@ -67,8 +63,4 @@
   top: 16px;
   right: 20px;
   width: 94px;
-
-  @media screen and (min-width: 1024px) {
-    display: none;
-  }
 }

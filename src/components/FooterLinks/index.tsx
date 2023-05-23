@@ -10,12 +10,12 @@ type FooterLinksProps = {
 
 export const FooterLinks: FC<FooterLinksProps> = ({ title, array }) => {
   return (
-    <div className="footer-link__wrapper">
-      <h3 className="footer-link__title">{title}</h3>
-      <ul className="footer-link__list">
+    <div className="footer-block">
+      <h3 className="footer-block__title">{title}</h3>
+      <ul className="footer-block__list">
         {array.map(({ href, text }) => (
-          <li key={href} className="footer-link">
-            <NavLink to={href} className="footer-link__link">
+          <li key={href} className="footer-block__item">
+            <NavLink to={href} className="footer-block__link">
               {text}
             </NavLink>
           </li>

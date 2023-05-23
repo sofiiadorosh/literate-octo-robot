@@ -7,7 +7,7 @@ export const Breadcrumbs: FC = () => {
     <ul className="breadcrumbs">
       <li className="breadcrumbs__page">Homepage</li>
       <li className="breadcrumbs__page">/</li>
-      <li className="breadcrumbs__page breadcrumbs__page--active">
+      <li className="breadcrumbs__page breadcrumbs__page_active">
         All products
       </li>
     </ul>

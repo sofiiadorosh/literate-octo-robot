@@ -11,9 +11,9 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import { productsReducer } from './products/slice';
 import { filtersReducer } from './filters/slice';
 import { FiltersState } from './filters/slice';
+import { productsReducer } from './products/slice';
 
 const filtersPersistConfig = {
   key: 'filters',

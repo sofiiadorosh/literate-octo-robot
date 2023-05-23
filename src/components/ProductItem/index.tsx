@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Product } from '@types';
-
-import { Stars } from '@components/Stars';
-
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
+import { Stars } from '@components/Stars';
+import { Product } from '@types';
 
 import './ProductItem.scss';
 
@@ -51,13 +49,13 @@ export const ProductItem: FC<ProductItemProps> = ({
           <ul className="product-info__list">
             <li className="product-info__item">
               <span>Fresheness</span>
-              <span className="product-info__item--accent product-info__word">
+              <span className="product-info__name product-info__name_accent">
                 {fresheness}
               </span>
             </li>
             <li className="product-info__item">
               <span>Farm</span>
-              <span className="product-info__word">{farm}</span>
+              <span className="product-info__name">{farm}</span>
             </li>
             <li className="product-info__item">
               <span>Delivery</span>
@@ -65,14 +63,18 @@ export const ProductItem: FC<ProductItemProps> = ({
             </li>
             <li className="product-info__item">
               <span>Stock</span>
-              <span className="product-info__item--accent">{stock}</span>
+              <span className="product-info__name product-info__name_accent">
+                {stock}
+              </span>
             </li>
           </ul>
         </div>
         <div className="product-order">
           <div className="product-order__price">
-            <span className="product-order__price--old">{price.new} USD</span>
-            <span className="product-order__price--new">{price.old}</span>
+            <span className="product-order__price_price_old">
+              {price.new} USD
+            </span>
+            <span className="product-order__price_price_new">{price.old}</span>
           </div>
           <div className="product-order__info">
             <span className="product-order__shipping">{shipping} Shipping</span>

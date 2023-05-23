@@ -1,0 +1,23 @@
+@import './placeholders';
+
+.primary-button {
+  @extend %button;
+  width: 164px;
+  height: 47px;
+  color: $white;
+  background-color: $accent;
+  border: 2px solid $green;
+  transition: background-color 250ms $timing-function;
+
+  &:hover {
+    background-color: $green;
+  }
+}
+
+.secondary-button {
+  @extend %button;
+  padding: 6.5px 12px;
+  font-family: $secondary-font-stack;
+  color: $primary-dark;
+  background-color: $primary-dark-white;
+}

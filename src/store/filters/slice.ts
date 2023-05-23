@@ -3,6 +3,9 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { Price, SortingFilters } from '@types';
 
+const INITIAL_PAGE = 1;
+const LIMIT = 5;
+
 export interface FiltersState {
   category: string;
   query: string;
@@ -24,8 +27,8 @@ const filtersInitialState = {
     max: 0,
   },
   sort: SortingFilters.SELECT,
-  page: 1,
-  limit: 5,
+  page: INITIAL_PAGE,
+  limit: LIMIT,
 } as FiltersState;
 
 const filtersSlice = createSlice({
@@ -33,44 +36,52 @@ const filtersSlice = createSlice({
   initialState: filtersInitialState,
   reducers: {
     setCategory(state, action: PayloadAction<string>) {
-      return { ...state, page: 1, category: action.payload };
+      return { ...state, page: INITIAL_PAGE, category: action.payload };
     },
     setQuery(state, action: PayloadAction<string>) {
-      return { ...state, page: 1, query: action.payload };
+      return { ...state, page: INITIAL_PAGE, query: action.payload };
     },
     setBrand(state, action: PayloadAction<string>) {
       if (state.brand.includes(action.payload)) {
         return {
           ...state,
-          page: 1,
+          page: INITIAL_PAGE,
           brand: [...state.brand.filter(element => element !== action.payload)],
         };
       }
-      return { ...state, page: 1, brand: [...state.brand, action.payload] };
+      return {
+        ...state,
+        page: INITIAL_PAGE,
+        brand: [...state.brand, action.payload],
+      };
     },
     setRating(state, action: PayloadAction<number>) {
       if (state.rating.includes(action.payload)) {
         return {
           ...state,
-          page: 1,
+          page: INITIAL_PAGE,
           rating: [
             ...state.rating.filter(element => element !== action.payload),
           ],
         };
       }
-      return { ...state, page: 1, rating: [...state.rating, action.payload] };
+      return {
+        ...state,
+        page: INITIAL_PAGE,
+        rating: [...state.rating, action.payload],
+      };
     },
     setMinPrice(state, action: PayloadAction<number>) {
       return {
         ...state,
-        page: 1,
+        page: INITIAL_PAGE,
         price: { ...state.price, min: action.payload },
       };
     },
     setMaxPrice(state, action: PayloadAction<number>) {
       return {
         ...state,
-        page: 1,
+        page: INITIAL_PAGE,
         price: { ...state.price, max: action.payload },
       };
     },
@@ -83,11 +94,11 @@ const filtersSlice = createSlice({
         rating: [],
         price: { min: 0, max: 0 },
         sort: SortingFilters.SELECT,
-        page: 1,
+        page: INITIAL_PAGE,
       };
     },
     setSort(state, action: PayloadAction<SortingFilters>) {
-      return { ...state, page: 1, sort: action.payload };
+      return { ...state, page: INITIAL_PAGE, sort: action.payload };
     },
     setPage(state, action: PayloadAction<number>) {
       return { ...state, page: action.payload };

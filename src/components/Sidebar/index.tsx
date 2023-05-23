@@ -1,16 +1,14 @@
 import React, { forwardRef, ForwardedRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 
-import { CategoryCount } from '@types';
-
+import { BrandsFilter } from '@components/BrandsFilter';
+import { CategoriesFilter } from '@components/CategoriesFilter';
+import { PriceFilter } from '@components/PriceFilter';
+import { RatingFilter } from '@components/RatingFilter';
 import { useAppSelector, useAppDispatch } from '@hooks';
 import { resetFilters } from '@store/filters/slice';
 import { selectPrices } from '@store/products/selectors';
-
-import { CategoriesFilter } from '@components/CategoriesFilter';
-import { BrandsFilter } from '@components/BrandsFilter';
-import { RatingFilter } from '@components/RatingFilter';
-import { PriceFilter } from '@components/PriceFilter';
+import { CategoryCount } from '@types';
 
 import './Sidebar.scss';
 
@@ -25,12 +23,13 @@ export const Sidebar = forwardRef(function Sidebar(
 ) {
   const dispatch = useAppDispatch();
   const prices = useAppSelector(selectPrices);
+
   const closeSidebarHandler = (ref: ForwardedRef<HTMLBaseElement>) => {
-    if (ref && 'current' in ref) {
-      ref.current?.classList.remove('sidebar--opened');
-      document.body.style.overflow = 'auto';
-    } else if (typeof ref === 'function') {
+    if (ref instanceof Function) {
       ref(null);
+    } else if (ref?.current) {
+      ref.current.classList.remove('sidebar_opened');
+      document.body.style.overflow = 'auto';
     }
   };
 
@@ -42,11 +41,11 @@ export const Sidebar = forwardRef(function Sidebar(
 
   return (
     <aside {...props} ref={ref} className="sidebar">
-      <div className="sidebar__overlay">
+      <div className="sidebar__content">
         <button
           type="button"
           onClick={() => closeSidebarHandler(ref)}
-          className="filter-button close-button"
+          className="secondary-button filter-button close-button"
         >
           <IoMdClose size={20} />
           <span>Close</span>

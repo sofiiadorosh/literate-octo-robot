@@ -1,48 +1,47 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import { BiFilterAlt } from 'react-icons/bi';
 
-import { Product } from '@types';
-
+import { Container } from '@components/Container';
+import { Loader } from '@components/Loader';
+import { Notification } from '@components/Notification';
+import { Pagination } from '@components/Pagination';
+import { ProductsList } from '@components/ProductsList';
+import { Sidebar } from '@components/Sidebar';
+import { Sort } from '@components/Sort';
 import { useAppSelector } from '@hooks';
-import {
-  selectProducts,
-  selectVisibleProducts,
-  selectIsLoading,
-} from '@store/products/selectors';
+import { getCategories, getBrandsByCategory } from '@services';
 import {
   selectCategory,
   selectLimit,
   selectPage,
 } from '@store/filters/selectors';
-
-import { getCategories, getBrandsByCategory } from '@services';
+import {
+  selectProducts,
+  selectVisibleProducts,
+  selectIsLoading,
+} from '@store/products/selectors';
+import { Product } from '@types';
 import { getProductPerPage } from '@utils';
-
-import { Container } from '@components/Container';
-import { Breadcrumbs } from '@components/Breadcrumbs';
-import { Sort } from '@components/Sort';
-import { Sidebar } from '@components/Sidebar';
-import { ProductsList } from '@components/ProductsList';
-import { Pagination } from '@components/Pagination';
-import { Loader } from '@components/Loader';
-import { Notification } from '@components/Notification';
 
 import './ProductsPage.scss';
 
 const ProductsPage: FC = () => {
-  const [productsPerPage, setProductsPerPage] = useState<Product[]>([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const products = useAppSelector(selectProducts);
   const visibleProducts = useAppSelector(selectVisibleProducts);
   const isLoading = useAppSelector(selectIsLoading);
-  const categoriesObject = getCategories(products);
   const selectedCategory = useAppSelector(selectCategory);
-  const brands = getBrandsByCategory(products, selectedCategory);
-  const sidebarRef = useRef<HTMLBaseElement>(null);
-  const productsListRef = useRef<HTMLDivElement>(null);
   const selectedPage = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
+
+  const sidebarRef = useRef<HTMLBaseElement>(null);
+  const productsListRef = useRef<HTMLDivElement>(null);
   const isVisibleButton = selectedPage * limit < visibleProducts.length;
+
+  const categoriesObject = getCategories(products);
+  const brands = getBrandsByCategory(products, selectedCategory);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [productsPerPage, setProductsPerPage] = useState<Product[]>([]);
 
   const handleOutsideClick = (e: MouseEvent) => {
     if (isSidebarOpen && sidebarRef.current) {
@@ -60,11 +59,11 @@ const ProductsPage: FC = () => {
   useEffect(() => {
     if (sidebarRef.current) {
       if (isSidebarOpen) {
-        sidebarRef.current.classList.add('sidebar--opened');
+        sidebarRef.current.classList.add('sidebar_opened');
         document.body.style.overflow = 'hidden';
         document.addEventListener('mousedown', handleOutsideClick);
       } else {
-        sidebarRef.current.classList.remove('sidebar--opened');
+        sidebarRef.current.classList.remove('sidebar_opened');
         document.body.style.overflow = 'auto';
       }
     }
@@ -114,11 +113,10 @@ const ProductsPage: FC = () => {
   return (
     <section className="products">
       <Container>
-        <Breadcrumbs />
         <div className="products__title">
           <h1 className="products__heading">All Products</h1>
           <div className="products__quantity">
-            <span className="products__quantity--number">
+            <span className="products__quantity_number">
               {productsPerPage.length}
             </span>
             <span>Products</span>
@@ -129,7 +127,7 @@ const ProductsPage: FC = () => {
           <button
             type="button"
             onClick={openSidebarHandler}
-            className="filter-button"
+            className="secondary-button filter-button"
           >
             <BiFilterAlt size={20} />
             <span>Filters</span>

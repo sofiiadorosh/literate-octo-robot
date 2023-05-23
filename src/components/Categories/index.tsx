@@ -1,23 +1,21 @@
 import React, { FC } from 'react';
 
-import { Product } from '@types';
-
-import { useAppSelector, useAppDispatch } from '@hooks';
-import { selectProducts } from '@store/products/selectors';
-import { setBrand, setCategory } from '@store/filters/slice';
-
-import { getCategories, getBrandsByCategory } from '@services';
-
-import { DropDown } from '@components/DropDown';
-
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
+import { DropDown } from '@components/DropDown';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { getCategories, getBrandsByCategory } from '@services';
+import { setBrand, setCategory } from '@store/filters/slice';
+import { selectProducts } from '@store/products/selectors';
+import { Product } from '@types';
 
 import './Categories.scss';
 
 export const Categories: FC = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectProducts);
+
   const categories = Object.keys(getCategories(products));
+
   const getBrands = (products: Product[], category: string) =>
     getBrandsByCategory(products, category);
 
@@ -29,9 +27,9 @@ export const Categories: FC = () => {
   return (
     <ul className="categories-list">
       {categories.map(category => (
-        <li key={category} className="category-item">
-          <span className="category-item__title">{category}</span>
-          <Arrow className="category-item__icon" />
+        <li key={category} className="categories-list__item">
+          <span className="categories-list__title">{category}</span>
+          <Arrow className="categories-list__icon" />
           <DropDown
             items={getBrands(products, category)}
             onChooseOption={(brand: string) => setBrandHadler(category, brand)}
