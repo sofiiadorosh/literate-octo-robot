@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '@hooks';
-import { selectProducts } from '@store/products/selectors';
+import { selectProductDetails } from '@store/products/selectors';
 
 import './Breadcrumbs.scss';
 
@@ -12,7 +12,6 @@ interface BreadcrumbPath {
 }
 
 export const Breadcrumbs: FC = () => {
-  const products = useAppSelector(selectProducts);
   const location = useLocation();
   const { pathname } = location;
 
@@ -40,10 +39,8 @@ export const Breadcrumbs: FC = () => {
     }
     const isProductId = /^\d+$/.test(part);
     if (isProductId) {
-      const product = products.find(product => product.id === part);
-      if (product) {
-        return product.title;
-      }
+      const selectedProduct = useAppSelector(selectProductDetails);
+      if (selectedProduct) return selectedProduct?.title;
     }
 
     return part.charAt(0).toUpperCase() + part.slice(1);
