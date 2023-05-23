@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/literate-octo-robot/static/css/main.57aaf429.css",
-    "main.js": "/literate-octo-robot/static/js/main.888c1f7a.js",
+    "main.css": "/literate-octo-robot/static/css/main.e3fc0746.css",
+    "main.js": "/literate-octo-robot/static/js/main.23b753bc.js",
     "static/js/883.4bfe71a6.chunk.js": "/literate-octo-robot/static/js/883.4bfe71a6.chunk.js",
     "static/css/473.c73b8831.chunk.css": "/literate-octo-robot/static/css/473.c73b8831.chunk.css",
     "static/js/473.55222377.chunk.js": "/literate-octo-robot/static/js/473.55222377.chunk.js",
@@ -19,8 +19,8 @@
     "static/media/user.svg": "/literate-octo-robot/static/media/user.a50d3db7bb73453755dab16cea135c88.svg",
     "static/media/arrow.svg": "/literate-octo-robot/static/media/arrow.e21ef35e3fb12b40f5a0dbda92b549a0.svg",
     "static/media/check.svg": "/literate-octo-robot/static/media/check.b30c1d54bc34bb31e97302037512dffa.svg",
-    "main.57aaf429.css.map": "/literate-octo-robot/static/css/main.57aaf429.css.map",
-    "main.888c1f7a.js.map": "/literate-octo-robot/static/js/main.888c1f7a.js.map",
+    "main.e3fc0746.css.map": "/literate-octo-robot/static/css/main.e3fc0746.css.map",
+    "main.23b753bc.js.map": "/literate-octo-robot/static/js/main.23b753bc.js.map",
     "883.4bfe71a6.chunk.js.map": "/literate-octo-robot/static/js/883.4bfe71a6.chunk.js.map",
     "473.c73b8831.chunk.css.map": "/literate-octo-robot/static/css/473.c73b8831.chunk.css.map",
     "473.55222377.chunk.js.map": "/literate-octo-robot/static/js/473.55222377.chunk.js.map",
@@ -30,7 +30,7 @@
     "591.ca992f2d.chunk.js.map": "/literate-octo-robot/static/js/591.ca992f2d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.57aaf429.css",
-    "static/js/main.888c1f7a.js"
+    "static/css/main.e3fc0746.css",
+    "static/js/main.23b753bc.js"
   ]
 }
