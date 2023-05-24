@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkliterate_octo_robot=self.webpackChunkliterate_octo_robot||[]).push([[719],{6719:function(t,e,o){o.r(e);var r=o(2791),c=o(7689),u=o(1866),n=o(3884),i=o(8865),s=o(184);e.default=function(){var t=(0,u.T)(),e=(0,u.C)(i.zh),o=(0,c.UO)().productId;return(0,r.useEffect)((function(){o&&t((0,n.g)(o))}),[o]),e?(0,s.jsx)("p",{children:"Product was not found"}):(0,s.jsx)("div",{children:"Product Details"})}}}]);
-//# sourceMappingURL=719.cc66e9c5.chunk.js.map
