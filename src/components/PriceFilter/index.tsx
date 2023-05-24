@@ -114,29 +114,29 @@ export const PriceFilter: FC<PriceFilterProps> = ({
     }
   };
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, inputName: 'min' | 'max') => {
-      const value = Number(e.target.value);
-      if (Number.isNaN(value)) return;
-      setInputValue(prevState => ({ ...prevState, [inputName]: value }));
-      if (
-        inputName === InputNames.MIN &&
-        value >= min &&
-        value <= inputValue.max
-      ) {
-        dispatch(setMinPrice(value));
-        minValRef.current = value;
-      } else if (
-        inputName === InputNames.MAX &&
-        value <= max &&
-        value >= inputValue.min
-      ) {
-        dispatch(setMaxPrice(value));
-        maxValRef.current = value;
-      }
-    },
-    [dispatch]
-  );
+  const inputChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    inputName: InputNames.MIN | InputNames.MAX
+  ) => {
+    const value = Number(e.target.value);
+    if (Number.isNaN(value)) return;
+    setInputValue(prevState => ({ ...prevState, [inputName]: value }));
+    if (
+      inputName === InputNames.MIN &&
+      value >= min &&
+      value < inputValue.max
+    ) {
+      dispatch(setMinPrice(value));
+      minValRef.current = value;
+    } else if (
+      inputName === InputNames.MAX &&
+      value <= max &&
+      value > inputValue.min
+    ) {
+      dispatch(setMaxPrice(value));
+      maxValRef.current = value;
+    }
+  };
 
   return (
     <div className="filter price__filter">
@@ -172,8 +172,9 @@ export const PriceFilter: FC<PriceFilterProps> = ({
           <input
             id="min"
             type="text"
+            name="min"
             value={inputValue.min}
-            onChange={e => handleInputChange(e, 'min')}
+            onChange={e => inputChangeHandler(e, InputNames.MIN)}
             className={
               incorrectInput.min
                 ? 'price__input price__input_incorrect'
@@ -189,8 +190,9 @@ export const PriceFilter: FC<PriceFilterProps> = ({
           <input
             id="max"
             type="text"
+            name="max"
             value={inputValue.max}
-            onChange={e => handleInputChange(e, 'max')}
+            onChange={e => inputChangeHandler(e, InputNames.MAX)}
             className={
               incorrectInput.max
                 ? 'price__input price__input_incorrect'
