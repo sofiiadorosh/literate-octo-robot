@@ -9,6 +9,7 @@ import {
   selectSort,
 } from '@store/filters/selectors';
 import { SortingFilters } from '@types';
+import { getNewPrice } from '@utils';
 
 import { RootState } from '../index';
 
@@ -18,15 +19,12 @@ export const selectIsLoading = (state: RootState) => state.products.isLoading;
 
 export const selectError = (state: RootState) => state.products.error;
 
-export const selectProductDetails = (state: RootState) =>
-  state.products.selectedProduct;
-
 export const selectPrices = createSelector([selectProducts], products => {
-  let min = products[0].price.new;
-  let max = products[0].price.new;
+  let min = getNewPrice(products[0].price.pcs, products[0].discount);
+  let max = getNewPrice(products[0].price.pcs, products[0].discount);
 
   products.forEach(product => {
-    const newPrice = product.price['new'];
+    const newPrice = getNewPrice(product.price.pcs, product.discount);
     if (newPrice < min) {
       min = newPrice;
     }
@@ -57,7 +55,7 @@ export const selectVisibleProducts = createSelector(
       const productTitle = product.title.trim().toLowerCase();
       const productBrand = product.farm.trim().toLowerCase();
       const productRating = product.rating;
-      const productPrice = product.price.new;
+      const productPrice = getNewPrice(product.price.pcs, product.discount);
 
       const matchesCategory =
         category === 'All categories' ||
@@ -91,10 +89,18 @@ export const selectVisibleProducts = createSelector(
         visibleProducts.sort((a, b) => b.title.localeCompare(a.title));
         break;
       case SortingFilters.PRICE_HIGH_TO_LOW:
-        visibleProducts.sort((a, b) => b.price.new - a.price.new);
+        visibleProducts.sort((a, b) => {
+          const prevPrice = getNewPrice(a.price.pcs, a.discount);
+          const nextPrice = getNewPrice(b.price.pcs, b.discount);
+          return nextPrice - prevPrice;
+        });
         break;
       case SortingFilters.PRICE_LOW_TO_HIGH:
-        visibleProducts.sort((a, b) => a.price.new - b.price.new);
+        visibleProducts.sort((a, b) => {
+          const prevPrice = getNewPrice(a.price.pcs, a.discount);
+          const nextPrice = getNewPrice(b.price.pcs, b.discount);
+          return prevPrice - nextPrice;
+        });
         break;
       case SortingFilters.RATING_HIGH_TO_LOW:
         visibleProducts.sort((a, b) => b.rating - a.rating);

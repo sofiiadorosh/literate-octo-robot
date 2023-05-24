@@ -2,6 +2,7 @@
 
 .breadcrumbs {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 
   &__page {
