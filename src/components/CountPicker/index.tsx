@@ -29,10 +29,6 @@ export const CountPicker: FC<CountPickerProps> = ({ items, max }) => {
     dispatch(setQuantity(count));
   };
 
-  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-  };
-
   const setUnitHandler = (unit: Units) => {
     dispatch(setUnit(unit));
   };
@@ -47,7 +43,6 @@ export const CountPicker: FC<CountPickerProps> = ({ items, max }) => {
         className="count__input"
         value={selectedQuantity}
         onChange={setCountHandler}
-        onKeyDown={keyDownHandler}
       />
       <span className="count__dash"></span>
       <div className="count__unit">
