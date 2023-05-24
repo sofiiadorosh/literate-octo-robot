@@ -5,10 +5,17 @@
   gap: 8px;
 
   &__page {
+    display: flex;
+    gap: 8px;
     font-weight: 400;
     line-height: 1.33;
     color: $secondary-grey;
+  }
 
+  &__link {
+    &:hover:not(.breadcrumbs__link_active) {
+      color: $primary-dark;
+    }
     &_active {
       color: $primary-dark;
     }

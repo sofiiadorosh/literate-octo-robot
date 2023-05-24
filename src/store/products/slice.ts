@@ -2,18 +2,20 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { Product } from '@types';
 
-import { getProducts } from './operations';
+import { getProducts, getProductById } from './operations';
 
 interface ProductsState {
   items: Product[];
   isLoading: boolean;
   error: null | string;
+  selectedProduct: null | Product;
 }
 
 const productsInitialState: ProductsState = {
   items: [],
   isLoading: false,
   error: null,
+  selectedProduct: null,
 };
 
 const productsSlice = createSlice({
@@ -25,9 +27,27 @@ const productsSlice = createSlice({
       return { ...state, isLoading: true };
     });
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
-      return { ...state, items: [...payload], isLoading: false };
+      return { ...state, error: null, items: [...payload], isLoading: false };
     });
     builder.addCase(getProducts.rejected, (state, { payload }) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload ? payload : 'An unknown error occured',
+      };
+    });
+    builder.addCase(getProductById.pending, state => {
+      return { ...state, isLoading: true };
+    });
+    builder.addCase(getProductById.fulfilled, (state, { payload }) => {
+      return {
+        ...state,
+        error: null,
+        selectedProduct: payload,
+        isLoading: false,
+      };
+    });
+    builder.addCase(getProductById.rejected, (state, { payload }) => {
       return {
         ...state,
         isLoading: false,
