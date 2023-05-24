@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { Product, Units } from '@types';
+import { Product } from '@types';
 
 import { getProductById } from './operations';
 
@@ -8,29 +8,18 @@ export interface ProductDetailsState {
   isLoading: boolean;
   error: null | string;
   selectedProduct: null | Product;
-  quantity: number;
-  unit: Units;
 }
 
 const productDetailsInitialState: ProductDetailsState = {
   isLoading: false,
   error: null,
   selectedProduct: null,
-  quantity: 1,
-  unit: Units.PCS,
 };
 
 const productDetailsSlice = createSlice({
   name: 'productDetails',
   initialState: productDetailsInitialState,
-  reducers: {
-    setQuantity(state, action: PayloadAction<number>) {
-      return { ...state, quantity: action.payload };
-    },
-    setUnit(state, action: PayloadAction<Units>) {
-      return { ...state, unit: action.payload };
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(getProductById.pending, state => {
       return { ...state, isLoading: true };
@@ -39,8 +28,6 @@ const productDetailsSlice = createSlice({
       return {
         ...state,
         error: null,
-        quantity: 1,
-        unit: Units.PCS,
         selectedProduct: payload,
         isLoading: false,
       };
@@ -55,5 +42,4 @@ const productDetailsSlice = createSlice({
   },
 });
 
-export const { setQuantity, setUnit } = productDetailsSlice.actions;
 export const productDetailsReducer = productDetailsSlice.reducer;

@@ -7,8 +7,3 @@ export const selectIsLoading = (state: RootState) =>
 
 export const selectProductDetails = (state: RootState) =>
   state.productDetails.selectedProduct;
-
-export const selectQuantity = (state: RootState) =>
-  state.productDetails.quantity;
-
-export const selectUnit = (state: RootState) => state.productDetails.unit;

@@ -1,5 +1,3 @@
-import { Units } from './unit';
-
 export type Product = {
   id: string;
   previewImage: string;
@@ -18,17 +16,14 @@ export type Product = {
   deliveryArea: string;
   stock: string;
   price: {
-    pcs: number;
-    kgs: number;
-    pack: number;
-    box: number;
+    [key: string]: number;
   };
   discount: number;
   shipping: 'free' | 'paid';
   deliveryTime: number;
   category: string;
   sizes: string[];
-  units: Units[];
+  units: string[];
   questions: {
     question: string;
     answer: string;

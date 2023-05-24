@@ -1,23 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
 import { CountPicker } from '@components/CountPicker';
 import { Stars } from '@components/Stars';
 import { useAppSelector } from '@hooks';
-import {
-  selectUnit,
-  selectQuantity,
-  selectProductDetails,
-} from '@store/productDetails/selectors';
+import { selectProductDetails } from '@store/productDetails/selectors';
 import { getNewPrice } from '@utils';
 
 import './AboutProduct.scss';
 
 export const AboutProduct: FC = () => {
   const selectedProduct = useAppSelector(selectProductDetails);
-  const selectedUnit = useAppSelector(selectUnit);
-  const selectedQuantity = useAppSelector(selectQuantity);
+
   if (!selectedProduct) {
     return null;
   }
@@ -40,10 +35,20 @@ export const AboutProduct: FC = () => {
     reviews,
   } = selectedProduct;
   const maxQuantity = parseInt(stock);
+  const [unit, setUnit] = useState(units[0]);
+  const [count, setCount] = useState(1);
 
   const getTotalPrice = () => {
-    const newPrice = getNewPrice(price[selectedUnit], discount);
-    return Number(newPrice * selectedQuantity).toFixed(2);
+    const newPrice = getNewPrice(price[unit], discount);
+    return Number(newPrice * count).toFixed(2);
+  };
+
+  const setUnitHandler = (unit: string) => {
+    setUnit(unit);
+  };
+
+  const setCountHandler = (count: number) => {
+    setCount(count);
   };
 
   return (
@@ -114,11 +119,18 @@ export const AboutProduct: FC = () => {
               <div className="details__price">
                 <span>{getTotalPrice()} USD</span>
                 <span className="details__price_old">
-                  {(price[selectedUnit] * selectedQuantity).toFixed(2)} USD
+                  {(price[unit] * count).toFixed(2)} USD
                 </span>
               </div>
               <div className="details__control-wrapper">
-                <CountPicker items={units} max={maxQuantity} />
+                <CountPicker
+                  items={units}
+                  max={maxQuantity}
+                  count={count}
+                  unit={unit}
+                  onSetUnit={setUnitHandler}
+                  onSetCount={setCountHandler}
+                />
                 <button
                   type="button"
                   className="primary-button details__add-button"

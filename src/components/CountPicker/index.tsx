@@ -1,23 +1,26 @@
 import React, { FC, useState } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectQuantity, selectUnit } from '@store/productDetails/selectors';
-import { setQuantity, setUnit } from '@store/productDetails/slice';
-import { Units } from '@types';
 
 import './CountPicker.scss';
 
 type CountPickerProps = {
-  items: Units[];
+  items: string[];
   max: number;
+  count: number;
+  unit: string;
+  onSetCount: (count: number) => void;
+  onSetUnit: (unit: string) => void;
 };
 
-export const CountPicker: FC<CountPickerProps> = ({ items, max }) => {
-  const dispatch = useAppDispatch();
-  const selectedQuantity = useAppSelector(selectQuantity);
-  const selectedUnit = useAppSelector(selectUnit);
-
+export const CountPicker: FC<CountPickerProps> = ({
+  items,
+  max,
+  count,
+  unit,
+  onSetCount,
+  onSetUnit,
+}) => {
   const [error, setError] = useState<null | string>(null);
 
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,11 +29,18 @@ export const CountPicker: FC<CountPickerProps> = ({ items, max }) => {
       return setError(`There are only ${max} items in stock.`);
     }
     setError(null);
-    dispatch(setQuantity(count));
+    onSetCount(count);
   };
 
-  const setUnitHandler = (unit: Units) => {
-    dispatch(setUnit(unit));
+  const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+    const count = Number(e.currentTarget.value);
+    if (count <= max) {
+      return setError(null);
+    }
+  };
+
+  const setUnitHandler = (unit: string) => {
+    onSetUnit(unit);
   };
   return (
     <div className="count">
@@ -41,12 +51,13 @@ export const CountPicker: FC<CountPickerProps> = ({ items, max }) => {
         max={max}
         placeholder="1"
         className="count__input"
-        value={selectedQuantity}
+        value={count}
         onChange={setCountHandler}
+        onBlur={onBlurHandler}
       />
       <span className="count__dash"></span>
       <div className="count__unit">
-        <span>{selectedUnit}</span>
+        <span>{unit}</span>
         <Arrow className="count__unit-icon" />
         <div className="dropdown">
           <ul className="dropdown__list">
