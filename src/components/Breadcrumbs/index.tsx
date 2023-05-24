@@ -11,6 +11,11 @@ interface BreadcrumbPath {
   link: string;
 }
 
+enum Paths {
+  'PRODUCTS' = 'products',
+  'ALL_PRODUCTS' = 'All products',
+}
+
 export const Breadcrumbs: FC = () => {
   const selectedProduct = useAppSelector(selectProductDetails);
   const location = useLocation();
@@ -35,14 +40,12 @@ export const Breadcrumbs: FC = () => {
   };
 
   const getBreadcrumbName = (part: string): string => {
-    if (part === 'products') {
-      return 'All products';
+    if (part === Paths.PRODUCTS) {
+      return Paths.ALL_PRODUCTS;
     }
     const isProductId = /^\d+$/.test(part);
     if (isProductId) {
       if (selectedProduct) return selectedProduct?.title;
-    } else {
-      return 'Not found';
     }
 
     return part.charAt(0).toUpperCase() + part.slice(1);
@@ -55,7 +58,7 @@ export const Breadcrumbs: FC = () => {
     <ul className="breadcrumbs">
       {breadcrumbPaths.map((path, index) => (
         <li key={index} className="breadcrumbs__page">
-          {index !== 0 && <span> / </span>}
+          {Boolean(index) && <span> / </span>}
           <NavLink
             className={
               lastPathIndex === index
