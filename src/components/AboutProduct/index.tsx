@@ -97,7 +97,7 @@ export const AboutProduct: FC = () => {
             </li>
             <li className="details__item">
               <span className="details__item_color_grey">Stock:</span>
-              <span>{stock}</span>
+              <span>{maxQuantity ? 'In stock' : 'Unavailable'}</span>
             </li>
             <li className="details__item">
               <span className="details__item_color_grey">Delivery:</span>
