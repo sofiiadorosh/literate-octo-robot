@@ -161,19 +161,23 @@
       align-items: flex-end;
     }
   }
-}
 
-.primary-button {
-  &__icon {
+  &__wish-button {
+    @extend %primary-button;
+  }
+
+  &__wish-icon {
     width: 16px;
     height: 16px;
     stroke: $white;
     transform: rotateZ(-90deg);
   }
-}
 
-.secondary-button {
-  &__icon {
+  &__add-button {
+    @extend %secondary-button;
+  }
+
+  &__add-icon {
     width: 16px;
     height: 16px;
     stroke: $primary-dark;

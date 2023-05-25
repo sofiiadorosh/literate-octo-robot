@@ -169,6 +169,7 @@
 
     &_old {
       font-size: 12px;
+      text-decoration: line-through;
       color: $secondary-grey;
     }
   }
@@ -181,6 +182,7 @@
   }
 
   &__add-button {
+    @extend %primary-button;
     width: 140px;
   }
 
@@ -191,6 +193,7 @@
   }
 
   &__wish-button {
+    @extend %secondary-button;
     width: 191px;
     padding: 6px 12px;
     background-color: transparent;

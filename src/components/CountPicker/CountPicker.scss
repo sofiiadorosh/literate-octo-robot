@@ -13,7 +13,7 @@
   border-radius: 12px;
 
   &__input {
-    width: 36px;
+    width: 24px;
     padding: 0;
     font-weight: 400;
     font-size: 14px;
@@ -28,6 +28,26 @@
       font-size: 14px;
       line-height: 1.36;
       color: $primary-grey;
+    }
+  }
+
+  &__button {
+    @extend %button;
+    padding: 0 4px;
+    transition: background-color 250ms $timing-function;
+
+    &:hover {
+      background-color: $primary-grey;
+    }
+  }
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+
+    &_sup {
+      transform: rotateX(180deg);
     }
   }
 
@@ -64,7 +84,8 @@
   &__error {
     position: absolute;
     bottom: -50%;
-    left: -100%;
+    left: 0;
+    width: 240px;
     color: $red;
   }
 }

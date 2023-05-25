@@ -85,12 +85,12 @@ export const ProductItem: FC<ProductItemProps> = ({
             </span>
           </div>
           <div className="product-order__button">
-            <NavLink to={id} className="primary-button">
+            <NavLink to={id} className="product-order__wish-button">
               <span>Product Detail</span>
-              <Arrow className="primary-button__icon" />
+              <Arrow className="product-order__wish-icon" />
             </NavLink>
-            <button type="button" className="secondary-button">
-              <Heart className="secondary-button__icon" />
+            <button type="button" className="product-order__add-button">
+              <Heart className="product-order__add-icon" />
               <span>Add to wish list</span>
             </button>
           </div>

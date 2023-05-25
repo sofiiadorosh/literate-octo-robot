@@ -1,6 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
+import { Buttons } from '@components/AboutProduct';
 
 import './CountPicker.scss';
 
@@ -9,7 +10,8 @@ type CountPickerProps = {
   max: number;
   count: number;
   unit: string;
-  onSetCount: (count: number) => void;
+  onSetCountByStep: (type: Buttons) => void;
+  onSetCountByValue: (count: number) => void;
   onSetUnit: (unit: string) => void;
 };
 
@@ -18,18 +20,33 @@ export const CountPicker: FC<CountPickerProps> = ({
   max,
   count,
   unit,
-  onSetCount,
+  onSetCountByValue,
+  onSetCountByStep,
   onSetUnit,
 }) => {
+  const validCount = count <= max && count >= 1;
+
   const [error, setError] = useState<null | string>(null);
+
+  useEffect(() => {
+    if (validCount && !error) {
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+  }, [validCount, error]);
 
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
+    if (Number.isNaN(count)) return;
     if (count > max) {
       return setError(`There are only ${max} items in stock.`);
     }
+    if (count < 0) {
+      return;
+    }
     setError(null);
-    onSetCount(count);
+    onSetCountByValue(count);
   };
 
   const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -42,11 +59,25 @@ export const CountPicker: FC<CountPickerProps> = ({
   const setUnitHandler = (unit: string) => {
     onSetUnit(unit);
   };
+
+  const onButtonClickHandler: React.MouseEventHandler<
+    HTMLButtonElement
+  > = e => {
+    const typeButton = e.currentTarget.getAttribute('data-type') as Buttons;
+    if (typeButton === Buttons.SUP && count === max) {
+      return setError(`There are only ${max} items in stock.`);
+    } else if (typeButton === Buttons.SUB && count - 1 < 1) {
+      return setError('At least 1 item has to be to add to cart.');
+    }
+    setError(null);
+    onSetCountByStep(typeButton);
+  };
+
   return (
     <div className="count">
       <input
         name="count"
-        type="number"
+        type="text"
         min="1"
         max={max}
         placeholder="1"
@@ -55,6 +86,24 @@ export const CountPicker: FC<CountPickerProps> = ({
         onChange={setCountHandler}
         onBlur={onBlurHandler}
       />
+      <div>
+        <button
+          type="button"
+          className="count__button"
+          data-type={Buttons.SUP}
+          onClick={onButtonClickHandler}
+        >
+          <Arrow className="count__icon count__icon_sup" />
+        </button>
+        <button
+          type="button"
+          className="count__button"
+          data-type={Buttons.SUB}
+          onClick={onButtonClickHandler}
+        >
+          <Arrow className="count__icon count__icon_sub" />
+        </button>
+      </div>
       <span className="count__dash"></span>
       <div className="count__unit">
         <span>{unit}</span>
