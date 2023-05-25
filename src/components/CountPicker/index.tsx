@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { Buttons } from '@components/AboutProduct';
@@ -24,36 +24,28 @@ export const CountPicker: FC<CountPickerProps> = ({
   onSetCountByStep,
   onSetUnit,
 }) => {
-  const validCount = count <= max && count >= 1;
-
   const [error, setError] = useState<null | string>(null);
 
-  useEffect(() => {
-    if (validCount && !error) {
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
-    }
-  }, [validCount, error]);
+  const setErrorToNull = () => {
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  };
 
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
     if (Number.isNaN(count)) return;
     if (count > max) {
-      return setError(`There are only ${max} items in stock.`);
-    }
-    if (count < 0) {
+      setError(`There are only ${max} items in stock.`);
+      setErrorToNull();
+      return;
+    } else if (!count) {
+      setError('At least 1 item has to be to add to cart.');
+      setErrorToNull();
+    } else {
       return;
     }
-    setError(null);
     onSetCountByValue(count);
-  };
-
-  const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
-    const count = Number(e.currentTarget.value);
-    if (count <= max) {
-      return setError(null);
-    }
   };
 
   const setUnitHandler = (unit: string) => {
@@ -65,11 +57,14 @@ export const CountPicker: FC<CountPickerProps> = ({
   > = e => {
     const typeButton = e.currentTarget.getAttribute('data-type') as Buttons;
     if (typeButton === Buttons.SUP && count === max) {
-      return setError(`There are only ${max} items in stock.`);
+      setError(`There are only ${max} items in stock.`);
+      setErrorToNull();
+      return;
     } else if (typeButton === Buttons.SUB && count - 1 < 1) {
-      return setError('At least 1 item has to be to add to cart.');
+      setError('At least 1 item has to be to add to cart.');
+      setErrorToNull();
+      return;
     }
-    setError(null);
     onSetCountByStep(typeButton);
   };
 
@@ -84,7 +79,6 @@ export const CountPicker: FC<CountPickerProps> = ({
         className="count__input"
         value={count}
         onChange={setCountHandler}
-        onBlur={onBlurHandler}
       />
       <div>
         <button
