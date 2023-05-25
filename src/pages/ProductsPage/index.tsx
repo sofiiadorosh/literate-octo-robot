@@ -127,7 +127,7 @@ const ProductsPage: FC = () => {
           <button
             type="button"
             onClick={openSidebarHandler}
-            className="secondary-button filter-button"
+            className="filter-button"
           >
             <BiFilterAlt size={20} />
             <span>Filters</span>

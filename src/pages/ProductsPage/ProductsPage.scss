@@ -59,6 +59,7 @@
 }
 
 .filter-button {
+  @extend %secondary-button;
   @media screen and (min-width: 1024px) {
     display: none;
   }

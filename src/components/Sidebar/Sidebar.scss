@@ -59,8 +59,13 @@
 }
 
 .close-button {
+  @extend %secondary-button;
   position: absolute;
   top: 16px;
   right: 20px;
   width: 94px;
+
+  @media screen and (min-width: 1024px) {
+    display: none;
+  }
 }

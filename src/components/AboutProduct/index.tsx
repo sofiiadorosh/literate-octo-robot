@@ -6,14 +6,10 @@ import { CountPicker } from '@components/CountPicker';
 import { Stars } from '@components/Stars';
 import { useAppSelector } from '@hooks';
 import { selectProductDetails } from '@store/productDetails/selectors';
+import { ButtonNames } from '@types';
 import { getNewPrice } from '@utils';
 
 import './AboutProduct.scss';
-
-export enum Buttons {
-  'SUP' = 'sup',
-  'SUB' = 'sub',
-}
 
 export const AboutProduct: FC = () => {
   const selectedProduct = useAppSelector(selectProductDetails);
@@ -39,13 +35,27 @@ export const AboutProduct: FC = () => {
     price,
     reviews,
   } = selectedProduct;
+
+  const description = {
+    Country: country,
+    Size: sizes.join(', '),
+    Category: category,
+    Units: units.join(', '),
+    Stock: stock ? 'In stock' : 'Out of stock',
+    Delivery: `in ${deliveryTime} days`,
+    Color: color,
+    'Delivery area': deliveryArea,
+  };
+
   const maxQuantity = parseInt(stock);
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
 
-  const getTotalPrice = () => {
+  const getTotalPrice = (price: number) => Number(price * count).toFixed(2);
+
+  const getNewTotalPrice = () => {
     const newPrice = getNewPrice(price[unit], discount);
-    return Number(newPrice * count).toFixed(2);
+    return getTotalPrice(newPrice);
   };
 
   const setUnitHandler = (unit: string) => {
@@ -56,10 +66,10 @@ export const AboutProduct: FC = () => {
     setCount(count);
   };
 
-  const setNextCountHandler = (typeButton: Buttons) => {
-    if (typeButton === Buttons.SUP) {
+  const setNextCountHandler = (typeButton: ButtonNames) => {
+    if (typeButton === ButtonNames.SUP) {
       setCount(prevState => prevState + 1);
-    } else if (typeButton === Buttons.SUB) {
+    } else if (typeButton === ButtonNames.SUB) {
       setCount(prevState => prevState - 1);
     }
   };
@@ -91,47 +101,24 @@ export const AboutProduct: FC = () => {
         </div>
         <p className="details__description">{overview}</p>
         <ul className="details__list">
-          <li className="details__item">
-            <span className="details__item_color_grey">Country:</span>
-            <span>{country}</span>
-          </li>
-          <li className="details__item">
-            <span className="details__item_color_grey">Size:</span>
-            <span>{sizes.join(', ')}</span>
-          </li>
-          <li className="details__item">
-            <span className="details__item_color_grey">Category:</span>
-            <span>{category}</span>
-          </li>
-          <li className="details__item">
-            <span className="details__item_color_grey">Buy by:</span>
-            <span>{units.join(', ')}</span>
-          </li>
-          <li className="details__item">
-            <span className="details__item_color_grey">Stock:</span>
-            <span>{maxQuantity ? 'In stock' : 'Unavailable'}</span>
-          </li>
-          <li className="details__item">
-            <span className="details__item_color_grey">Delivery:</span>
-            <span>in {deliveryTime} days</span>
-          </li>
-          {color && (
-            <li className="details__item">
-              <span className="details__item_color_grey">Color:</span>
-              <span>{color}</span>
-            </li>
-          )}
-          <li className="details__item">
-            <span className="details__item_color_grey">Delivery area</span>
-            <span>{deliveryArea}</span>
-          </li>
+          {Object.entries(description).map(([key, value]) => {
+            if (key === 'Color' && !value) {
+              return null;
+            }
+            return (
+              <li key={key} className="details__item">
+                <span className="details__item_color_grey">{key}:</span>
+                <span>{value}</span>
+              </li>
+            );
+          })}
         </ul>
         <div>
           <div className="details__price-info">
             <div className="details__price">
-              <span>{getTotalPrice()} USD</span>
+              <span>{getNewTotalPrice()} USD</span>
               <span className="details__price_old">
-                {(price[unit] * count).toFixed(2)} USD
+                {getTotalPrice(price[unit])} USD
               </span>
             </div>
             <div className="details__control-wrapper">

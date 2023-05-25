@@ -70,7 +70,7 @@ export const Pagination: FC<PaginationProps> = ({
     if (pages <= 5) {
       for (let i = 1; i <= pages; i++) {
         pageNumbers.push(
-          <div
+          <li
             key={i}
             onClick={() => setPageHandler(i)}
             className={
@@ -80,14 +80,14 @@ export const Pagination: FC<PaginationProps> = ({
             }
           >
             {i}
-          </div>
+          </li>
         );
       }
     } else {
       if (selectedPage <= 3) {
         for (let i = 1; i <= 4; i++) {
           pageNumbers.push(
-            <div
+            <li
               key={i}
               onClick={() => setPageHandler(i)}
               className={
@@ -97,19 +97,19 @@ export const Pagination: FC<PaginationProps> = ({
               }
             >
               {i}
-            </div>
+            </li>
           );
         }
         pageNumbers.push(
-          <div
+          <li
             key="elleipsis-left"
             className="page-list__item page-list__item_ellipsis"
           >
             ...
-          </div>
+          </li>
         );
         pageNumbers.push(
-          <div
+          <li
             key={pages}
             onClick={() => setPageHandler(pages)}
             className={
@@ -119,11 +119,11 @@ export const Pagination: FC<PaginationProps> = ({
             }
           >
             {pages}
-          </div>
+          </li>
         );
       } else if (selectedPage > pages - 3) {
         pageNumbers.push(
-          <div
+          <li
             key={1}
             onClick={() => setPageHandler(1)}
             className={
@@ -133,19 +133,19 @@ export const Pagination: FC<PaginationProps> = ({
             }
           >
             1
-          </div>
+          </li>
         );
         pageNumbers.push(
-          <div
+          <li
             key="ellipsis-right"
             className="page-list__item page-list__item_ellipsis"
           >
             ...
-          </div>
+          </li>
         );
         for (let i = pages - 3; i <= pages; i++) {
           pageNumbers.push(
-            <div
+            <li
               key={i}
               onClick={() => setPageHandler(i)}
               className={
@@ -155,12 +155,12 @@ export const Pagination: FC<PaginationProps> = ({
               }
             >
               {i}
-            </div>
+            </li>
           );
         }
       } else {
         pageNumbers.push(
-          <div
+          <li
             key={1}
             onClick={() => setPageHandler(1)}
             className={
@@ -170,19 +170,19 @@ export const Pagination: FC<PaginationProps> = ({
             }
           >
             1
-          </div>
+          </li>
         );
         pageNumbers.push(
-          <div
+          <li
             key="ellipsis-left"
             className="page-list__item page-list__item_ellipsis"
           >
             ...
-          </div>
+          </li>
         );
         for (let i = selectedPage - 1; i <= selectedPage + 1; i++) {
           pageNumbers.push(
-            <div
+            <li
               key={i}
               onClick={() => setPageHandler(i)}
               className={
@@ -192,19 +192,19 @@ export const Pagination: FC<PaginationProps> = ({
               }
             >
               {i}
-            </div>
+            </li>
           );
         }
         pageNumbers.push(
-          <div
+          <li
             key="ellipsis-right"
             className="page-list__item page-list__item_ellipsis"
           >
             ...
-          </div>
+          </li>
         );
         pageNumbers.push(
-          <div
+          <li
             key={pages}
             onClick={() => setPageHandler(pages)}
             className={
@@ -214,7 +214,7 @@ export const Pagination: FC<PaginationProps> = ({
             }
           >
             {pages}
-          </div>
+          </li>
         );
       }
     }
@@ -236,7 +236,7 @@ export const Pagination: FC<PaginationProps> = ({
             >
               <Arrow className="arrow-button__icon arrow-button__left" />
             </button>
-            {renderPageNumbers()}
+            <ul className="page__list">{renderPageNumbers()}</ul>
             <button
               type="button"
               disabled={selectedPage === pages}

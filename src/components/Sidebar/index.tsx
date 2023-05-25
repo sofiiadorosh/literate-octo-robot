@@ -45,7 +45,7 @@ export const Sidebar = forwardRef(function Sidebar(
         <button
           type="button"
           onClick={() => closeSidebarHandler(ref)}
-          className="secondary-button filter-button close-button"
+          className="close-button"
         >
           <IoMdClose size={20} />
           <span>Close</span>

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
-import { Buttons } from '@components/AboutProduct';
+import { ButtonNames } from '@types';
 
 import './CountPicker.scss';
 
@@ -10,7 +10,7 @@ type CountPickerProps = {
   max: number;
   count: number;
   unit: string;
-  onSetCountByStep: (type: Buttons) => void;
+  onSetCountByStep: (type: ButtonNames) => void;
   onSetCountByValue: (count: number) => void;
   onSetUnit: (unit: string) => void;
 };
@@ -55,12 +55,12 @@ export const CountPicker: FC<CountPickerProps> = ({
   const onButtonClickHandler: React.MouseEventHandler<
     HTMLButtonElement
   > = e => {
-    const typeButton = e.currentTarget.getAttribute('data-type') as Buttons;
-    if (typeButton === Buttons.SUP && count === max) {
+    const typeButton = e.currentTarget.getAttribute('data-type') as ButtonNames;
+    if (typeButton === ButtonNames.SUP && count === max) {
       setError(`There are only ${max} items in stock.`);
       setErrorToNull();
       return;
-    } else if (typeButton === Buttons.SUB && count - 1 < 1) {
+    } else if (typeButton === ButtonNames.SUB && count - 1 < 1) {
       setError('At least 1 item has to be to add to cart.');
       setErrorToNull();
       return;
@@ -84,7 +84,7 @@ export const CountPicker: FC<CountPickerProps> = ({
         <button
           type="button"
           className="count__button"
-          data-type={Buttons.SUP}
+          data-type={ButtonNames.SUP}
           onClick={onButtonClickHandler}
         >
           <Arrow className="count__icon count__icon_sup" />
@@ -92,7 +92,7 @@ export const CountPicker: FC<CountPickerProps> = ({
         <button
           type="button"
           className="count__button"
-          data-type={Buttons.SUB}
+          data-type={ButtonNames.SUB}
           onClick={onButtonClickHandler}
         >
           <Arrow className="count__icon count__icon_sub" />

@@ -20,8 +20,8 @@ export const selectIsLoading = (state: RootState) => state.products.isLoading;
 export const selectError = (state: RootState) => state.products.error;
 
 export const selectPrices = createSelector([selectProducts], products => {
-  let min = getNewPrice(products[0].price.pcs, products[0].discount);
-  let max = getNewPrice(products[0].price.pcs, products[0].discount);
+  let min = 0;
+  let max = 0;
 
   products.forEach(product => {
     const newPrice = getNewPrice(product.price.pcs, product.discount);
