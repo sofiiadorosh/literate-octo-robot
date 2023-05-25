@@ -42,7 +42,7 @@ export const CountPicker: FC<CountPickerProps> = ({
     } else if (!count) {
       setError('At least 1 item has to be to add to cart.');
       setErrorToNull();
-    } else {
+    } else if (count < 0) {
       return;
     }
     onSetCountByValue(count);
