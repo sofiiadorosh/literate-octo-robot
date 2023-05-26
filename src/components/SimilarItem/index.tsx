@@ -25,7 +25,7 @@ export const SimilarItem: FC<SimilarItemProps> = ({
       <div className="similar__info">
         <h3 className="similar__name">
           <NavLink to={`/products/${id}`} className="similar__name-link">
-            {title}
+            {title.length > 28 ? `${title.substring(0, 28)}...` : title}
           </NavLink>
         </h3>
         <p className="similar__description">{overview.substring(0, 50)}...</p>
