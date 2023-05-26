@@ -3,3 +3,7 @@ export * from './categories';
 export * from './price';
 export * from './sort';
 export * from './button';
+export * from './tab';
+export * from './question';
+export * from './review';
+export * from './description';

@@ -207,4 +207,25 @@
     height: 16px;
     stroke: currentColor;
   }
+  &__tab {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  &__tab-text {
+    height: 240px;
+    padding: 12px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $primary-grey;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $accent;
+    }
+  }
 }

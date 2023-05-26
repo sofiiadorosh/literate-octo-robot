@@ -1,0 +1,25 @@
+@import '@styles/shared.scss';
+
+.description {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+  }
+
+  &__title {
+    font-family: $secondary-font-stack;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+}

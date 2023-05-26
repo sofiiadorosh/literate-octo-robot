@@ -1,0 +1,46 @@
+@import '@styles/shared.scss';
+
+.question {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__part {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+
+    &_bold {
+      font-family: $secondary-font-stack;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 1.47;
+    }
+
+    &:first-child {
+      color: $accent;
+    }
+
+    &:last-child {
+      background-color: $secondary-dark-white;
+      border: 1px solid $primary-grey;
+      border-radius: 12px;
+    }
+
+    &_question {
+      color: $primary-dark;
+    }
+  }
+}
