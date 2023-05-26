@@ -4,21 +4,9 @@ import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { SimilarItem } from '@components/SimilarItem';
 import { useWindowSize } from '@hooks';
 import { Product } from '@types';
+import { calculateLastIndex, isMobile, isTablet, isDesktop } from '@utils';
 
 import './SimilarList.scss';
-
-enum ScreenWidth {
-  'MOBILE' = 644,
-  'TABLET' = 927,
-  'DESKTOP' = 1200,
-}
-
-enum ItemsPerPage {
-  'MOBILE_S' = 1,
-  'MOBILE_M' = 2,
-  'TABLET' = 3,
-  'DESKTOP' = 4,
-}
 
 type SimilarListProps = {
   items: Product[];
@@ -28,31 +16,13 @@ export const SimilarList: FC<SimilarListProps> = ({ items }) => {
   const [width] = useWindowSize();
   const sliderRef = useRef<HTMLUListElement>(null);
 
-  const calculateLastIndex = () => {
-    let index = 0;
-    if (width < ScreenWidth.MOBILE) {
-      index = items.length - ItemsPerPage.MOBILE_S;
-    } else if (width >= ScreenWidth.MOBILE && width < ScreenWidth.TABLET) {
-      const prevIndex = getLastIndex(items.length, ItemsPerPage.MOBILE_M);
-      index = prevIndex <= 0 ? index : prevIndex;
-    } else if (width >= ScreenWidth.TABLET && width < ScreenWidth.DESKTOP) {
-      const prevIndex = getLastIndex(items.length, ItemsPerPage.TABLET);
-      index = prevIndex <= 0 ? index : prevIndex;
-    } else {
-      const prevIndex = getLastIndex(items.length, ItemsPerPage.DESKTOP);
-      index = prevIndex <= 0 ? index : prevIndex;
-    }
-    return index;
-  };
-
-  const getLastIndex = (items: number, itemsPerPage: ItemsPerPage) =>
-    items - itemsPerPage;
-
   const [activeIndex, setActiveIndex] = useState(0);
-  const [lastIndex, setLastIndex] = useState<number>(calculateLastIndex());
+  const [lastIndex, setLastIndex] = useState<number>(
+    calculateLastIndex(items.length, width)
+  );
 
   useEffect(() => {
-    const index = calculateLastIndex();
+    const index = calculateLastIndex(items.length, width);
     setLastIndex(index);
     if (activeIndex > index) {
       setActiveIndex(index);
@@ -61,27 +31,32 @@ export const SimilarList: FC<SimilarListProps> = ({ items }) => {
 
   useEffect(() => {
     if (sliderRef.current) {
-      if (width < ScreenWidth.MOBILE) {
-        sliderRef.current.style.transform = `translateX(-${
-          activeIndex * 100
-        }%)`;
-      } else if (width >= ScreenWidth.MOBILE && width < ScreenWidth.TABLET) {
-        sliderRef.current.style.transform = `translateX(-${activeIndex * 50}%)`;
-      } else if (width >= ScreenWidth.TABLET && width < ScreenWidth.DESKTOP) {
-        sliderRef.current.style.transform = `translateX(-${activeIndex * 34}%)`;
+      if (isMobile(width)) {
+        setTranslateValue(100);
+      } else if (isTablet(width)) {
+        setTranslateValue(50);
+      } else if (isDesktop(width)) {
+        setTranslateValue(34);
       } else {
-        sliderRef.current.style.transform = `translateX(-${activeIndex * 25}%)`;
+        setTranslateValue(25);
       }
     }
   }, [activeIndex, width]);
 
+  const setTranslateValue = (value: number) => {
+    if (sliderRef.current) {
+      sliderRef.current.style.transform = `translateX(-${
+        activeIndex * value
+      }%)`;
+    }
+  };
+
   const updateIndex = (newIndex: number) => {
-    if (newIndex)
-      if (newIndex < 0) {
-        newIndex = 0;
-      } else if (newIndex >= items.length) {
-        newIndex = items.length - 1;
-      }
+    if (newIndex < 0) {
+      newIndex = 0;
+    } else if (newIndex >= items.length) {
+      newIndex = items.length - 1;
+    }
     setActiveIndex(newIndex);
   };
   return (
