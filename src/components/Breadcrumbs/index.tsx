@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '@hooks';
-import { selectProductDetails } from '@store/products/selectors';
+import { selectProductDetails } from '@store/productDetails/selectors';
 
 import './Breadcrumbs.scss';
 

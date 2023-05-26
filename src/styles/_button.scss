@@ -1,6 +1,6 @@
 @import './placeholders';
 
-.primary-button {
+%primary-button {
   @extend %button;
   width: 164px;
   height: 47px;
@@ -14,7 +14,7 @@
   }
 }
 
-.secondary-button {
+%secondary-button {
   @extend %button;
   padding: 6.5px 12px;
   font-family: $secondary-font-stack;

@@ -224,29 +224,31 @@ export const Pagination: FC<PaginationProps> = ({
 
   return (
     <div className="pagination">
-      <div className="pagination__page">
-        <span className="page__title">Page:</span>
-        <ul className="page__list">
-          <button
-            type="button"
-            disabled={selectedPage === 1}
-            className="arrow-button"
-            onClick={() => setPageHandler(prevPage)}
-          >
-            <Arrow className="arrow-button__icon arrow-button__left" />
-          </button>
-          {renderPageNumbers()}
-          <button
-            type="button"
-            disabled={selectedPage === pages}
-            className="arrow-button"
-            onClick={() => setPageHandler(nextPage)}
-          >
-            <Arrow className="arrow-button__icon arrow-button__right" />
-          </button>
-        </ul>
-      </div>
-      {(selectedPage !== pages || isVisible) && (
+      {Boolean(visibleProducts.length) && (
+        <div className="pagination__page">
+          <span className="page__title">Page:</span>
+          <div className="page__list">
+            <button
+              type="button"
+              disabled={selectedPage === 1}
+              className="arrow-button"
+              onClick={() => setPageHandler(prevPage)}
+            >
+              <Arrow className="arrow-button__icon arrow-button__left" />
+            </button>
+            <ul className="page__list">{renderPageNumbers()}</ul>
+            <button
+              type="button"
+              disabled={selectedPage === pages}
+              className="arrow-button"
+              onClick={() => setPageHandler(nextPage)}
+            >
+              <Arrow className="arrow-button__icon arrow-button__right" />
+            </button>
+          </div>
+        </div>
+      )}
+      {selectedPage !== pages && isVisible && visibleProducts.length && (
         <button
           type="button"
           className="pagination-button"
