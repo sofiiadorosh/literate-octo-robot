@@ -74,6 +74,22 @@ export const AboutProduct: FC = () => {
     }
   };
 
+  const getDescriptionItems = (): JSX.Element[] => {
+    const descriptionItems: JSX.Element[] = [];
+    Object.entries(description).forEach(([key, value]) => {
+      if (key === 'Color' && !value) {
+        return;
+      }
+      descriptionItems.push(
+        <li key={key} className="details__item">
+          <span className="details__item_color_grey">{key}:</span>
+          <span>{value}</span>
+        </li>
+      );
+    });
+    return descriptionItems;
+  };
+
   return (
     <div className="details">
       <div className="details__appearance">
@@ -100,19 +116,7 @@ export const AboutProduct: FC = () => {
           </div>
         </div>
         <p className="details__description">{overview}</p>
-        <ul className="details__list">
-          {Object.entries(description).map(([key, value]) => {
-            if (key === 'Color' && !value) {
-              return null;
-            }
-            return (
-              <li key={key} className="details__item">
-                <span className="details__item_color_grey">{key}:</span>
-                <span>{value}</span>
-              </li>
-            );
-          })}
-        </ul>
+        <ul className="details__list">{getDescriptionItems()}</ul>
         <div>
           <div className="details__price-info">
             <div className="details__price">
