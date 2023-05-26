@@ -10,14 +10,14 @@ import './SimilarList.scss';
 enum ScreenWidth {
   'MOBILE' = 644,
   'TABLET' = 927,
-  'DESCKTOP' = 1200,
+  'DESKTOP' = 1200,
 }
 
 enum ItemsPerPage {
   'MOBILE_S' = 1,
   'MOBILE_M' = 2,
   'TABLET' = 3,
-  'DESCKTOP' = 4,
+  'DESKTOP' = 4,
 }
 
 type SimilarListProps = {
@@ -35,11 +35,11 @@ export const SimilarList: FC<SimilarListProps> = ({ items }) => {
     } else if (width >= ScreenWidth.MOBILE && width < ScreenWidth.TABLET) {
       const prevIndex = getLastIndex(items.length, ItemsPerPage.MOBILE_M);
       index = prevIndex <= 0 ? index : prevIndex;
-    } else if (width >= ScreenWidth.TABLET && width < ScreenWidth.DESCKTOP) {
+    } else if (width >= ScreenWidth.TABLET && width < ScreenWidth.DESKTOP) {
       const prevIndex = getLastIndex(items.length, ItemsPerPage.TABLET);
       index = prevIndex <= 0 ? index : prevIndex;
     } else {
-      const prevIndex = getLastIndex(items.length, ItemsPerPage.DESCKTOP);
+      const prevIndex = getLastIndex(items.length, ItemsPerPage.DESKTOP);
       index = prevIndex <= 0 ? index : prevIndex;
     }
     return index;
@@ -63,7 +63,7 @@ export const SimilarList: FC<SimilarListProps> = ({ items }) => {
         }%)`;
       } else if (width >= ScreenWidth.MOBILE && width < ScreenWidth.TABLET) {
         sliderRef.current.style.transform = `translateX(-${activeIndex * 50}%)`;
-      } else if (width >= ScreenWidth.TABLET && width < ScreenWidth.DESCKTOP) {
+      } else if (width >= ScreenWidth.TABLET && width < ScreenWidth.DESKTOP) {
         sliderRef.current.style.transform = `translateX(-${activeIndex * 34}%)`;
       } else {
         sliderRef.current.style.transform = `translateX(-${activeIndex * 25}%)`;
