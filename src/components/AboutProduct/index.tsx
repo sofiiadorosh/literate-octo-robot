@@ -163,18 +163,20 @@ export const AboutProduct: FC = () => {
             <span>Add to my wish list</span>
           </button>
         </div>
-        <TabsList
-          activeTab={selectedTab}
-          onSetTab={setTab}
-          reviews={reviews}
-          questions={questions}
-        />
-        <div className="details__tab" ref={tabRef}>
-          {selectedTab === Tabs.DESCRIPTION && (
-            <ProductDescription items={productDescr} />
-          )}
-          {selectedTab === Tabs.REVIEWS && <Reviews items={reviews} />}
-          {selectedTab === Tabs.QUESTIONS && <Questions items={questions} />}
+        <div className="details__tab">
+          <TabsList
+            activeTab={selectedTab}
+            onSetTab={setTab}
+            reviews={reviews}
+            questions={questions}
+          />
+          <div className="details__tab-text" ref={tabRef}>
+            {selectedTab === Tabs.DESCRIPTION && (
+              <ProductDescription items={productDescr} />
+            )}
+            {selectedTab === Tabs.REVIEWS && <Reviews items={reviews} />}
+            {selectedTab === Tabs.QUESTIONS && <Questions items={questions} />}
+          </div>
         </div>
       </div>
     </div>
