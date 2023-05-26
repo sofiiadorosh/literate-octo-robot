@@ -1,12 +1,16 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
 import { CountPicker } from '@components/CountPicker';
+import { ProductDescription } from '@components/ProductDescription';
+import { Questions } from '@components/Questions';
+import { Reviews } from '@components/Reviews';
 import { Stars } from '@components/Stars';
+import { TabsList } from '@components/TabList';
 import { useAppSelector } from '@hooks';
 import { selectProductDetails } from '@store/productDetails/selectors';
-import { ButtonNames } from '@types';
+import { ButtonNames, Tabs } from '@types';
 import { getNewPrice } from '@utils';
 
 import './AboutProduct.scss';
@@ -34,8 +38,9 @@ export const AboutProduct: FC = () => {
     discount,
     price,
     reviews,
+    questions,
+    description: productDescr,
   } = selectedProduct;
-
   const description = {
     Country: country,
     Size: sizes.join(', '),
@@ -46,10 +51,18 @@ export const AboutProduct: FC = () => {
     Color: color,
     'Delivery area': deliveryArea,
   };
-
   const maxQuantity = parseInt(stock);
+  const tabRef = useRef<HTMLDivElement>(null);
+
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
+  const [selectedTab, setSelectedTab] = useState(Tabs.DESCRIPTION);
+
+  useEffect(() => {
+    if (tabRef.current) {
+      tabRef.current.scrollTo(0, 0);
+    }
+  }, [selectedTab]);
 
   const getTotalPrice = (price: number) => Number(price * count).toFixed(2);
 
@@ -88,6 +101,10 @@ export const AboutProduct: FC = () => {
       );
     });
     return descriptionItems;
+  };
+
+  const setTab = (tab: Tabs) => {
+    setSelectedTab(tab);
   };
 
   return (
@@ -145,6 +162,19 @@ export const AboutProduct: FC = () => {
             <Heart className="details__wish-icon" />
             <span>Add to my wish list</span>
           </button>
+        </div>
+        <TabsList
+          activeTab={selectedTab}
+          onSetTab={setTab}
+          reviews={reviews}
+          questions={questions}
+        />
+        <div className="details__tab" ref={tabRef}>
+          {selectedTab === Tabs.DESCRIPTION && (
+            <ProductDescription items={productDescr} />
+          )}
+          {selectedTab === Tabs.REVIEWS && <Reviews items={reviews} />}
+          {selectedTab === Tabs.QUESTIONS && <Questions items={questions} />}
         </div>
       </div>
     </div>

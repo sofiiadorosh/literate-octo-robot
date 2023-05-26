@@ -1,0 +1,40 @@
+@import '@styles/shared.scss';
+
+.review {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    letter-spacing: 0.01em;
+    color: $yellow;
+  }
+
+  &__user {
+    color: $accent;
+  }
+
+  &__title {
+    font-family: $secondary-font-stack;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.47;
+    color: $primary-dark;
+  }
+
+  &__text {
+    padding: 8px;
+    color: $primary-dark;
+    background-color: $secondary-dark-white;
+    border: 1px solid $primary-grey;
+    border-radius: 12px;
+  }
+}
