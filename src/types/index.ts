@@ -7,3 +7,4 @@ export * from './tab';
 export * from './question';
 export * from './review';
 export * from './description';
+export * from './carousel';
