@@ -1,0 +1,89 @@
+@import '@styles/shared.scss';
+
+.similar {
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    font-family: $secondary-font-stack;
+
+    @media screen and (min-width: 525px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.47;
+    background-color: transparent;
+  }
+
+  &__arrow {
+    @extend %button;
+
+    &:disabled {
+      cursor: auto;
+    }
+  }
+
+  &__arrow-icon {
+    width: 16px;
+    height: 16px;
+    stroke: $accent;
+
+    &_left {
+      transform: rotateZ(90deg);
+    }
+
+    &_right {
+      transform: rotateZ(-90deg);
+    }
+
+    .similar__arrow:disabled & {
+      stroke: $primary-grey;
+    }
+  }
+
+  &__carousel {
+    width: 251px;
+    margin: 0 auto;
+    overflow: hidden;
+    @media screen and (min-width: 644px) {
+      width: 558px;
+    }
+    @media screen and (min-width: 927px) {
+      width: 827px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 1140px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    transform: translateX(0%);
+    transition: transform 300ms $timing-function;
+    @media screen and (min-width: 644px) {
+      gap: 32px;
+    }
+    @media screen and (min-width: 1200px) {
+      padding: 0 20px;
+    }
+  }
+}

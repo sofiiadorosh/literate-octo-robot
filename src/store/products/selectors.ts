@@ -8,6 +8,7 @@ import {
   selectPrice,
   selectSort,
 } from '@store/filters/selectors';
+import { selectProductDetails } from '@store/productDetails/selectors';
 import { SortingFilters } from '@types';
 import { getNewPrice } from '@utils';
 
@@ -113,5 +114,16 @@ export const selectVisibleProducts = createSelector(
         visibleProducts;
     }
     return visibleProducts;
+  }
+);
+
+export const selectProductsByCategory = createSelector(
+  [selectProducts, selectProductDetails],
+  (products, selectedProduct) => {
+    return products.filter(
+      ({ id, category }) =>
+        category.toLowerCase() === selectedProduct?.category.toLowerCase() &&
+        id !== selectedProduct.id
+    );
   }
 );
