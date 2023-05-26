@@ -78,7 +78,8 @@
     justify-content: flex-start;
     width: 100%;
     transform: translateX(0%);
-    transition: transform 300ms $timing-function;
+    scroll-behavior: smooth;
+    transition: transform 1000ms $timing-function;
     @media screen and (min-width: 644px) {
       gap: 32px;
     }

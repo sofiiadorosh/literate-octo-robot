@@ -52,7 +52,11 @@ export const SimilarList: FC<SimilarListProps> = ({ items }) => {
   const [lastIndex, setLastIndex] = useState<number>(calculateLastIndex());
 
   useEffect(() => {
-    setLastIndex(calculateLastIndex());
+    const index = calculateLastIndex();
+    setLastIndex(index);
+    if (activeIndex > index) {
+      setActiveIndex(index);
+    }
   }, [activeIndex, width]);
 
   useEffect(() => {
@@ -72,11 +76,12 @@ export const SimilarList: FC<SimilarListProps> = ({ items }) => {
   }, [activeIndex, width]);
 
   const updateIndex = (newIndex: number) => {
-    if (newIndex < 0) {
-      newIndex = 0;
-    } else if (newIndex >= items.length) {
-      newIndex = items.length - 1;
-    }
+    if (newIndex)
+      if (newIndex < 0) {
+        newIndex = 0;
+      } else if (newIndex >= items.length) {
+        newIndex = items.length - 1;
+      }
     setActiveIndex(newIndex);
   };
   return (
