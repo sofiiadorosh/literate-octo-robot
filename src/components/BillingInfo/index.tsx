@@ -49,7 +49,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
       ...baseStyles,
       height: 44,
       padding: '11px 16px 12px 21px',
-      backgroundColor: '#f9f9f9',
+      backgroundColor: state.isDisabled ? '#d1d1d1' : '#f9f9f9',
       borderRadius: 12,
       border: state.menuIsOpen ? '1px solid #6a983c' : '1px solid #d1d1d1',
       boxShadow: 'none',
@@ -124,6 +124,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
 
   useEffect(() => {
     if (countryValue) {
+      setCityOptions([]);
       const cities = allCities.filter(
         city => city.countryCode === countryValue
       );
