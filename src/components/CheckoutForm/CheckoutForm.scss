@@ -1,0 +1,52 @@
+@import '@styles/shared.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    align-items: flex-start;
+    width: 670px;
+  }
+
+  &__title {
+    margin-bottom: 4px;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+  }
+
+  &__description {
+    margin-bottom: 32px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.33;
+    color: $secondary-grey;
+  }
+
+  &__button {
+    @extend %primary-button;
+    width: 218px;
+    height: 56px;
+
+    &:disabled {
+      color: $secondary-grey;
+      background-color: $secondary-dark-white;
+      border-width: 1px;
+      border-color: $primary-grey;
+      cursor: auto;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: translateY(100%);
+    color: $red;
+  }
+}

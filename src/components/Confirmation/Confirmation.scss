@@ -1,0 +1,77 @@
+@import '@styles/shared.scss';
+
+.confirm {
+  width: 100%;
+  &__info {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__field {
+    position: relative;
+  }
+
+  &__label {
+    display: flex;
+    gap: 10px;
+    padding: 11.5px 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    background: $secondary-dark-white;
+    border: 1px solid $primary-grey;
+    border-radius: 12px;
+
+    &:nth-child(1) {
+      @media screen and (min-width: 768px) {
+        width: 578px;
+      }
+    }
+
+    &:nth-child(2) {
+      @media screen and (min-width: 768px) {
+        width: 433px;
+      }
+    }
+
+    &_underlined {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  &__input {
+    @extend %hidden;
+
+    &:checked + .confirm__checkbox {
+      background-color: $accent;
+      border-color: $green;
+    }
+    &:checked + .confirm__checkbox > .confirm__icon {
+      opacity: 1;
+    }
+  }
+
+  &__checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: 1.5px solid $primary-grey;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 250ms $timing-function,
+      border-color 250ms $timing-function;
+  }
+
+  &__icon {
+    stroke: $white;
+    opacity: 0;
+    transition: opacity 250ms $timing-function;
+  }
+}
