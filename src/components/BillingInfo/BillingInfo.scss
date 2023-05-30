@@ -43,6 +43,10 @@
       border-color: $accent;
     }
 
+    &:disabled ~ .billing__label {
+      color: $secondary-grey;
+    }
+
     &::placeholder {
       font-family: $primary-font-stack;
       font-weight: 400;
@@ -51,16 +55,38 @@
       color: $secondary-grey;
     }
 
+    &:not(:placeholder-shown)
+      + .billing__control
+      > .billing__select-button_close {
+      display: block;
+    }
+
     &:disabled + .billing__label {
       color: $secondary-grey;
     }
   }
-}
 
-.select {
-  &__menu-list {
+  &__list {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    transform: translateY(100%);
+    width: 100%;
+    min-height: 40px;
+    max-height: 320px;
+    font-family: $primary-font-stack;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    background-color: $light-green;
+    border: 1px solid $accent;
+    border-radius: 12px;
+    overflow: auto;
+    cursor: pointer;
+    z-index: 1;
+
     &::-webkit-scrollbar {
-      width: 4px;
+      width: 0;
     }
 
     &::-webkit-scrollbar-track {
@@ -70,7 +96,59 @@
       background-color: $accent;
     }
   }
-  &__menu:hover .select__control {
-    border: 1px solid $accent;
+
+  &__item {
+    padding: 10px 12px;
+    border-bottom: 1px dashed $accent;
+
+    &:hover {
+      color: $white;
+      background-color: $accent;
+      border-color: $white;
+    }
+  }
+
+  &__control {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__select-button {
+    @extend %button;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    color: $primary-dark;
+    border-radius: 50%;
+    transition: background-color 250ms $timing-function;
+
+    &_close {
+      display: none;
+    }
+
+    &:disabled {
+      color: $secondary-grey;
+      cursor: auto;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: $primary-grey;
+    }
+  }
+
+  &__select-icon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+  }
+
+  &__divider {
+    width: 1px;
+    height: 20px;
+    background-color: $primary-grey;
   }
 }

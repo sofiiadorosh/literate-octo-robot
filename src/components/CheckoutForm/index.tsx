@@ -19,22 +19,33 @@ const schema = z.object({
     .nonempty('This field is required')
     .email('Invalid email format.'),
   phone: z.string().nonempty('This field is required.'),
-  address: z.object({
-    country: z.string().nonempty('This field is required.'),
-    town: z.string().nonempty('This field is required.'),
-    apartment: z.string().nonempty('This field is required.'),
-    zip: z.string().nonempty('This field is required.'),
-  }),
+  country: z.string().nonempty('This field is required.'),
+  city: z.string().nonempty('This field is required.'),
+  apartment: z.string().nonempty('This field is required.'),
+  zip: z.string().nonempty('This field is required.'),
+
   notes: z.string().optional(),
-  confirmation: z.object({
-    sending: z.boolean().refine(value => value, {
-      message: 'This field must be checked.',
-    }),
-    agreement: z.boolean().refine(value => value, {
-      message: 'This field must be checked.',
-    }),
+  sending: z.boolean().refine(value => value, {
+    message: 'This field must be checked.',
+  }),
+  agreement: z.boolean().refine(value => value, {
+    message: 'This field must be checked.',
   }),
 });
+
+const defaultValues = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  apartment: '',
+  city: '',
+  country: '',
+  zip: '',
+  notes: '',
+  sending: false,
+  agreement: false,
+};
 
 export const CheckoutForm: FC = () => {
   const {
@@ -45,30 +56,14 @@ export const CheckoutForm: FC = () => {
     watch,
     reset,
   } = useForm<FormValues>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      address: {
-        apartment: '',
-        town: '',
-        country: '',
-        zip: '',
-      },
-      notes: '',
-      confirmation: {
-        sending: false,
-        agreement: false,
-      },
-    },
+    defaultValues,
     resolver: zodResolver(schema),
     mode: 'onTouched',
   });
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset();
+      reset(defaultValues);
     }
   }, [isSubmitSuccessful, reset]);
 

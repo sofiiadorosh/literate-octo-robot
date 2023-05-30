@@ -1,0 +1,173 @@
+import React, { FC, useState, useEffect, useRef } from 'react';
+import {
+  FieldErrors,
+  UseFormRegister,
+  useController,
+  Control,
+} from 'react-hook-form';
+
+import { ReactComponent as Close } from '@assets/close.svg';
+import { ReactComponent as TopBottom } from '@assets/top-bottom.svg';
+import { FormValues, OptionType } from '@types';
+
+type InputControllerProps = {
+  name: keyof FormValues;
+  label: string;
+  placeholder: string;
+  options: OptionType[];
+  register: UseFormRegister<FormValues>;
+  errors: FieldErrors<FormValues>;
+  control: Control<FormValues>;
+  onSetCountry?: (selectedOption: string) => void;
+  watch?: (name: string) => string;
+};
+
+export const InputController: FC<InputControllerProps> = ({
+  name,
+  label,
+  placeholder,
+  errors,
+  options,
+  onSetCountry,
+  watch,
+  control,
+}) => {
+  const {
+    field: { value, onChange },
+  } = useController({
+    name,
+    control,
+  });
+
+  const {
+    field: { onChange: onCityChange },
+  } = useController({
+    name: 'city',
+    control,
+  });
+
+  const menuRef = useRef<HTMLUListElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const [filteredOptions, setFilteredOptions] = useState(options);
+  const [inputValue, setInputValue] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const setOptionHandler = (option: string) => {
+    onChange(option);
+    setMenuOpen(false);
+  };
+
+  const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.currentTarget;
+    setInputValue(value);
+    onChange(value);
+  };
+
+  const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () =>
+    setMenuOpen(true);
+
+  const onClearInputHandler = () => onChange('');
+
+  const onOpenMenuHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setMenuOpen(true);
+  };
+
+  useEffect(() => {
+    const updatedOptions = options.filter(option =>
+      option.value
+        .trim()
+        .toLowerCase()
+        .includes(inputValue.trim().toLowerCase())
+    );
+    setFilteredOptions(updatedOptions);
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (!value) {
+      onCityChange('');
+    }
+  }, [value]);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target as Node) &&
+      event.target !== inputRef.current
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="billing__field">
+      <input
+        id={name}
+        disabled={watch && !watch('country')}
+        type="text"
+        value={String(value)}
+        placeholder={placeholder}
+        className="billing__input"
+        ref={inputRef}
+        onChange={onInputChangeHandler}
+        onFocus={onFocusHandler}
+      />
+      <div className="billing__control">
+        <button
+          type="button"
+          onClick={onClearInputHandler}
+          className="billing__select-button billing__select-button_close"
+        >
+          <Close className="billing__select-icon" />
+        </button>
+        <div className="billing__divider"></div>
+        <button
+          type="button"
+          disabled={watch && !watch('country')}
+          onClick={onOpenMenuHandler}
+          className="billing__select-button"
+        >
+          <TopBottom className="billing__select-icon" />
+        </button>
+      </div>
+      {menuOpen && (
+        <ul className="billing__list" ref={menuRef}>
+          {!filteredOptions.length ? (
+            <li className="billing__input">No options...</li>
+          ) : (
+            filteredOptions.map(option => (
+              <li
+                key={`${option.latitude}-${option.value}`}
+                className="billing__item"
+                onClick={() => {
+                  if (option.code && onSetCountry) {
+                    onSetCountry(option.code);
+                  }
+                  setOptionHandler(option.value);
+                }}
+              >
+                {option.value}
+              </li>
+            ))
+          )}
+        </ul>
+      )}
+      <label htmlFor={name} className="billing__label">
+        {label}
+      </label>
+      {errors[name] && (
+        <p role="alert" className="form__error">
+          {errors[name]?.message}
+        </p>
+      )}
+    </div>
+  );
+};

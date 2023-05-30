@@ -32,8 +32,8 @@ export const Confirmation: FC<ConfirmationProps> = ({
               id="sending"
               type="checkbox"
               className="confirm__input"
-              {...register('confirmation.sending')}
-              defaultChecked={watch('confirmation.sending')}
+              {...register('sending')}
+              defaultChecked={watch('sending')}
             />
             <span className="confirm__checkbox">
               <Check className="confirm__icon" />
@@ -43,9 +43,9 @@ export const Confirmation: FC<ConfirmationProps> = ({
               promissed!
             </span>
           </label>
-          {errors.confirmation && errors.confirmation.sending && (
+          {errors.sending && (
             <p role="alert" className="form__error">
-              {errors.confirmation.sending.message}
+              {errors.sending.message}
             </p>
           )}
         </div>
@@ -55,8 +55,8 @@ export const Confirmation: FC<ConfirmationProps> = ({
               id="agreement"
               type="checkbox"
               className="confirm__input"
-              {...register('confirmation.agreement')}
-              defaultChecked={watch('confirmation.agreement')}
+              {...register('agreement')}
+              defaultChecked={watch('agreement')}
             />
             <span className="confirm__checkbox">
               <Check className="confirm__icon" />
@@ -70,9 +70,9 @@ export const Confirmation: FC<ConfirmationProps> = ({
               <span className="confirm__label_underlined">privacy policy</span>.
             </span>
           </label>
-          {errors.confirmation && errors.confirmation.agreement && (
+          {errors.agreement && (
             <p role="alert" className="form__error">
-              {errors.confirmation.agreement.message}
+              {errors.agreement.message}
             </p>
           )}
         </div>

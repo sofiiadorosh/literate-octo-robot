@@ -3,15 +3,11 @@ export type FormValues = {
   lastName: string;
   email: string;
   phone: string;
-  address: {
-    apartment: string;
-    town: string;
-    country: string;
-    zip: string;
-  };
+  apartment: string;
+  city: string;
+  country: string;
+  zip: string;
   notes: string;
-  confirmation: {
-    sending: boolean;
-    agreement: boolean;
-  };
+  sending: boolean;
+  agreement: boolean;
 };
