@@ -82,7 +82,7 @@ export const InputController: FC<InputControllerProps> = ({
         .includes(inputValue.trim().toLowerCase())
     );
     setFilteredOptions(updatedOptions);
-  }, [inputValue]);
+  }, [inputValue, options]);
 
   useEffect(() => {
     if (!value) {
