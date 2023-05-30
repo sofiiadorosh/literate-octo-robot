@@ -53,7 +53,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
               type="checkbox"
               className="confirm__input"
               {...register('sending')}
-              defaultChecked={watch('sending')}
+              defaultChecked={watch(Confirm.SENDING)}
             />
             <span className="confirm__checkbox">
               <Check className="confirm__icon" />
@@ -76,7 +76,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
               type="checkbox"
               className="confirm__input"
               {...register('agreement')}
-              defaultChecked={watch('agreement')}
+              defaultChecked={watch(Confirm.AGREEMENT)}
             />
             <span className="confirm__checkbox">
               <Check className="confirm__icon" />

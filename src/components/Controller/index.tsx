@@ -61,6 +61,7 @@ export const InputController: FC<InputControllerProps> = ({
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [inputValue, setInputValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [autocomplete, setAutoComplete] = useState('off');
 
   const setOptionHandler = (option: string) => {
     onChange(option);
@@ -73,10 +74,14 @@ export const InputController: FC<InputControllerProps> = ({
     onChange(value);
   };
 
-  const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () =>
+  const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () => {
     setMenuOpen(true);
+  };
 
-  const onClearInputHandler = () => onChange('');
+  const onClearInputHandler = () => {
+    onChange('');
+    setInputValue('');
+  };
 
   const onOpenMenuHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -98,6 +103,12 @@ export const InputController: FC<InputControllerProps> = ({
       onCityChange('');
     }
   }, [value]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      return setAutoComplete('new-password');
+    }
+  }, [menuOpen]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -124,7 +135,7 @@ export const InputController: FC<InputControllerProps> = ({
         id={name}
         disabled={name === 'city' && watch && !watch('country')}
         type="text"
-        autoComplete="new-password"
+        autoComplete={autocomplete}
         value={String(value)}
         placeholder={placeholder}
         className="billing__input"
@@ -155,9 +166,9 @@ export const InputController: FC<InputControllerProps> = ({
           {!filteredOptions.length ? (
             <li className="billing__input">No options...</li>
           ) : (
-            filteredOptions.map(option => (
+            filteredOptions.map((option, index) => (
               <li
-                key={`${option.latitude}-${option.value}`}
+                key={`${option.latitude}-${option.value}-${index}`}
                 className="billing__item"
                 onClick={() => {
                   if (option.code && onSetCountry) {
