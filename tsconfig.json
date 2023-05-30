@@ -27,7 +27,8 @@
       "@hooks": ["hooks"],
       "@constants": ["constants"],
       "@utils": ["utils"],
-      "@services": ["services"]
+      "@services": ["services"],
+      "@schemas": ["schemas"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]

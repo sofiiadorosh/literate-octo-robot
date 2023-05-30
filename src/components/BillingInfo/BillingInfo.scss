@@ -1,0 +1,154 @@
+@import '@styles/shared.scss';
+
+.billing {
+  width: 100%;
+  &__info {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 60px);
+    gap: 32px;
+
+    @media screen and (min-width: 768px) {
+      grid-template-columns: repeat(2, 319px);
+      grid-template-rows: repeat(4, 60px);
+    }
+  }
+
+  &__field {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  &__label {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  &__input {
+    padding: 11px 16px 12px 21px;
+    font-family: $primary-font-stack;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    color: $primary-dark;
+    background-color: $secondary-dark-white;
+    border: 1px solid $primary-grey;
+    border-radius: 12px;
+    outline: none;
+
+    &:focus {
+      border-color: $accent;
+    }
+
+    &:disabled ~ .billing__label {
+      color: $secondary-grey;
+    }
+
+    &::placeholder {
+      font-family: $primary-font-stack;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.36;
+      color: $secondary-grey;
+    }
+
+    &:not(:placeholder-shown)
+      + .billing__control
+      > .billing__select-button_close {
+      display: block;
+    }
+
+    &:disabled + .billing__label {
+      color: $secondary-grey;
+    }
+  }
+
+  &__list {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    transform: translateY(100%);
+    width: 100%;
+    min-height: 40px;
+    max-height: 320px;
+    font-family: $primary-font-stack;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    background-color: $light-green;
+    border: 1px solid $accent;
+    border-radius: 12px;
+    overflow: auto;
+    cursor: pointer;
+    z-index: 1;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $light-green;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $accent;
+    }
+  }
+
+  &__item {
+    padding: 10px 12px;
+    border-bottom: 1px dashed $accent;
+
+    &:hover {
+      color: $white;
+      background-color: $accent;
+      border-color: $white;
+    }
+  }
+
+  &__control {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__select-button {
+    @extend %button;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    color: $primary-dark;
+    border-radius: 50%;
+    transition: background-color 250ms $timing-function;
+
+    &_close {
+      display: none;
+    }
+
+    &:disabled {
+      color: $secondary-grey;
+      cursor: auto;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: $primary-grey;
+    }
+  }
+
+  &__select-icon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+  }
+
+  &__divider {
+    width: 1px;
+    height: 20px;
+    background-color: $primary-grey;
+  }
+}

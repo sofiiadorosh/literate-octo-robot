@@ -1,5 +1,5 @@
 import React, { FC, Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { Footer } from '@components/Footer';
 import { Header } from '@components/Header';
@@ -8,6 +8,8 @@ import { Loader } from '@components/Loader';
 import './SharedLayout.scss';
 
 const SharedLayout: FC = () => {
+  const location = useLocation();
+  const isFooterVisible = location.pathname !== '/checkout';
   return (
     <div className="layout">
       <Header />
@@ -16,7 +18,7 @@ const SharedLayout: FC = () => {
           <Outlet />
         </Suspense>
       </main>
-      <Footer />
+      {isFooterVisible && <Footer />}
     </div>
   );
 };
