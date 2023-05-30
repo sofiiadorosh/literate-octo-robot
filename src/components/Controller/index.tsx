@@ -24,6 +24,11 @@ type InputControllerProps = {
   watch: (name: string | boolean) => string | boolean;
 };
 
+enum Controller {
+  'COUNTRY' = 'countryName',
+  'CITY' = 'cityName',
+}
+
 export const InputController: FC<InputControllerProps> = ({
   name,
   label,
@@ -46,7 +51,7 @@ export const InputController: FC<InputControllerProps> = ({
   const {
     field: { onChange: onCityChange },
   } = useController({
-    name: 'cityName',
+    name: Controller.CITY,
     control,
   });
   const controlledValue = watch(name);
@@ -126,7 +131,9 @@ export const InputController: FC<InputControllerProps> = ({
     <div className="billing__field">
       <input
         id={name}
-        disabled={name === 'cityName' && watch && !watch('countryName')}
+        disabled={
+          name === Controller.CITY && watch && !watch(Controller.COUNTRY)
+        }
         type="text"
         autoComplete="do-not-autofill"
         value={String(value)}
@@ -147,7 +154,9 @@ export const InputController: FC<InputControllerProps> = ({
         <div className="billing__divider"></div>
         <button
           type="button"
-          disabled={name === 'cityName' && watch && !watch('countryName')}
+          disabled={
+            name === Controller.CITY && watch && !watch(Controller.COUNTRY)
+          }
           onClick={onOpenMenuHandler}
           className="billing__select-button"
         >
