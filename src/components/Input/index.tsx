@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
+import { useAppDispatch } from '@hooks';
+import { setData } from '@store/cart/slice';
 import { FormValues } from '@types';
 
 type InputProps = {
@@ -10,6 +12,7 @@ type InputProps = {
   placeholder: string;
   register: UseFormRegister<FormValues>;
   errors: FieldErrors<FormValues>;
+  watch: (name: string | boolean) => string | boolean;
 };
 
 export const Input: FC<InputProps> = ({
@@ -19,12 +22,22 @@ export const Input: FC<InputProps> = ({
   placeholder,
   register,
   errors,
+  watch,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const value = watch(name);
+
+  useEffect(() => {
+    dispatch(setData({ [name]: value }));
+  }, [value, dispatch]);
+
   return (
     <div className="billing__field">
       <input
         id={name}
         type={type}
+        autoComplete="new-password"
         placeholder={placeholder}
         className="billing__input"
         {...register(name)}

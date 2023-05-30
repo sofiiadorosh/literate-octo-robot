@@ -8,6 +8,8 @@ import {
 
 import { ReactComponent as Close } from '@assets/close.svg';
 import { ReactComponent as TopBottom } from '@assets/top-bottom.svg';
+import { useAppDispatch } from '@hooks';
+import { setData } from '@store/cart/slice';
 import { FormValues, OptionType } from '@types';
 
 type InputControllerProps = {
@@ -19,7 +21,7 @@ type InputControllerProps = {
   errors: FieldErrors<FormValues>;
   control: Control<FormValues>;
   onSetCountry?: (selectedOption: string) => void;
-  watch?: (name: string) => string;
+  watch: (name: string | boolean) => string | boolean;
 };
 
 export const InputController: FC<InputControllerProps> = ({
@@ -32,6 +34,8 @@ export const InputController: FC<InputControllerProps> = ({
   watch,
   control,
 }) => {
+  const dispatch = useAppDispatch();
+
   const {
     field: { value, onChange },
   } = useController({
@@ -45,6 +49,11 @@ export const InputController: FC<InputControllerProps> = ({
     name: 'city',
     control,
   });
+  const controlledValue = watch(name);
+
+  useEffect(() => {
+    dispatch(setData({ [name]: controlledValue }));
+  }, [value, dispatch]);
 
   const menuRef = useRef<HTMLUListElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -97,6 +106,8 @@ export const InputController: FC<InputControllerProps> = ({
       event.target !== inputRef.current
     ) {
       setMenuOpen(false);
+      onChange('');
+      setInputValue('');
     }
   };
 
@@ -111,8 +122,9 @@ export const InputController: FC<InputControllerProps> = ({
     <div className="billing__field">
       <input
         id={name}
-        disabled={watch && !watch('country')}
+        disabled={name === 'city' && watch && !watch('country')}
         type="text"
+        autoComplete="new-password"
         value={String(value)}
         placeholder={placeholder}
         className="billing__input"
@@ -131,7 +143,7 @@ export const InputController: FC<InputControllerProps> = ({
         <div className="billing__divider"></div>
         <button
           type="button"
-          disabled={watch && !watch('country')}
+          disabled={name === 'city' && watch && !watch('country')}
           onClick={onOpenMenuHandler}
           className="billing__select-button"
         >

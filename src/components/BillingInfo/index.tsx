@@ -4,6 +4,9 @@ import { UseFormRegister, FieldErrors, Control } from 'react-hook-form';
 
 import { InputController } from '@components/Controller';
 import { Input } from '@components/Input';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { selectCountry } from '@store/cart/selectors';
+import { setCountry } from '@store/cart/slice';
 import { FormValues, OptionType } from '@types';
 
 import './BillingInfo.scss';
@@ -11,7 +14,7 @@ import './BillingInfo.scss';
 type BillingInfoProps = {
   register: UseFormRegister<FormValues>;
   control: Control<FormValues>;
-  watch: (name: string) => string;
+  watch: (name: string | boolean) => string | boolean;
   errors: FieldErrors<FormValues>;
 };
 
@@ -21,7 +24,10 @@ export const BillingInfo: FC<BillingInfoProps> = ({
   errors,
   control,
 }) => {
-  const [countryValue, setCountryValue] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const selectedCountry = useAppSelector(selectCountry);
+
+  const [countryValue, setCountryValue] = useState<string>(selectedCountry);
   const [cityOptions, setCityOptions] = useState<[] | OptionType[]>([]);
 
   const countries = Country.getAllCountries();
@@ -52,18 +58,23 @@ export const BillingInfo: FC<BillingInfoProps> = ({
     setCountryValue(selectedOption);
   };
 
+  useEffect(() => {
+    dispatch(setCountry(countryValue));
+  }, [countryValue]);
+
   return (
     <div className="billing">
-      <h1 className="form__title">Billing info</h1>
+      <h2 className="form__title">Billing info</h2>
       <p className="form__description">Please enter your billing info</p>
       <div className="billing__info">
         <Input
           name="firstName"
-          label="First name"
+          label="First name*"
           type="text"
           placeholder="First name"
           register={register}
           errors={errors}
+          watch={watch}
         />
         <Input
           name="lastName"
@@ -72,32 +83,36 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           placeholder="Last name"
           register={register}
           errors={errors}
+          watch={watch}
         />
         <Input
           name="email"
-          label="Email addess"
+          label="Email addess*"
           type="email"
           placeholder="Email addess"
           register={register}
           errors={errors}
+          watch={watch}
         />
         <Input
           name="phone"
-          label="Phone number"
+          label="Phone number*"
           type="phone"
           placeholder="Phone number"
           register={register}
           errors={errors}
+          watch={watch}
         />
         <InputController
           name="country"
-          label="State / Country"
+          label="State / Country*"
           placeholder="Choose a state or Country"
           options={countryOptions}
           register={register}
           errors={errors}
           onSetCountry={setCountryHandler}
           control={control}
+          watch={watch}
         />
         <InputController
           name="city"
@@ -111,19 +126,21 @@ export const BillingInfo: FC<BillingInfoProps> = ({
         />
         <Input
           name="apartment"
-          label="Address"
+          label="Address*"
           type="text"
           placeholder="Address"
           register={register}
           errors={errors}
+          watch={watch}
         />
         <Input
           name="zip"
-          label="ZIP/Postal code"
+          label="ZIP/Postal code*"
           type="text"
           placeholder="Postal code or ZIP"
           register={register}
           errors={errors}
+          watch={watch}
         />
       </div>
     </div>

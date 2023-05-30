@@ -11,6 +11,8 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import { cartReducer } from './cart/slice';
+import { CartState } from './cart/slice';
 import { filtersReducer } from './filters/slice';
 import { FiltersState } from './filters/slice';
 import { productDetailsReducer } from './productDetails/slice';
@@ -27,6 +29,11 @@ const productDetailsPersistConfig = {
   storage,
 };
 
+const cartPersistConfig = {
+  key: 'cart',
+  storage,
+};
+
 export const store = configureStore({
   reducer: {
     products: productsReducer,
@@ -35,6 +42,7 @@ export const store = configureStore({
       productDetailsPersistConfig,
       productDetailsReducer
     ),
+    cart: persistReducer<CartState>(cartPersistConfig, cartReducer),
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

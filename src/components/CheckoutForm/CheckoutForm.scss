@@ -12,6 +12,10 @@
     width: 670px;
   }
 
+  &__heading {
+    @extend %hidden;
+  }
+
   &__title {
     margin-bottom: 4px;
     font-family: $secondary-font-stack;

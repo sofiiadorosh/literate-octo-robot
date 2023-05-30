@@ -1,7 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import { ReactComponent as Check } from '@assets/check.svg';
+import { useAppDispatch } from '@hooks';
+import { setData } from '@store/cart/slice';
 import { FormValues } from '@types';
 
 import './Confirmation.scss';
@@ -13,12 +16,29 @@ type ConfirmationProps = {
   isValid: boolean;
 };
 
+enum Confirm {
+  'SENDING' = 'sending',
+  'AGREEMENT' = 'agreement',
+}
+
 export const Confirmation: FC<ConfirmationProps> = ({
   register,
   errors,
   watch,
   isValid,
 }) => {
+  const dispatch = useAppDispatch();
+  const agreementValue = watch(Confirm.AGREEMENT);
+  const sendingValue = watch(Confirm.SENDING);
+
+  useEffect(() => {
+    dispatch(setData({ agreement: agreementValue }));
+  }, [agreementValue, dispatch]);
+
+  useEffect(() => {
+    dispatch(setData({ sending: sendingValue }));
+  }, [sendingValue, dispatch]);
+
   return (
     <div className="confirm">
       <h2 className="form__title">Confirmation</h2>
@@ -63,11 +83,14 @@ export const Confirmation: FC<ConfirmationProps> = ({
             </span>
             <span>
               I agree with our&nbsp;
-              <span className="confirm__label_underlined">
+              <Link to="/terms" className="confirm__label_underlined">
                 terms and conditions
-              </span>
+              </Link>
               &nbsp;and&nbsp;
-              <span className="confirm__label_underlined">privacy policy</span>.
+              <Link to="/terms" className="confirm__label_underlined">
+                privacy policy
+              </Link>
+              .
             </span>
           </label>
           {errors.agreement && (
