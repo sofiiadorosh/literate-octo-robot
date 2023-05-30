@@ -37,7 +37,7 @@ export const Input: FC<InputProps> = ({
       <input
         id={name}
         type={type}
-        autoComplete="new-password"
+        autoComplete="do-not-autofill"
         placeholder={placeholder}
         className="billing__input"
         {...register(name)}

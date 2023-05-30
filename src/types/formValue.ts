@@ -1,12 +1,12 @@
 export type FormValues = {
   firstName: string;
   lastName: string;
-  email: string;
-  phone: string;
-  apartment: string;
-  city: string;
-  country: string;
-  zip: string;
+  emailName: string;
+  phoneName: string;
+  countryName: string;
+  cityName: string;
+  apartmentName: string;
+  zipName: string;
   notes: string;
   sending: boolean;
   agreement: boolean;

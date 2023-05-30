@@ -57,7 +57,7 @@ export const CheckoutForm: FC = () => {
       <h1 className="form__heading">Form</h1>
       <form
         className="form"
-        autoComplete="new-password"
+        autoComplete="do-not-autofill"
         noValidate
         onSubmit={handleSubmit(onSubmitHandler)}
       >

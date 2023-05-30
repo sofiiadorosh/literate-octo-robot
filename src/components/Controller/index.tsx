@@ -46,7 +46,7 @@ export const InputController: FC<InputControllerProps> = ({
   const {
     field: { onChange: onCityChange },
   } = useController({
-    name: 'city',
+    name: 'cityName',
     control,
   });
   const controlledValue = watch(name);
@@ -61,7 +61,6 @@ export const InputController: FC<InputControllerProps> = ({
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [inputValue, setInputValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
-  const [autocomplete, setAutoComplete] = useState('off');
 
   const setOptionHandler = (option: string) => {
     onChange(option);
@@ -104,12 +103,6 @@ export const InputController: FC<InputControllerProps> = ({
     }
   }, [value]);
 
-  useEffect(() => {
-    if (menuOpen) {
-      return setAutoComplete('new-password');
-    }
-  }, [menuOpen]);
-
   const handleClickOutside = (event: MouseEvent) => {
     if (
       menuRef.current &&
@@ -133,9 +126,9 @@ export const InputController: FC<InputControllerProps> = ({
     <div className="billing__field">
       <input
         id={name}
-        disabled={name === 'city' && watch && !watch('country')}
+        disabled={name === 'cityName' && watch && !watch('countryName')}
         type="text"
-        autoComplete={autocomplete}
+        autoComplete="do-not-autofill"
         value={String(value)}
         placeholder={placeholder}
         className="billing__input"
@@ -154,7 +147,7 @@ export const InputController: FC<InputControllerProps> = ({
         <div className="billing__divider"></div>
         <button
           type="button"
-          disabled={name === 'city' && watch && !watch('country')}
+          disabled={name === 'cityName' && watch && !watch('countryName')}
           onClick={onOpenMenuHandler}
           className="billing__select-button"
         >

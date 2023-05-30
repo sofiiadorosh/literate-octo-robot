@@ -51,6 +51,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
             <input
               id="sending"
               type="checkbox"
+              autoComplete="do-not-autofill"
               className="confirm__input"
               {...register('sending')}
               defaultChecked={watch(Confirm.SENDING)}
@@ -74,6 +75,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
             <input
               id="agreement"
               type="checkbox"
+              autoComplete="do-not-autofill"
               className="confirm__input"
               {...register('agreement')}
               defaultChecked={watch(Confirm.AGREEMENT)}

@@ -86,7 +86,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           watch={watch}
         />
         <Input
-          name="email"
+          name="emailName"
           label="Email addess*"
           type="email"
           placeholder="Email addess"
@@ -95,7 +95,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           watch={watch}
         />
         <Input
-          name="phone"
+          name="phoneName"
           label="Phone number*"
           type="phone"
           placeholder="Phone number"
@@ -104,7 +104,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           watch={watch}
         />
         <InputController
-          name="country"
+          name="countryName"
           label="State / Country*"
           placeholder="Choose a state or Country"
           options={countryOptions}
@@ -115,7 +115,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           watch={watch}
         />
         <InputController
-          name="city"
+          name="cityName"
           label="Town / City"
           placeholder="Town or city"
           options={cityOptions}
@@ -125,7 +125,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           control={control}
         />
         <Input
-          name="apartment"
+          name="apartmentName"
           label="Address*"
           type="text"
           placeholder="Address"
@@ -134,7 +134,7 @@ export const BillingInfo: FC<BillingInfoProps> = ({
           watch={watch}
         />
         <Input
-          name="zip"
+          name="zipName"
           label="ZIP/Postal code*"
           type="text"
           placeholder="Postal code or ZIP"
