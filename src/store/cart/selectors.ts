@@ -19,9 +19,6 @@ export const selectPromocodeDiscount = (state: RootState) =>
 
 export const selectTax = (state: RootState) => state.cart.tax;
 
-export const selectIsFormSubmitted = (state: RootState) =>
-  state.cart.isFormSubmitted;
-
 export const selectOrder = createSelector(
   [selectProducts, selectCartItems],
   (allProducts, cartProducts) => {

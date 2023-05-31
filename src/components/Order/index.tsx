@@ -112,7 +112,7 @@ export const Order: FC = () => {
     if (isValidPromocode) {
       dispatch(applyPromocode());
       clearInputHandler();
-      setMessage(`Promo code ${promocodeDiscount}% was applied successfully!`);
+      setMessage('Promo code was applied successfully!');
       setEmptyMessage();
       return;
     }
@@ -140,6 +140,10 @@ export const Order: FC = () => {
               <span>
                 {tax}% {taxation} USD
               </span>
+            </li>
+            <li className="order__summary-item">
+              <span>Promo code</span>
+              <span>{promocodeDiscount}%</span>
             </li>
           </ul>
           <form

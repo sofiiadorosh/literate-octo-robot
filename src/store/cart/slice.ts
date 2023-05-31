@@ -22,7 +22,6 @@ export interface CartState {
   appliedPromocode: boolean;
   promocodeDiscount: number;
   tax: number;
-  isFormSubmitted: boolean;
 }
 
 export const cartInitialState = {
@@ -44,7 +43,6 @@ export const cartInitialState = {
   appliedPromocode: false,
   promocodeDiscount: 0,
   tax: 0,
-  isFormSubmitted: false,
 } as CartState;
 
 const cartSlice = createSlice({
@@ -90,9 +88,6 @@ const cartSlice = createSlice({
     setTax(state, action: PayloadAction<number>) {
       return { ...state, tax: action.payload };
     },
-    setFormSubmitted(state, action: PayloadAction<boolean>) {
-      return { ...state, isFormSubmitted: action.payload };
-    },
     clearCart(state) {
       return {
         ...state,
@@ -129,6 +124,5 @@ export const {
   applyPromocode,
   setPromocodeDiscount,
   setTax,
-  setFormSubmitted,
 } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

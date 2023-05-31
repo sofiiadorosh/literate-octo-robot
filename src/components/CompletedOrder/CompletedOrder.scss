@@ -13,6 +13,11 @@
     line-height: 1.5;
   }
 
+  &__image {
+    width: 25%;
+    background-color: transparent;
+  }
+
   &__link {
     @extend %primary-button;
     width: 240px;

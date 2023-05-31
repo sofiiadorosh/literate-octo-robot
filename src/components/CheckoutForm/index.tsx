@@ -2,6 +2,7 @@ import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { AdditionalInfo } from '@components/AdditionalInfo';
 import { BillingInfo } from '@components/BillingInfo';
@@ -9,7 +10,7 @@ import { Confirmation } from '@components/Confirmation';
 import { useAppSelector, useAppDispatch } from '@hooks';
 import { schema } from '@schemas';
 import { selectData } from '@store/cart/selectors';
-import { clearCart, setFormSubmitted } from '@store/cart/slice';
+import { clearCart } from '@store/cart/slice';
 import { FormValues } from '@types';
 
 import './CheckoutForm.scss';
@@ -30,6 +31,7 @@ const defaultValues = {
 
 export const CheckoutForm: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const defaultData = useAppSelector(selectData);
   const {
     register,
@@ -47,7 +49,7 @@ export const CheckoutForm: FC = () => {
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
-      dispatch(setFormSubmitted(true));
+      navigate('/confirmation');
     }
   }, [isSubmitSuccessful, reset]);
 
