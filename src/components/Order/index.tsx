@@ -55,7 +55,6 @@ export const Order: FC = () => {
   const promocodes = Object.values(Promocode);
 
   const [taxation, setTaxation] = useState(0);
-  const [deliveryDate, setDeliveryDate] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -92,12 +91,6 @@ export const Order: FC = () => {
   };
 
   useEffect(() => {
-    const date = getDeliveryDate();
-    const formattedDate = getFormattedDate(date);
-    setDeliveryDate(formattedDate);
-  }, []);
-
-  useEffect(() => {
     getTaxation();
   }, [tax, items, subTotalPrice]);
 
@@ -111,7 +104,8 @@ export const Order: FC = () => {
   const getDeliveryDate = () => {
     const date = items.map(({ product }) => product.deliveryTime);
     const greaterDate = Math.max(...date);
-    return getDeliveryTime(greaterDate);
+    const time = getDeliveryTime(greaterDate);
+    return getFormattedDate(time);
   };
 
   const clearInputHandler = () => {
@@ -211,7 +205,7 @@ export const Order: FC = () => {
             <div className="order__total-name">
               <p>Total Order</p>
               <p className="order__delivery-day">
-                Guaranteed delivery day: {deliveryDate}
+                Guaranteed delivery day: {getDeliveryDate()}
               </p>
             </div>
             <div className="order__total-price">
