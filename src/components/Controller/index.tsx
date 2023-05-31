@@ -135,7 +135,7 @@ export const InputController: FC<InputControllerProps> = ({
           name === Controller.CITY && watch && !watch(Controller.COUNTRY)
         }
         type="text"
-        autoComplete="do-not-autofill"
+        autoComplete="off"
         value={String(value)}
         placeholder={placeholder}
         className="billing__input"

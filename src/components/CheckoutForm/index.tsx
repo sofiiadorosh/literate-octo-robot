@@ -63,10 +63,16 @@ export const CheckoutForm: FC = () => {
       <h1 className="form__heading">Form</h1>
       <form
         className="form"
-        autoComplete="do-not-autofill"
+        autoComplete="off"
         noValidate
         onSubmit={handleSubmit(onSubmitHandler)}
       >
+        <input
+          type="password"
+          name="password"
+          autoComplete="new-password"
+          style={{ display: 'none' }}
+        />
         <BillingInfo
           register={register}
           watch={watch}
