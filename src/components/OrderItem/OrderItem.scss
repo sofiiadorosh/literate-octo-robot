@@ -109,8 +109,10 @@
   &__info-item {
     display: grid;
     grid-template-columns: 74px 1fr;
+    gap: 12px;
     font-weight: 400;
     line-height: 1.33;
+    word-break: break-word;
 
     &_color_grey {
       color: $secondary-grey;
@@ -135,10 +137,18 @@
   }
 
   &__price {
+    display: flex;
+    flex-direction: column;
     font-family: $secondary-font-stack;
     font-weight: 600;
     font-size: 18px;
     line-height: 1.5;
     color: $accent;
+
+    &_old {
+      font-size: 12px;
+      text-decoration: line-through;
+      color: $secondary-grey;
+    }
   }
 }

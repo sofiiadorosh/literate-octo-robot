@@ -44,6 +44,10 @@ export const OrderItem: FC<OrderItemProps> = ({
   const [unit, setUnit] = useState(chosenUnit);
   const [count, setCount] = useState(chosenQuantity);
 
+  const getTotalPrice = () => {
+    return setFixedPrice(price[unit] * chosenQuantity);
+  };
+
   const getNewTotalPrice = () => {
     const totalDiscount = (1 - discount / 100) * (1 - promocodeDiscount / 100);
 
@@ -67,11 +71,15 @@ export const OrderItem: FC<OrderItemProps> = ({
   };
 
   useEffect(() => {
-    dispatch(updateCartItem({ id: itemId, unit }));
+    setCount(chosenQuantity);
+  }, [chosenQuantity]);
+
+  useEffect(() => {
+    dispatch(updateCartItem({ _id: itemId, id, unit }));
   }, [unit]);
 
   useEffect(() => {
-    dispatch(updateCartItem({ id: itemId, quantity: count }));
+    dispatch(updateCartItem({ _id: itemId, id, quantity: count }));
   }, [count]);
 
   const removeFromCartHandler = () => {
@@ -121,7 +129,10 @@ export const OrderItem: FC<OrderItemProps> = ({
           </div>
         </div>
         <div className="order__quantity">
-          <span className="order__price">{getNewTotalPrice()} USD</span>
+          <div className="order__price">
+            <span>{getNewTotalPrice()} USD</span>
+            <span className="order__price_old">{getTotalPrice()}</span>
+          </div>
           <CountPicker
             items={units}
             max={maxQuantity}

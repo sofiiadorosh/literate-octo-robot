@@ -13,6 +13,7 @@ type Cart = {
 };
 
 type CartItemAction = {
+  _id: string;
   id: string;
   unit?: string;
   quantity?: number;
@@ -98,23 +99,43 @@ const cartSlice = createSlice({
       };
     },
     updateCartItem(state, action: PayloadAction<CartItemAction>) {
-      const { id, unit, quantity } = action.payload;
+      const { _id, id, unit, quantity } = action.payload;
 
-      const updatedCart = state.cart.map(item => {
-        if (item._id === id) {
-          return {
-            ...item,
-            unit: unit ?? item.unit,
-            quantity: quantity ?? item.quantity,
-          };
-        }
-        return item;
-      });
+      const existingItem = state.cart.find(
+        item => item.id === id && item.unit === unit && item._id !== _id
+      );
+      if (existingItem) {
+        const combinedCart = state.cart.map(item => {
+          if (item._id === _id && unit) {
+            return {
+              ...item,
+              unit,
+              quantity: item.quantity + existingItem.quantity,
+            };
+          }
+          return item;
+        });
+        const filteredCart = combinedCart.filter(
+          item => item?._id !== existingItem._id
+        );
+        return { ...state, cart: filteredCart };
+      } else {
+        const updatedCart = state.cart.map(item => {
+          if (item._id === _id) {
+            return {
+              ...item,
+              unit: unit ?? item.unit,
+              quantity: quantity ?? item.quantity,
+            };
+          }
+          return item;
+        });
 
-      return {
-        ...state,
-        cart: updatedCart,
-      };
+        return {
+          ...state,
+          cart: updatedCart,
+        };
+      }
     },
     applyPromocode(state) {
       return { ...state, appliedPromocode: true };

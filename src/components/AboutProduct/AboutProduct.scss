@@ -188,6 +188,10 @@
   &__add-button {
     @extend %primary-button;
     width: 140px;
+
+    &:active {
+      transform: scale(0.95);
+    }
   }
 
   &__add-icon {

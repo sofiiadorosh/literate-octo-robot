@@ -40,6 +40,7 @@ enum PromocodeMessage {
   'EMPTY' = 'Please enter a promocode.',
   'INVALID' = 'Invalid promo code. Please try again.',
   'VALID' = 'Promo code was applied successfully!',
+  'APPLIED' = 'Promo code has been already applied.',
 }
 
 export const Order: FC = () => {
@@ -86,6 +87,10 @@ export const Order: FC = () => {
     0
   );
 
+  const getOldTotalPrice = () => {
+    return setFixedPrice(subTotalPrice / ((100 - promocodeDiscount) / 100));
+  };
+
   useEffect(() => {
     const date = getDeliveryDate();
     const formattedDate = getFormattedDate(date);
@@ -94,7 +99,7 @@ export const Order: FC = () => {
 
   useEffect(() => {
     getTaxation();
-  }, [tax, items]);
+  }, [tax, items, subTotalPrice]);
 
   const getTaxation = () => {
     const calculatedTax = setFixedPrice(subTotalPrice * (tax / 100));
@@ -121,25 +126,28 @@ export const Order: FC = () => {
     }, 3000);
   };
 
+  const showMessage = (message: PromocodeMessage) => {
+    clearInputHandler();
+    setMessage(message);
+    setEmptyMessage();
+  };
+
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isPromocodeApplied) {
+      return showMessage(PromocodeMessage.APPLIED);
+    }
     const formData = new FormData(e.currentTarget);
     const promocode = formData.get('promocode') as string;
     if (!promocode) {
-      setMessage(PromocodeMessage.EMPTY);
-      setEmptyMessage();
-      return;
+      return showMessage(PromocodeMessage.EMPTY);
     }
     const isValidPromocode = promocodes.some(item => item === promocode);
     if (isValidPromocode) {
       dispatch(applyPromocode());
-      clearInputHandler();
-      setMessage(PromocodeMessage.VALID);
-      setEmptyMessage();
-      return;
+      return showMessage(PromocodeMessage.VALID);
     }
-    setMessage(PromocodeMessage.INVALID);
-    setEmptyMessage();
+    showMessage(PromocodeMessage.INVALID);
   };
 
   return (
@@ -206,7 +214,14 @@ export const Order: FC = () => {
                 Guaranteed delivery day: {deliveryDate}
               </p>
             </div>
-            <span className="order__total-price">{getTotalPrice()} USD</span>
+            <div className="order__total-price">
+              <span>{getTotalPrice()} USD</span>
+              {isPromocodeApplied && (
+                <span className="order__total-price_old">
+                  {getOldTotalPrice()}
+                </span>
+              )}
+            </div>
           </div>
         </>
       ) : (

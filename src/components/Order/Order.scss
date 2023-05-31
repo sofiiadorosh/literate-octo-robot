@@ -164,11 +164,23 @@
   }
 
   &__total-price {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0;
     font-family: $secondary-font-stack;
     font-weight: 600;
     font-size: 26px;
     line-height: 1.5;
     color: $accent;
+
+    &_old {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      font-size: 12px;
+      text-decoration: line-through;
+      color: $secondary-grey;
+    }
   }
 }
