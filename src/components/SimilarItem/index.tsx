@@ -34,9 +34,9 @@ export const SimilarItem: FC<SimilarItemProps> = ({
             <span>{getPrice()} USD</span>
             <span className="similar__price_old">{price.pcs} USD</span>
           </div>
-          <button type="button" className="similar__button">
+          <NavLink to={`/products/${id}`} className="similar__button">
             Buy now
-          </button>
+          </NavLink>
         </div>
       </div>
     </li>

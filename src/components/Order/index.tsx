@@ -5,6 +5,7 @@ import { DefaultCart } from '@components/DefaultCart';
 import { OrderList } from '@components/OrderList';
 import { useAppSelector, useAppDispatch } from '@hooks';
 import {
+  selectCart,
   selectCartItems,
   selectIsPromocodeApplied,
   selectPromocodeDiscount,
@@ -44,6 +45,7 @@ enum PromocodeMessage {
 export const Order: FC = () => {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
+  const cart = useAppSelector(selectCart);
   const isPromocodeApplied = useAppSelector(selectIsPromocodeApplied);
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
   const tax = useAppSelector(selectTax);
@@ -142,7 +144,7 @@ export const Order: FC = () => {
 
   return (
     <div className="order">
-      {items.length ? (
+      {cart.length ? (
         <>
           <h2 className="order__title">Order Summary</h2>
           <p className="order__description">
@@ -176,7 +178,7 @@ export const Order: FC = () => {
               id="promocode"
               type="text"
               name="promocode"
-              placeholder="Apply promo code"
+              placeholder="Apply promo code PADAWAN"
               className="order__input"
               ref={inputRef}
             />

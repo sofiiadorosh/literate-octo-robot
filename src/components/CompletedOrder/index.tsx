@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import order from '@assets/order.png';
@@ -6,14 +6,10 @@ import order from '@assets/order.png';
 import './CompletedOrder.scss';
 
 export const CompletedOrder: FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <div className="order-confirm">
       <h1 className="order-confirm__title">
-        Your order is complete! Thank you!
+        Your order is completed! Thank you!
       </h1>
       <img
         src={order}

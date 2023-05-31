@@ -20,6 +20,9 @@ export const selectTax = (state: RootState) => state.cart.tax;
 
 export const selectCartProducts = (state: RootState) => state.cart.products;
 
+export const selectIsFormSubmitted = (state: RootState) =>
+  state.cart.isFormSubmitted;
+
 export const selectCartItems = createSelector(
   [selectCart, selectCartProducts],
   (cart, products) => {

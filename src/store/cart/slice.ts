@@ -29,6 +29,7 @@ export interface CartState {
   products: Product[];
   isLoading: boolean;
   error: null | string;
+  isFormSubmitted: boolean;
 }
 
 export const cartInitialState = {
@@ -54,6 +55,7 @@ export const cartInitialState = {
   products: [],
   error: null,
   isLoading: false,
+  isFormSubmitted: false,
 } as CartState;
 
 const cartSlice = createSlice({
@@ -123,6 +125,9 @@ const cartSlice = createSlice({
     setTax(state, action: PayloadAction<number>) {
       return { ...state, tax: action.payload };
     },
+    setFormSubmitted(state, action: PayloadAction<boolean>) {
+      return { ...state, isFormSubmitted: action.payload };
+    },
     clearCart(state) {
       return {
         ...state,
@@ -181,5 +186,6 @@ export const {
   applyPromocode,
   setPromocodeDiscount,
   setTax,
+  setFormSubmitted,
 } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

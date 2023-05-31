@@ -8,7 +8,6 @@ const HomePage = lazy(() => import('@pages/HomePage'));
 const ProductsPage = lazy(() => import('@pages/ProductsPage'));
 const ProductDetailsPage = lazy(() => import('@pages/ProductDetailsPage'));
 const CheckoutPage = lazy(() => import('@pages/CheckoutPage'));
-const OrderConfirmation = lazy(() => import('@pages/ConfirmationPage'));
 const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
 
 const App = () => {
@@ -25,7 +24,6 @@ const App = () => {
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:productId" element={<ProductDetailsPage />} />
         <Route path="checkout" element={<CheckoutPage />} />
-        <Route path="confirmation" element={<OrderConfirmation />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

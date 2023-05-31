@@ -3,15 +3,17 @@ import { NavLink } from 'react-router-dom';
 
 import { Container } from '@components/Container';
 
+import './HomePage.scss';
+
 const HomePage: FC = () => {
   return (
-    <div>
+    <section className="home">
       <Container>
-        <NavLink to="/products" style={{ fontSize: 20 }}>
-          Link to Products Page
+        <NavLink to="/products" className="home__link">
+          All products
         </NavLink>
       </Container>
-    </div>
+    </section>
   );
 };
 
