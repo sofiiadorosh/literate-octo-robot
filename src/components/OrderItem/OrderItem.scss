@@ -1,0 +1,144 @@
+@import '@styles/shared.scss';
+.order {
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $secondary-dark-white;
+
+    @media screen and (min-width: 425px) {
+      grid-template-columns: 100px 1fr;
+    }
+  }
+
+  &__content {
+    display: flex;
+    gap: 12px;
+
+    @media screen and (min-width: 425px) {
+      flex-direction: column;
+    }
+  }
+
+  &__thumb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 67px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  &__image {
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+
+  &__control {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__button {
+    @extend %button;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 80px;
+    padding: 4px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.33;
+    color: $secondary-grey;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: border-color 250ms $timing-function,
+      box-shadow 250ms $timing-function;
+
+    &:hover {
+      border-color: $accent;
+      box-shadow: 0px 4px 8px -4px rgba(50, 88, 130, 0.32);
+    }
+  }
+
+  &__button-icon {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+  }
+
+  &__wish-icon {
+    stroke: $light-red;
+  }
+
+  &__remove-icon {
+    stroke: $primary-dark;
+  }
+
+  &__product-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__name {
+    margin-bottom: 4px;
+    font-family: $secondary-font-stack;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.47;
+  }
+
+  &__link {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 8px;
+  }
+
+  &__info-item {
+    display: grid;
+    grid-template-columns: 74px 1fr;
+    font-weight: 400;
+    line-height: 1.33;
+
+    &_color_grey {
+      color: $secondary-grey;
+    }
+  }
+
+  &__rating {
+    color: $yellow;
+  }
+
+  &__quantity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    @media screen and (min-width: 484px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  &__price {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+    color: $accent;
+  }
+}

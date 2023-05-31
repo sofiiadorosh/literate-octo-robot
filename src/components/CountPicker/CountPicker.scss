@@ -4,8 +4,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 16px;
-  width: 164px;
+  width: 168px;
   height: 48px;
   padding: 15px 16px;
   background-color: $secondary-dark-white;
@@ -14,6 +13,7 @@
 
   &__input {
     width: 24px;
+    margin-right: 16px;
     padding: 0;
     font-weight: 400;
     font-size: 14px;
@@ -29,6 +29,10 @@
       line-height: 1.36;
       color: $primary-grey;
     }
+  }
+
+  &__control {
+    margin-right: 16px;
   }
 
   &__button {
@@ -55,6 +59,7 @@
     flex: 0 0 1px;
     width: 1px;
     height: 100%;
+    margin-right: 16px;
     background-color: $primary-grey;
   }
 
@@ -69,10 +74,6 @@
     line-height: 1.5;
     color: $primary-dark;
     cursor: pointer;
-
-    &:hover .dropdown {
-      display: block;
-    }
   }
 
   &__unit-icon {
@@ -81,11 +82,60 @@
     stroke: currentColor;
   }
 
+  &__dropdown {
+    position: absolute;
+    bottom: -16px;
+    left: -16px;
+    transform: translateY(100%);
+    width: 100%;
+    min-width: 74px;
+    min-height: 40px;
+    max-height: 320px;
+    font-family: $primary-font-stack;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.36;
+    background-color: $light-green;
+    border: 1px solid $accent;
+    border-radius: 12px;
+    overflow: auto;
+    cursor: pointer;
+    z-index: 1;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $primary-grey;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $accent;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    padding: 10px 12px;
+    &:not(:last-child) {
+      border-bottom: 1px dashed $accent;
+    }
+
+    &:hover {
+      color: $white;
+      background-color: $accent;
+      border-color: $white;
+    }
+  }
+
   &__error {
     position: absolute;
-    bottom: -50%;
+    bottom: -75%;
     left: 0;
-    width: 240px;
+    width: 160px;
     color: $red;
   }
 }

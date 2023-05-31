@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ButtonNames } from '@types';
@@ -24,6 +24,9 @@ export const CountPicker: FC<CountPickerProps> = ({
   onSetCountByStep,
   onSetUnit,
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
   const setErrorToNull = () => {
@@ -68,6 +71,28 @@ export const CountPicker: FC<CountPickerProps> = ({
     onSetCountByStep(typeButton);
   };
 
+  const openMenuHandler = () => setMenuOpen(true);
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [unit]);
+
   return (
     <div className="count">
       <input
@@ -80,7 +105,7 @@ export const CountPicker: FC<CountPickerProps> = ({
         value={count}
         onChange={setCountHandler}
       />
-      <div>
+      <div className="count__control">
         <button
           type="button"
           className="count__button"
@@ -99,22 +124,24 @@ export const CountPicker: FC<CountPickerProps> = ({
         </button>
       </div>
       <span className="count__dash"></span>
-      <div className="count__unit">
+      <div className="count__unit" onClick={openMenuHandler}>
         <span>{unit}</span>
         <Arrow className="count__unit-icon" />
-        <div className="dropdown">
-          <ul className="dropdown__list">
-            {items.map(item => (
-              <li
-                key={item}
-                className="dropdown__item"
-                onClick={() => setUnitHandler(item)}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {menuOpen && (
+          <div className="count__dropdown" ref={dropdownRef}>
+            <ul className="count__list">
+              {items.map(item => (
+                <li
+                  key={item}
+                  className="count__item"
+                  onClick={() => setUnitHandler(item)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       {error && <p className="count__error">{error}</p>}
     </div>

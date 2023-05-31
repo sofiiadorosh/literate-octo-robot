@@ -6,9 +6,10 @@ import { useForm } from 'react-hook-form';
 import { AdditionalInfo } from '@components/AdditionalInfo';
 import { BillingInfo } from '@components/BillingInfo';
 import { Confirmation } from '@components/Confirmation';
-import { useAppSelector } from '@hooks';
+import { useAppSelector, useAppDispatch } from '@hooks';
 import { schema } from '@schemas';
 import { selectData } from '@store/cart/selectors';
+import { clearCart, setFormSubmitted } from '@store/cart/slice';
 import { FormValues } from '@types';
 
 import './CheckoutForm.scss';
@@ -28,6 +29,7 @@ const defaultValues = {
 };
 
 export const CheckoutForm: FC = () => {
+  const dispatch = useAppDispatch();
   const defaultData = useAppSelector(selectData);
   const {
     register,
@@ -45,11 +47,13 @@ export const CheckoutForm: FC = () => {
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
+      dispatch(setFormSubmitted(true));
     }
   }, [isSubmitSuccessful, reset]);
 
   const onSubmitHandler = (data: FormValues) => {
-    console.log('form submitted', data);
+    console.log(data);
+    dispatch(clearCart());
   };
 
   return (

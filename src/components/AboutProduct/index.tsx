@@ -1,4 +1,5 @@
 import React, { FC, useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
@@ -8,7 +9,8 @@ import { Questions } from '@components/Questions';
 import { Reviews } from '@components/Reviews';
 import { Stars } from '@components/Stars';
 import { TabsList } from '@components/TabList';
-import { useAppSelector } from '@hooks';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { addToCart } from '@store/cart/slice';
 import { selectProductDetails } from '@store/productDetails/selectors';
 import { ButtonNames, Tabs } from '@types';
 import { getNewPrice } from '@utils';
@@ -16,12 +18,15 @@ import { getNewPrice } from '@utils';
 import './AboutProduct.scss';
 
 export const AboutProduct: FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const selectedProduct = useAppSelector(selectProductDetails);
 
   if (!selectedProduct) {
     return null;
   }
   const {
+    id,
     images,
     overview,
     title,
@@ -107,6 +112,16 @@ export const AboutProduct: FC = () => {
     setSelectedTab(tab);
   };
 
+  const addToCartHandler = () => {
+    const product = {
+      id,
+      unit,
+      quantity: count,
+    };
+    dispatch(addToCart(product));
+    navigate('/checkout');
+  };
+
   return (
     <div className="details">
       <div className="details__appearance">
@@ -152,7 +167,11 @@ export const AboutProduct: FC = () => {
                 onSetCountByValue={setCountHandler}
                 onSetCountByStep={setNextCountHandler}
               />
-              <button type="button" className="details__add-button">
+              <button
+                type="button"
+                className="details__add-button"
+                onClick={addToCartHandler}
+              >
                 <Plus className="details__add-icon" />
                 <span>Add to cart</span>
               </button>

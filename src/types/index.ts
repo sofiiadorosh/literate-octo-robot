@@ -10,3 +10,5 @@ export * from './description';
 export * from './carousel';
 export * from './formValue';
 export * from './option';
+export * from './order';
+export * from './promocode';

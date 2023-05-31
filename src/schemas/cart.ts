@@ -3,19 +3,19 @@ import { z } from 'zod';
 export const schema = z.object({
   firstName: z.string().nonempty('This field is required.'),
   lastName: z.string().optional(),
-  email: z
+  emailName: z
     .string()
     .nonempty('This field is required')
     .email('Invalid email format.'),
-  phone: z
+  phoneName: z
     .string()
     .nonempty('This field is required.')
     .min(5, 'Phone number must contain at least 5 numbers.')
     .max(12, 'Phone number must contain at most 12 numbers.'),
-  country: z.string().nonempty('This field is required.'),
-  city: z.string().optional(),
-  apartment: z.string().nonempty('This field is required.'),
-  zip: z
+  countryName: z.string().nonempty('This field is required.'),
+  cityName: z.string().optional(),
+  apartmentName: z.string().nonempty('This field is required.'),
+  zipName: z
     .string()
     .nonempty('This field is required.')
     .min(5, 'Zip code must contain at least 5 characters.')
