@@ -1,18 +1,21 @@
 {
   "files": {
     "main.css": "/literate-octo-robot/static/css/main.b0167924.css",
-    "main.js": "/literate-octo-robot/static/js/main.00c20f14.js",
+    "main.js": "/literate-octo-robot/static/js/main.8ede2516.js",
     "static/js/883.4bfe71a6.chunk.js": "/literate-octo-robot/static/js/883.4bfe71a6.chunk.js",
     "static/css/938.7495e948.chunk.css": "/literate-octo-robot/static/css/938.7495e948.chunk.css",
     "static/js/938.b971dbfe.chunk.js": "/literate-octo-robot/static/js/938.b971dbfe.chunk.js",
     "static/css/911.73e961cd.chunk.css": "/literate-octo-robot/static/css/911.73e961cd.chunk.css",
     "static/js/911.68d72dab.chunk.js": "/literate-octo-robot/static/js/911.68d72dab.chunk.js",
-    "static/css/445.95c1030d.chunk.css": "/literate-octo-robot/static/css/445.95c1030d.chunk.css",
-    "static/js/445.d30a0a1c.chunk.js": "/literate-octo-robot/static/js/445.d30a0a1c.chunk.js",
+    "static/css/450.00926e55.chunk.css": "/literate-octo-robot/static/css/450.00926e55.chunk.css",
+    "static/js/450.a8d49945.chunk.js": "/literate-octo-robot/static/js/450.a8d49945.chunk.js",
+    "static/css/570.baa1f9ad.chunk.css": "/literate-octo-robot/static/css/570.baa1f9ad.chunk.css",
+    "static/js/570.cef41ba1.chunk.js": "/literate-octo-robot/static/js/570.cef41ba1.chunk.js",
     "static/js/3.bf49f996.chunk.js": "/literate-octo-robot/static/js/3.bf49f996.chunk.js",
     "static/js/95.1acd23ef.chunk.js": "/literate-octo-robot/static/js/95.1acd23ef.chunk.js",
     "static/js/591.ca992f2d.chunk.js": "/literate-octo-robot/static/js/591.ca992f2d.chunk.js",
     "static/media/error.png": "/literate-octo-robot/static/media/error.cbf9823f2352379ffaa9.png",
+    "static/media/order.png": "/literate-octo-robot/static/media/order.a0319535f55504017f12.png",
     "static/media/logo.svg": "/literate-octo-robot/static/media/logo.252b1df6bf156f513dcacabda5c370af.svg",
     "static/media/empty-cart.svg": "/literate-octo-robot/static/media/empty-cart.b2d29c3e397e76909bc062458085cbe7.svg",
     "static/media/star.svg": "/literate-octo-robot/static/media/star.3171228c8052741c14c398fedd698294.svg",
@@ -27,20 +30,22 @@
     "static/media/close.svg": "/literate-octo-robot/static/media/close.50d1e75517cb7428652be12a5a0077b8.svg",
     "static/media/check.svg": "/literate-octo-robot/static/media/check.b30c1d54bc34bb31e97302037512dffa.svg",
     "main.b0167924.css.map": "/literate-octo-robot/static/css/main.b0167924.css.map",
-    "main.00c20f14.js.map": "/literate-octo-robot/static/js/main.00c20f14.js.map",
+    "main.8ede2516.js.map": "/literate-octo-robot/static/js/main.8ede2516.js.map",
     "883.4bfe71a6.chunk.js.map": "/literate-octo-robot/static/js/883.4bfe71a6.chunk.js.map",
     "938.7495e948.chunk.css.map": "/literate-octo-robot/static/css/938.7495e948.chunk.css.map",
     "938.b971dbfe.chunk.js.map": "/literate-octo-robot/static/js/938.b971dbfe.chunk.js.map",
     "911.73e961cd.chunk.css.map": "/literate-octo-robot/static/css/911.73e961cd.chunk.css.map",
     "911.68d72dab.chunk.js.map": "/literate-octo-robot/static/js/911.68d72dab.chunk.js.map",
-    "445.95c1030d.chunk.css.map": "/literate-octo-robot/static/css/445.95c1030d.chunk.css.map",
-    "445.d30a0a1c.chunk.js.map": "/literate-octo-robot/static/js/445.d30a0a1c.chunk.js.map",
+    "450.00926e55.chunk.css.map": "/literate-octo-robot/static/css/450.00926e55.chunk.css.map",
+    "450.a8d49945.chunk.js.map": "/literate-octo-robot/static/js/450.a8d49945.chunk.js.map",
+    "570.baa1f9ad.chunk.css.map": "/literate-octo-robot/static/css/570.baa1f9ad.chunk.css.map",
+    "570.cef41ba1.chunk.js.map": "/literate-octo-robot/static/js/570.cef41ba1.chunk.js.map",
     "3.bf49f996.chunk.js.map": "/literate-octo-robot/static/js/3.bf49f996.chunk.js.map",
     "95.1acd23ef.chunk.js.map": "/literate-octo-robot/static/js/95.1acd23ef.chunk.js.map",
     "591.ca992f2d.chunk.js.map": "/literate-octo-robot/static/js/591.ca992f2d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b0167924.css",
-    "static/js/main.00c20f14.js"
+    "static/js/main.8ede2516.js"
   ]
 }
