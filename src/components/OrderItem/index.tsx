@@ -6,13 +6,10 @@ import { ReactComponent as Heart } from '@assets/heart.svg';
 import { CountPicker } from '@components/CountPicker';
 import { Stars } from '@components/Stars';
 import { useAppDispatch, useAppSelector } from '@hooks';
-import {
-  selectIsPromocodeApplied,
-  selectPromocodeDiscount,
-} from '@store/cart/selectors';
+import { selectPromocodeDiscount } from '@store/cart/selectors';
 import { updateCartItem, removeFromCart } from '@store/cart/slice';
 import { CartItem, ButtonNames } from '@types';
-import { getNewPrice } from '@utils';
+import { setFixedPrice } from '@utils';
 
 import './OrderItem.scss';
 
@@ -34,12 +31,12 @@ export const OrderItem: FC<OrderItemProps> = ({
       price,
       discount,
     },
+    id: itemId,
     chosenUnit,
     chosenQuantity,
   },
 }) => {
   const dispatch = useAppDispatch();
-  const isPromocodeApplied = useAppSelector(selectIsPromocodeApplied);
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
 
   const maxQuantity = parseInt(stock);
@@ -47,15 +44,10 @@ export const OrderItem: FC<OrderItemProps> = ({
   const [unit, setUnit] = useState(chosenUnit);
   const [count, setCount] = useState(chosenQuantity);
 
-  const getTotalPrice = (price: number) => Number(price * count).toFixed(2);
-
   const getNewTotalPrice = () => {
-    let totalDiscount = discount;
-    if (isPromocodeApplied) {
-      totalDiscount = (1 - discount / 100) * (1 - promocodeDiscount / 100);
-    }
-    const newPrice = getNewPrice(price[unit], totalDiscount);
-    return getTotalPrice(newPrice);
+    const totalDiscount = (1 - discount / 100) * (1 - promocodeDiscount / 100);
+
+    return setFixedPrice(price[unit] * totalDiscount * chosenQuantity);
   };
 
   const setUnitHandler = (unit: string) => {
@@ -75,15 +67,15 @@ export const OrderItem: FC<OrderItemProps> = ({
   };
 
   useEffect(() => {
-    dispatch(updateCartItem({ id, unit }));
+    dispatch(updateCartItem({ id: itemId, unit }));
   }, [unit]);
 
   useEffect(() => {
-    dispatch(updateCartItem({ id, quantity: count }));
+    dispatch(updateCartItem({ id: itemId, quantity: count }));
   }, [count]);
 
   const removeFromCartHandler = () => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart(itemId));
   };
 
   return (

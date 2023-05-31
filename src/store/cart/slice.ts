@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { FormValues } from '@types';
+import { FormValues, CartItem, Product } from '@types';
 
-type CartItem = {
+import { getProductsByIds } from './operations';
+
+type Cart = {
+  _id: string;
   id: string;
   unit: string;
   quantity: number;
@@ -18,10 +21,14 @@ type CartItemAction = {
 export interface CartState {
   data: FormValues;
   country: string;
-  items: CartItem[];
+  cart: Cart[];
   appliedPromocode: boolean;
   promocodeDiscount: number;
   tax: number;
+  items: CartItem[];
+  products: Product[];
+  isLoading: boolean;
+  error: null | string;
 }
 
 export const cartInitialState = {
@@ -39,10 +46,14 @@ export const cartInitialState = {
     agreement: false,
   },
   country: '',
-  items: [],
+  cart: [],
   appliedPromocode: false,
   promocodeDiscount: 0,
   tax: 0,
+  items: [],
+  products: [],
+  error: null,
+  isLoading: false,
 } as CartState;
 
 const cartSlice = createSlice({
@@ -55,28 +66,52 @@ const cartSlice = createSlice({
     setCountry(state, action: PayloadAction<Partial<string>>) {
       return { ...state, country: action.payload };
     },
-    addToCart(state, action: PayloadAction<CartItem>) {
-      return { ...state, items: [...state.items, action.payload] };
+    addToCart(state, action: PayloadAction<Cart>) {
+      const { _id, id, unit, quantity } = action.payload;
+
+      const existingItem = state.cart.find(
+        item => item.id === id && item.unit === unit
+      );
+
+      if (existingItem) {
+        return {
+          ...state,
+          cart: state.cart.map(item =>
+            item.id === id && item.unit === unit
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          cart: [{ _id, id, unit, quantity }, ...state.cart],
+        };
+      }
     },
     removeFromCart(state, action: PayloadAction<string>) {
       return {
         ...state,
-        items: state.items.filter(item => item.id !== action.payload),
+        cart: state.cart.filter(item => item._id !== action.payload),
       };
     },
     updateCartItem(state, action: PayloadAction<CartItemAction>) {
+      const { id, unit, quantity } = action.payload;
+
+      const updatedCart = state.cart.map(item => {
+        if (item._id === id) {
+          return {
+            ...item,
+            unit: unit ?? item.unit,
+            quantity: quantity ?? item.quantity,
+          };
+        }
+        return item;
+      });
+
       return {
         ...state,
-        items: state.items.map(item => {
-          if (item.id === action.payload.id) {
-            if (action.payload.unit) {
-              return { ...item, unit: action.payload.unit };
-            } else if (action.payload.quantity) {
-              return { ...item, quantity: action.payload.quantity };
-            }
-          }
-          return item;
-        }),
+        cart: updatedCart,
       };
     },
     applyPromocode(state) {
@@ -104,13 +139,35 @@ const cartSlice = createSlice({
           sending: false,
           agreement: false,
         },
-        items: [],
+        cart: [],
         country: '',
         appliedPromocode: false,
         promocodeDiscount: 0,
         tax: 0,
+        items: [],
+        products: [],
       };
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(getProductsByIds.pending, state => {
+      return { ...state, isLoading: true };
+    });
+    builder.addCase(getProductsByIds.fulfilled, (state, { payload }) => {
+      return {
+        ...state,
+        error: null,
+        products: payload,
+        isLoading: false,
+      };
+    });
+    builder.addCase(getProductsByIds.rejected, (state, { payload }) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: payload ? payload : 'An unknown error occured',
+      };
+    });
   },
 });
 

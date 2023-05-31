@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { selectProducts } from '@store/products/selectors';
 import { CartItem } from '@types';
 
 import { RootState } from '../index';
@@ -9,7 +8,7 @@ export const selectData = (state: RootState) => state.cart.data;
 
 export const selectCountry = (state: RootState) => state.cart.country;
 
-export const selectCartItems = (state: RootState) => state.cart.items;
+export const selectCart = (state: RootState) => state.cart.cart;
 
 export const selectIsPromocodeApplied = (state: RootState) =>
   state.cart.appliedPromocode;
@@ -19,23 +18,27 @@ export const selectPromocodeDiscount = (state: RootState) =>
 
 export const selectTax = (state: RootState) => state.cart.tax;
 
-export const selectOrder = createSelector(
-  [selectProducts, selectCartItems],
-  (allProducts, cartProducts) => {
-    return allProducts
-      .map(product => {
-        const cartProduct = cartProducts.find(item => item.id === product.id);
-        if (cartProduct) {
-          const { unit, quantity } = cartProduct;
-          const orderItem: CartItem = {
-            product,
-            chosenUnit: unit,
-            chosenQuantity: quantity,
-          };
-          return orderItem;
-        }
-        return null;
-      })
-      .filter(item => item !== null) as CartItem[];
+export const selectCartProducts = (state: RootState) => state.cart.products;
+
+export const selectCartItems = createSelector(
+  [selectCart, selectCartProducts],
+  (cart, products) => {
+    const selectedProducts = cart.reduce((selectedItems, matchingCartItem) => {
+      const matchingProduct = products.find(
+        product => product.id === matchingCartItem.id
+      );
+      if (matchingProduct) {
+        const cartItem: CartItem = {
+          id: matchingCartItem._id,
+          product: matchingProduct,
+          chosenUnit: matchingCartItem.unit,
+          chosenQuantity: matchingCartItem.quantity,
+        };
+        selectedItems.push(cartItem);
+      }
+      return selectedItems;
+    }, [] as CartItem[]);
+
+    return selectedProducts;
   }
 );

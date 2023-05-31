@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom';
 import { ReactComponent as Cart } from '@assets/cart.svg';
 import { ReactComponent as User } from '@assets/user.svg';
 import { useAppSelector } from '@hooks';
-import { selectCartItems } from '@store/cart/selectors';
+import { selectCart } from '@store/cart/selectors';
 
 import './UserMenu.scss';
 
 export const UserMenu: FC = () => {
-  const items = useAppSelector(selectCartItems);
+  const items = useAppSelector(selectCart);
   return (
     <ul className="user-list">
       <li className="user-list__item">

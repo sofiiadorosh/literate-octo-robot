@@ -1,5 +1,5 @@
+import { nanoid } from '@reduxjs/toolkit';
 import React, { FC, useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
@@ -10,17 +10,18 @@ import { Reviews } from '@components/Reviews';
 import { Stars } from '@components/Stars';
 import { TabsList } from '@components/TabList';
 import { useAppSelector, useAppDispatch } from '@hooks';
+import { selectCart } from '@store/cart/selectors';
 import { addToCart } from '@store/cart/slice';
 import { selectProductDetails } from '@store/productDetails/selectors';
 import { ButtonNames, Tabs } from '@types';
-import { getNewPrice } from '@utils';
+import { getNewPrice, setFixedPrice } from '@utils';
 
 import './AboutProduct.scss';
 
 export const AboutProduct: FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const selectedProduct = useAppSelector(selectProductDetails);
+  const items = useAppSelector(selectCart);
 
   if (!selectedProduct) {
     return null;
@@ -69,7 +70,7 @@ export const AboutProduct: FC = () => {
     }
   }, [selectedTab]);
 
-  const getTotalPrice = (price: number) => Number(price * count).toFixed(2);
+  const getTotalPrice = (price: number) => setFixedPrice(price * count);
 
   const getNewTotalPrice = () => {
     const newPrice = getNewPrice(price[unit], discount);
@@ -113,14 +114,17 @@ export const AboutProduct: FC = () => {
   };
 
   const addToCartHandler = () => {
+    const _id = nanoid();
     const product = {
+      _id,
       id,
       unit,
       quantity: count,
     };
     dispatch(addToCart(product));
-    navigate('/checkout');
   };
+
+  const isItemInCart = () => items.some(item => item.id === id);
 
   return (
     <div className="details">
@@ -128,6 +132,9 @@ export const AboutProduct: FC = () => {
         <div className="details__tag-wrapper">
           <span className="details__tag">- {discount}%</span>
           <span className="details__tag">{shipping} shipping</span>
+          {isItemInCart() && (
+            <span className="details__tag"> You added this item to cart!</span>
+          )}
         </div>
         <div className="details__image-wrapper">
           {images.map(image => (

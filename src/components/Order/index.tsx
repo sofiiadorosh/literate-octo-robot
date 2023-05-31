@@ -5,7 +5,7 @@ import { DefaultCart } from '@components/DefaultCart';
 import { OrderList } from '@components/OrderList';
 import { useAppSelector, useAppDispatch } from '@hooks';
 import {
-  selectOrder,
+  selectCartItems,
   selectIsPromocodeApplied,
   selectPromocodeDiscount,
   selectTax,
@@ -16,13 +16,34 @@ import {
   setTax,
 } from '@store/cart/slice';
 import { Promocode } from '@types';
-import { getNewPrice, getFormattedDate } from '@utils';
+import {
+  getFormattedDate,
+  getRandomValue,
+  getDeliveryTime,
+  setFixedPrice,
+} from '@utils';
 
 import './Order.scss';
 
+enum PromocodeRange {
+  'MAX' = 50,
+  'MIN' = 10,
+}
+
+enum TaxRange {
+  'MAX' = 30,
+  'MIN' = 10,
+}
+
+enum PromocodeMessage {
+  'EMPTY' = 'Please enter a promocode.',
+  'INVALID' = 'Invalid promo code. Please try again.',
+  'VALID' = 'Promo code was applied successfully!',
+}
+
 export const Order: FC = () => {
   const dispatch = useAppDispatch();
-  const items = useAppSelector(selectOrder);
+  const items = useAppSelector(selectCartItems);
   const isPromocodeApplied = useAppSelector(selectIsPromocodeApplied);
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
   const tax = useAppSelector(selectTax);
@@ -35,15 +56,15 @@ export const Order: FC = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (!isPromocodeApplied) {
-      const value = Math.floor(Math.random() * (50 - 10) + 10);
+    if (isPromocodeApplied && !promocodeDiscount) {
+      const value = getRandomValue(PromocodeRange.MAX, PromocodeRange.MIN);
       dispatch(setPromocodeDiscount(value));
     }
   }, [isPromocodeApplied]);
 
   useEffect(() => {
     if (!tax) {
-      const value = Math.floor(Math.random() * (30 - 10) + 10);
+      const value = getRandomValue(TaxRange.MAX, TaxRange.MIN);
       dispatch(setTax(value));
     }
   }, []);
@@ -53,10 +74,12 @@ export const Order: FC = () => {
       const unit = product.units.find(unit => unit === chosenUnit);
       if (unit) {
         const price = product.price[chosenUnit];
-        const newPrice = getNewPrice(price, product.discount);
-        acc += newPrice * chosenQuantity;
+        const totalDiscount =
+          (1 - product.discount / 100) * (1 - promocodeDiscount / 100);
+
+        acc += price * totalDiscount * chosenQuantity;
       }
-      return Number(acc.toFixed(2));
+      return setFixedPrice(acc);
     },
     0
   );
@@ -72,19 +95,16 @@ export const Order: FC = () => {
   }, [tax, items]);
 
   const getTaxation = () => {
-    const calculatedTax = Number((subTotalPrice * (tax / 100)).toFixed(2));
+    const calculatedTax = setFixedPrice(subTotalPrice * (tax / 100));
     setTaxation(calculatedTax);
   };
 
-  const getTotalPrice = () => Number((subTotalPrice + taxation).toFixed(2));
+  const getTotalPrice = () => setFixedPrice(subTotalPrice + taxation);
 
   const getDeliveryDate = () => {
     const date = items.map(({ product }) => product.deliveryTime);
     const greaterDate = Math.max(...date);
-    const start = new Date();
-    const end = new Date(start);
-    end.setDate(end.getDate() + greaterDate);
-    return end;
+    return getDeliveryTime(greaterDate);
   };
 
   const clearInputHandler = () => {
@@ -104,7 +124,7 @@ export const Order: FC = () => {
     const formData = new FormData(e.currentTarget);
     const promocode = formData.get('promocode') as string;
     if (!promocode) {
-      setMessage('Please enter a promocode.');
+      setMessage(PromocodeMessage.EMPTY);
       setEmptyMessage();
       return;
     }
@@ -112,11 +132,11 @@ export const Order: FC = () => {
     if (isValidPromocode) {
       dispatch(applyPromocode());
       clearInputHandler();
-      setMessage('Promo code was applied successfully!');
+      setMessage(PromocodeMessage.VALID);
       setEmptyMessage();
       return;
     }
-    setMessage('Invalid promo code. Please try again.');
+    setMessage(PromocodeMessage.INVALID);
     setEmptyMessage();
   };
 
