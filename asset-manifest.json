@@ -1,16 +1,15 @@
 {
   "files": {
     "main.css": "/literate-octo-robot/static/css/main.b0167924.css",
-    "main.js": "/literate-octo-robot/static/js/main.5964f463.js",
-    "static/js/883.4bfe71a6.chunk.js": "/literate-octo-robot/static/js/883.4bfe71a6.chunk.js",
+    "main.js": "/literate-octo-robot/static/js/main.989c0af1.js",
+    "static/css/58.1e546f27.chunk.css": "/literate-octo-robot/static/css/58.1e546f27.chunk.css",
+    "static/js/58.56f1f73e.chunk.js": "/literate-octo-robot/static/js/58.56f1f73e.chunk.js",
     "static/css/938.7495e948.chunk.css": "/literate-octo-robot/static/css/938.7495e948.chunk.css",
     "static/js/938.ab9b1945.chunk.js": "/literate-octo-robot/static/js/938.ab9b1945.chunk.js",
     "static/css/911.73e961cd.chunk.css": "/literate-octo-robot/static/css/911.73e961cd.chunk.css",
-    "static/js/911.d1eb3b51.chunk.js": "/literate-octo-robot/static/js/911.d1eb3b51.chunk.js",
-    "static/css/450.00926e55.chunk.css": "/literate-octo-robot/static/css/450.00926e55.chunk.css",
-    "static/js/450.8ac25304.chunk.js": "/literate-octo-robot/static/js/450.8ac25304.chunk.js",
-    "static/css/570.baa1f9ad.chunk.css": "/literate-octo-robot/static/css/570.baa1f9ad.chunk.css",
-    "static/js/570.cef41ba1.chunk.js": "/literate-octo-robot/static/js/570.cef41ba1.chunk.js",
+    "static/js/911.1af1e62d.chunk.js": "/literate-octo-robot/static/js/911.1af1e62d.chunk.js",
+    "static/css/87.4b710ba2.chunk.css": "/literate-octo-robot/static/css/87.4b710ba2.chunk.css",
+    "static/js/87.eb965cff.chunk.js": "/literate-octo-robot/static/js/87.eb965cff.chunk.js",
     "static/js/3.bf49f996.chunk.js": "/literate-octo-robot/static/js/3.bf49f996.chunk.js",
     "static/js/95.1acd23ef.chunk.js": "/literate-octo-robot/static/js/95.1acd23ef.chunk.js",
     "static/js/591.ca992f2d.chunk.js": "/literate-octo-robot/static/js/591.ca992f2d.chunk.js",
@@ -30,22 +29,21 @@
     "static/media/close.svg": "/literate-octo-robot/static/media/close.50d1e75517cb7428652be12a5a0077b8.svg",
     "static/media/check.svg": "/literate-octo-robot/static/media/check.b30c1d54bc34bb31e97302037512dffa.svg",
     "main.b0167924.css.map": "/literate-octo-robot/static/css/main.b0167924.css.map",
-    "main.5964f463.js.map": "/literate-octo-robot/static/js/main.5964f463.js.map",
-    "883.4bfe71a6.chunk.js.map": "/literate-octo-robot/static/js/883.4bfe71a6.chunk.js.map",
+    "main.989c0af1.js.map": "/literate-octo-robot/static/js/main.989c0af1.js.map",
+    "58.1e546f27.chunk.css.map": "/literate-octo-robot/static/css/58.1e546f27.chunk.css.map",
+    "58.56f1f73e.chunk.js.map": "/literate-octo-robot/static/js/58.56f1f73e.chunk.js.map",
     "938.7495e948.chunk.css.map": "/literate-octo-robot/static/css/938.7495e948.chunk.css.map",
     "938.ab9b1945.chunk.js.map": "/literate-octo-robot/static/js/938.ab9b1945.chunk.js.map",
     "911.73e961cd.chunk.css.map": "/literate-octo-robot/static/css/911.73e961cd.chunk.css.map",
-    "911.d1eb3b51.chunk.js.map": "/literate-octo-robot/static/js/911.d1eb3b51.chunk.js.map",
-    "450.00926e55.chunk.css.map": "/literate-octo-robot/static/css/450.00926e55.chunk.css.map",
-    "450.8ac25304.chunk.js.map": "/literate-octo-robot/static/js/450.8ac25304.chunk.js.map",
-    "570.baa1f9ad.chunk.css.map": "/literate-octo-robot/static/css/570.baa1f9ad.chunk.css.map",
-    "570.cef41ba1.chunk.js.map": "/literate-octo-robot/static/js/570.cef41ba1.chunk.js.map",
+    "911.1af1e62d.chunk.js.map": "/literate-octo-robot/static/js/911.1af1e62d.chunk.js.map",
+    "87.4b710ba2.chunk.css.map": "/literate-octo-robot/static/css/87.4b710ba2.chunk.css.map",
+    "87.eb965cff.chunk.js.map": "/literate-octo-robot/static/js/87.eb965cff.chunk.js.map",
     "3.bf49f996.chunk.js.map": "/literate-octo-robot/static/js/3.bf49f996.chunk.js.map",
     "95.1acd23ef.chunk.js.map": "/literate-octo-robot/static/js/95.1acd23ef.chunk.js.map",
     "591.ca992f2d.chunk.js.map": "/literate-octo-robot/static/js/591.ca992f2d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b0167924.css",
-    "static/js/main.5964f463.js"
+    "static/js/main.989c0af1.js"
   ]
 }
