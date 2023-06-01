@@ -121,10 +121,6 @@ export const AboutProduct: FC = () => {
   };
 
   const addToCartHandler = () => {
-    const leftQuantity = getLeftQuantity();
-    if (count > leftQuantity) {
-      return;
-    }
     const _id = nanoid();
     const product = {
       _id,
@@ -134,9 +130,6 @@ export const AboutProduct: FC = () => {
       stock,
     };
     dispatch(addToCart(product));
-    if (!leftQuantity) {
-      return setCount(0);
-    }
     return setCount(1);
   };
 
@@ -190,7 +183,6 @@ export const AboutProduct: FC = () => {
                 onSetCountByValue={setCountHandler}
                 onSetCountByStep={setNextCountHandler}
                 stock={stock}
-                page="product"
               />
               <button
                 type="button"

@@ -43,6 +43,8 @@ export const Confirmation: FC<ConfirmationProps> = ({
     dispatch(setData({ sending: sendingValue }));
   }, [sendingValue, dispatch]);
 
+  const isQuantityValid = items.every(item => item.chosenQuantity);
+
   return (
     <div className="confirm">
       <h2 className="form__title">Confirmation</h2>
@@ -109,7 +111,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
       <button
         type="submit"
         className="form__button"
-        disabled={!isValid || Boolean(!items.length)}
+        disabled={!isValid || Boolean(!items.length) || !isQuantityValid}
       >
         Complete order
       </button>

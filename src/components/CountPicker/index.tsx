@@ -7,17 +7,12 @@ import { ButtonNames } from '@types';
 
 import './CountPicker.scss';
 
-enum PageNames {
-  'PRODUCT' = 'product',
-}
-
 type CountPickerProps = {
   items: string[];
   max: number;
   count: number;
   unit: string;
   stock: string;
-  page?: string;
   onSetCountByStep: (type: ButtonNames) => void;
   onSetCountByValue: (count: number) => void;
   onSetUnit: (unit: string) => void;
@@ -32,7 +27,6 @@ export const CountPicker: FC<CountPickerProps> = ({
   onSetCountByStep,
   onSetUnit,
   stock,
-  page,
 }) => {
   const cart = useAppSelector(selectCart);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,29 +40,27 @@ export const CountPicker: FC<CountPickerProps> = ({
     }, 3000);
   };
 
+  useEffect(() => {
+    setErrorToNull();
+  }, [error]);
+
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
-    const orderedQuantity = cart
+    const ordered = cart
       .map(item => item.quantity)
       .reduce((acc, item) => (acc += item), 0);
-    const leftQuantity = parseInt(stock) - orderedQuantity;
+    const left = parseInt(stock) - ordered;
     if (Number.isNaN(count)) return;
-    if (count > max && !orderedQuantity) {
+    if (count > max && !ordered) {
       setError(`There are ${max} items in stock.`);
-      setErrorToNull();
       return;
-    } else if (
-      count > leftQuantity &&
-      orderedQuantity &&
-      page &&
-      page === 'product'
-    ) {
-      setError(`There are ${leftQuantity} items left in stock.`);
-      setErrorToNull();
+    } else if (count > left && ordered + count > max) {
+      setError(`There are ${left} items left in stock.`);
       return;
-    } else if (count < 1) {
+    } else if (!count) {
+      onSetCountByValue(count);
       setError('At least 1 item has to be to add to cart.');
-      setErrorToNull();
+      return;
     }
     onSetCountByValue(count);
   };
@@ -81,37 +73,25 @@ export const CountPicker: FC<CountPickerProps> = ({
     HTMLButtonElement
   > = e => {
     const typeButton = e.currentTarget.getAttribute('data-type') as ButtonNames;
-    const orderedQuantity = cart
+    const ordered = cart
       .map(item => item.quantity)
       .reduce((acc, item) => (acc += item), 0);
-    const leftQuantity = parseInt(stock) - orderedQuantity;
-    if (
-      typeButton === ButtonNames.SUP &&
-      count === max &&
-      !orderedQuantity &&
-      page &&
-      page === PageNames.PRODUCT
-    ) {
+    const left = parseInt(stock) - ordered;
+    if (typeButton === ButtonNames.SUP && count === max && !ordered) {
       setError(`There are ${max} items in stock.`);
-      setErrorToNull();
       return;
     } else if (
       typeButton === ButtonNames.SUP &&
-      page &&
-      page === PageNames.PRODUCT &&
-      (count === leftQuantity || !leftQuantity) &&
-      orderedQuantity
+      (count === left || !left) &&
+      ordered
     ) {
-      setError(`There are ${leftQuantity} items left in stock.`);
-      setErrorToNull();
+      setError(`There are ${left} items left in stock.`);
       return;
     } else if (typeButton === ButtonNames.SUP && count === max) {
       setError(`There are ${max} items in stock.`);
-      setErrorToNull();
       return;
     } else if (typeButton === ButtonNames.SUB && count - 1 < 1) {
       setError('At least 1 item has to be to add to cart.');
-      setErrorToNull();
       return;
     }
     onSetCountByStep(typeButton);
