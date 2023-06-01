@@ -192,6 +192,13 @@
     &:active {
       transform: scale(0.95);
     }
+
+    &:disabled {
+      color: $secondary-grey;
+      background-color: transparent;
+      border-color: $secondary-grey;
+      cursor: not-allowed;
+    }
   }
 
   &__add-icon {

@@ -113,11 +113,15 @@ export const AboutProduct: FC = () => {
     setSelectedTab(tab);
   };
 
-  const addToCartHandler = () => {
+  const getLeftQuantity = () => {
     const orderedQuantity = items
       .map(item => item.quantity)
       .reduce((acc, item) => (acc += item), 0);
-    const leftQuantity = parseInt(stock) - orderedQuantity;
+    return parseInt(stock) - orderedQuantity;
+  };
+
+  const addToCartHandler = () => {
+    const leftQuantity = getLeftQuantity();
     if (count > leftQuantity) {
       return;
     }
@@ -130,6 +134,10 @@ export const AboutProduct: FC = () => {
       stock,
     };
     dispatch(addToCart(product));
+    if (!leftQuantity) {
+      return setCount(0);
+    }
+    return setCount(1);
   };
 
   const isItemInCart = () => items.some(item => item.id === id);
@@ -186,6 +194,7 @@ export const AboutProduct: FC = () => {
               />
               <button
                 type="button"
+                disabled={!getLeftQuantity()}
                 className="details__add-button"
                 onClick={addToCartHandler}
               >
