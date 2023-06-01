@@ -8,7 +8,10 @@ import { CountPicker } from '@components/CountPicker';
 import { Modal } from '@components/Modal';
 import { Stars } from '@components/Stars';
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectPromocodeDiscount } from '@store/cart/selectors';
+import {
+  selectPromocodeDiscount,
+  selectCartItems,
+} from '@store/cart/selectors';
 import { updateCartItem, removeFromCart } from '@store/cart/slice';
 import { CartItem, ButtonNames } from '@types';
 import { setFixedPrice } from '@utils';
@@ -40,14 +43,15 @@ export const OrderItem: FC<OrderItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
+  const cartItems = useAppSelector(selectCartItems);
 
   const maxQuantity = parseInt(stock);
 
   const [unit, setUnit] = useState(chosenUnit);
   const [tempUnit, setTempUnit] = useState('');
   const [count, setCount] = useState(chosenQuantity);
+  const [matchedItem, setMatchedItem] = useState<CartItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const getTotalPrice = () => {
     return setFixedPrice(price[unit] * chosenQuantity);
   };
@@ -60,8 +64,28 @@ export const OrderItem: FC<OrderItemProps> = ({
 
   const setUnitHandler = (unit: string) => {
     setTempUnit(unit);
-    setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    if (matchedItem) {
+      return setIsModalOpen(true);
+    }
+    if (tempUnit.length) {
+      return setUnit(tempUnit);
+    }
+  }, [matchedItem]);
+
+  useEffect(() => {
+    const cartItem = cartItems.find(
+      item => item.product.id === id && item.chosenUnit === tempUnit
+    );
+    if (cartItem) {
+      return setMatchedItem(cartItem);
+    }
+    if (tempUnit.length && !cartItem) {
+      return setUnit(tempUnit);
+    }
+  }, [tempUnit]);
 
   const setCountHandler = (count: number) => {
     setCount(count);
@@ -81,6 +105,8 @@ export const OrderItem: FC<OrderItemProps> = ({
 
   useEffect(() => {
     dispatch(updateCartItem({ _id: itemId, id, unit }));
+    setMatchedItem(null);
+    setTempUnit('');
   }, [unit]);
 
   useEffect(() => {
@@ -157,6 +183,7 @@ export const OrderItem: FC<OrderItemProps> = ({
               onSetUnit={setUnitHandler}
               onSetCountByValue={setCountHandler}
               onSetCountByStep={setNextCountHandler}
+              stock={stock}
             />
           </div>
         </div>

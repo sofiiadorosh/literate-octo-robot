@@ -114,12 +114,20 @@ export const AboutProduct: FC = () => {
   };
 
   const addToCartHandler = () => {
+    const orderedQuantity = items
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    const leftQuantity = parseInt(stock) - orderedQuantity;
+    if (count > leftQuantity) {
+      return;
+    }
     const _id = nanoid();
     const product = {
       _id,
       id,
       unit,
       quantity: count,
+      stock,
     };
     dispatch(addToCart(product));
   };
@@ -173,6 +181,8 @@ export const AboutProduct: FC = () => {
                 onSetUnit={setUnitHandler}
                 onSetCountByValue={setCountHandler}
                 onSetCountByStep={setNextCountHandler}
+                stock={stock}
+                page="product"
               />
               <button
                 type="button"

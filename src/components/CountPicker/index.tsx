@@ -1,6 +1,8 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
+import { useAppSelector } from '@hooks';
+import { selectCart } from '@store/cart/selectors';
 import { ButtonNames } from '@types';
 
 import './CountPicker.scss';
@@ -10,6 +12,8 @@ type CountPickerProps = {
   max: number;
   count: number;
   unit: string;
+  stock: string;
+  page?: string;
   onSetCountByStep: (type: ButtonNames) => void;
   onSetCountByValue: (count: number) => void;
   onSetUnit: (unit: string) => void;
@@ -23,7 +27,10 @@ export const CountPicker: FC<CountPickerProps> = ({
   onSetCountByValue,
   onSetCountByStep,
   onSetUnit,
+  stock,
+  page,
 }) => {
+  const cart = useAppSelector(selectCart);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,9 +44,17 @@ export const CountPicker: FC<CountPickerProps> = ({
 
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
+    const orderedQuantity = cart
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    const leftQuantity = parseInt(stock) - orderedQuantity;
     if (Number.isNaN(count)) return;
-    if (count > max) {
-      setError(`There are only ${max} items in stock.`);
+    if (count > max && !orderedQuantity) {
+      setError(`There are ${max} items in stock.`);
+      setErrorToNull();
+      return;
+    } else if (count > leftQuantity && orderedQuantity) {
+      setError(`There are ${leftQuantity} items left in stock.`);
       setErrorToNull();
       return;
     } else if (!count) {
@@ -59,8 +74,32 @@ export const CountPicker: FC<CountPickerProps> = ({
     HTMLButtonElement
   > = e => {
     const typeButton = e.currentTarget.getAttribute('data-type') as ButtonNames;
-    if (typeButton === ButtonNames.SUP && count === max) {
-      setError(`There are only ${max} items in stock.`);
+    const orderedQuantity = cart
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    const leftQuantity = parseInt(stock) - orderedQuantity;
+    if (
+      typeButton === ButtonNames.SUP &&
+      count === max &&
+      !orderedQuantity &&
+      page &&
+      page === 'product'
+    ) {
+      setError(`There are ${max} items in stock.`);
+      setErrorToNull();
+      return;
+    } else if (
+      typeButton === ButtonNames.SUP &&
+      page &&
+      page === 'product' &&
+      (count === leftQuantity || !leftQuantity) &&
+      orderedQuantity
+    ) {
+      setError(`There are ${leftQuantity} items left in stock.`);
+      setErrorToNull();
+      return;
+    } else if (typeButton === ButtonNames.SUP && count === max) {
+      setError(`There are ${max} items in stock.`);
       setErrorToNull();
       return;
     } else if (typeButton === ButtonNames.SUB && count - 1 < 1) {

@@ -10,6 +10,7 @@ type Cart = {
   id: string;
   unit: string;
   quantity: number;
+  stock: string;
 };
 
 type CartItemAction = {
@@ -70,7 +71,7 @@ const cartSlice = createSlice({
       return { ...state, country: action.payload };
     },
     addToCart(state, action: PayloadAction<Cart>) {
-      const { _id, id, unit, quantity } = action.payload;
+      const { _id, id, stock, unit, quantity } = action.payload;
 
       const existingItem = state.cart.find(
         item => item.id === id && item.unit === unit
@@ -81,14 +82,17 @@ const cartSlice = createSlice({
           ...state,
           cart: state.cart.map(item =>
             item.id === id && item.unit === unit
-              ? { ...item, quantity: item.quantity + quantity }
+              ? {
+                  ...item,
+                  quantity: item.quantity + quantity,
+                }
               : item
           ),
         };
       } else {
         return {
           ...state,
-          cart: [{ _id, id, unit, quantity }, ...state.cart],
+          cart: [{ _id, id, stock, unit, quantity }, ...state.cart],
         };
       }
     },
@@ -110,7 +114,10 @@ const cartSlice = createSlice({
             return {
               ...item,
               unit,
-              quantity: item.quantity + existingItem.quantity,
+              quantity:
+                item.quantity + existingItem.quantity > parseInt(item.stock)
+                  ? parseInt(item.stock)
+                  : item.quantity + existingItem.quantity,
             };
           }
           return item;
