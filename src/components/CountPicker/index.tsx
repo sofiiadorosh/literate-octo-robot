@@ -7,6 +7,10 @@ import { ButtonNames } from '@types';
 
 import './CountPicker.scss';
 
+enum PageNames {
+  'PRODUCT' = 'product',
+}
+
 type CountPickerProps = {
   items: string[];
   max: number;
@@ -62,7 +66,7 @@ export const CountPicker: FC<CountPickerProps> = ({
       setError(`There are ${leftQuantity} items left in stock.`);
       setErrorToNull();
       return;
-    } else if (count <= 1 && page && page !== 'product') {
+    } else if (count <= 1 && page && page !== PageNames.PRODUCT) {
       setError('At least 1 item has to be to add to cart.');
       setErrorToNull();
     } else if (!count) {
@@ -91,7 +95,7 @@ export const CountPicker: FC<CountPickerProps> = ({
       count === max &&
       !orderedQuantity &&
       page &&
-      page === 'product'
+      page === PageNames.PRODUCT
     ) {
       setError(`There are ${max} items in stock.`);
       setErrorToNull();
@@ -99,7 +103,7 @@ export const CountPicker: FC<CountPickerProps> = ({
     } else if (
       typeButton === ButtonNames.SUP &&
       page &&
-      page === 'product' &&
+      page === PageNames.PRODUCT &&
       (count === leftQuantity || !leftQuantity) &&
       orderedQuantity
     ) {
