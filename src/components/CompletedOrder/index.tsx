@@ -22,6 +22,7 @@ export const CompletedOrder: FC = () => {
       <img
         src={order}
         alt="Order confirmation"
+        width="150"
         className="order-confirm__image"
       />
       <p className="order-confirm__description">
