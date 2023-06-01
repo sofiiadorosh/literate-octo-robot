@@ -26,14 +26,6 @@
       @extend %secondary-button;
       width: 164px;
       height: 47px;
-      border: 1px solid transparent;
-      transition: background-color 250ms $timing-function,
-        border-color 250ms $timing-function;
-
-      &:hover {
-        background-color: transparent;
-        border-color: $primary-dark;
-      }
     }
   }
 }

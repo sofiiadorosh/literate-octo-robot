@@ -22,4 +22,12 @@
   font-family: $secondary-font-stack;
   color: $primary-dark;
   background-color: $primary-dark-white;
+  border: 1px solid transparent;
+  transition: background-color 250ms $timing-function,
+    border-color 250ms $timing-function;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $primary-dark;
+  }
 }
