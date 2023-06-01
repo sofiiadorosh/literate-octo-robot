@@ -53,10 +53,18 @@ export const CountPicker: FC<CountPickerProps> = ({
       setError(`There are ${max} items in stock.`);
       setErrorToNull();
       return;
-    } else if (count > leftQuantity && orderedQuantity) {
+    } else if (
+      count > leftQuantity &&
+      orderedQuantity &&
+      page &&
+      page === 'product'
+    ) {
       setError(`There are ${leftQuantity} items left in stock.`);
       setErrorToNull();
       return;
+    } else if (count <= 1 && page && page !== 'product') {
+      setError('At least 1 item has to be to add to cart.');
+      setErrorToNull();
     } else if (!count) {
       setError('At least 1 item has to be to add to cart.');
       setErrorToNull();
