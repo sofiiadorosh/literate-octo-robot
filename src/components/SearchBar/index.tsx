@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
@@ -21,6 +21,8 @@ export const SearchBar: FC = () => {
   const categories = getCategories(products);
   const dropdownCategories = ['All categories', ...Object.keys(categories)];
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const queryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     dispatch(setQuery(value));
@@ -31,17 +33,32 @@ export const SearchBar: FC = () => {
 
   const chooseOptionHandler = (name: string) => {
     dispatch(setCategory(name));
+    setMenuOpen(false);
+  };
+
+  const openMenuHandler = () => {
+    setMenuOpen(true);
+  };
+
+  const closeMenuHandler = () => {
+    setMenuOpen(false);
   };
 
   return (
     <div className="search-bar">
-      <div className="search-bar__category">
+      <div
+        className="search-bar__category"
+        onMouseOver={openMenuHandler}
+        onMouseLeave={closeMenuHandler}
+      >
         <span>{selectedCategory}</span>
         <Arrow className="search-bar__icon" />
-        <DropDown
-          items={dropdownCategories}
-          onChooseOption={chooseOptionHandler}
-        />
+        {menuOpen && (
+          <DropDown
+            items={dropdownCategories}
+            onChooseOption={chooseOptionHandler}
+          />
+        )}
       </div>
       <div className="search-bar__line"></div>
       <form autoComplete="off" className="search-bar__form">
