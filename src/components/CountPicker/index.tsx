@@ -66,14 +66,9 @@ export const CountPicker: FC<CountPickerProps> = ({
       setError(`There are ${leftQuantity} items left in stock.`);
       setErrorToNull();
       return;
-    } else if (count <= 1 && page && page !== PageNames.PRODUCT) {
+    } else if (count < 1) {
       setError('At least 1 item has to be to add to cart.');
       setErrorToNull();
-    } else if (!count) {
-      setError('At least 1 item has to be to add to cart.');
-      setErrorToNull();
-    } else if (count < 0) {
-      return;
     }
     onSetCountByValue(count);
   };
@@ -140,12 +135,24 @@ export const CountPicker: FC<CountPickerProps> = ({
     };
   }, []);
 
+  const blurHandler = () => {
+    if (!count) {
+      onSetCountByValue(1);
+    }
+  };
+
   useEffect(() => {
     setMenuOpen(false);
   }, [unit]);
 
   return (
     <div className="count">
+      <input
+        type="password"
+        name="password"
+        autoComplete="new-password"
+        style={{ display: 'none' }}
+      />
       <input
         name="count"
         type="text"
@@ -154,7 +161,9 @@ export const CountPicker: FC<CountPickerProps> = ({
         placeholder="1"
         className="count__input"
         value={count}
+        autoComplete="off"
         onChange={setCountHandler}
+        onBlur={blurHandler}
       />
       <div className="count__control">
         <button
@@ -167,6 +176,7 @@ export const CountPicker: FC<CountPickerProps> = ({
         </button>
         <button
           type="button"
+          disabled={count <= 1}
           className="count__button"
           data-type={ButtonNames.SUB}
           onClick={onButtonClickHandler}

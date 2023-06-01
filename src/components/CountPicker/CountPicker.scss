@@ -40,7 +40,7 @@
     padding: 0 4px;
     transition: background-color 250ms $timing-function;
 
-    &:hover {
+    &:hover(:not(:disabled)) {
       background-color: $primary-grey;
     }
   }
