@@ -6,8 +6,6 @@ import { RootState } from '../index';
 
 export const selectData = (state: RootState) => state.cart.data;
 
-export const selectFormErrors = (state: RootState) => state.cart.formErrors;
-
 export const selectCountry = (state: RootState) => state.cart.country;
 
 export const selectCart = (state: RootState) => state.cart.cart;

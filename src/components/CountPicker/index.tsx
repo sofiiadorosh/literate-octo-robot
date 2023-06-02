@@ -76,13 +76,18 @@ export const CountPicker: FC<CountPickerProps> = ({
     } else if (
       typeButton === ButtonNames.SUP &&
       (count === left || !left) &&
+      ordered &&
+      page &&
+      page === 'product'
+    ) {
+      setError(`There are ${left} items  left in stock.`);
+      return;
+    } else if (
+      typeButton === ButtonNames.SUP &&
+      (count === max || !left) &&
       ordered
     ) {
-      setError(
-        `There are ${page && page === 'product' ? left : max} items  ${
-          page && page === 'product' ? 'left' : ''
-        } in stock.`
-      );
+      setError(`There are ${max} items in stock.`);
       return;
     } else if (typeButton === ButtonNames.SUB && count - 1 < 1) {
       setError('At least 1 item has to be to add to cart.');

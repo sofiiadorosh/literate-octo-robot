@@ -39,11 +39,26 @@ export const CheckoutForm: FC = () => {
     formState: { errors, isValid, isSubmitSuccessful },
     watch,
     reset,
+    trigger,
   } = useForm<FormValues>({
     defaultValues: defaultData,
     resolver: zodResolver(schema),
     mode: 'onChange',
+    reValidateMode: 'onChange',
   });
+
+  useEffect(() => {
+    const touchedFields = Object.entries(defaultData)
+      .map(([name, value]) => {
+        if (typeof value === 'string' && value.length) {
+          return name;
+        }
+        return undefined;
+      })
+      .filter(Boolean) as (keyof FormValues)[];
+
+    trigger(touchedFields);
+  }, [defaultData]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {

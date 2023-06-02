@@ -1,9 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectFormErrors } from '@store/cart/selectors';
-import { setData, setErrors } from '@store/cart/slice';
+import { useAppDispatch } from '@hooks';
+import { setData } from '@store/cart/slice';
 import { FormValues } from '@types';
 
 type InputProps = {
@@ -26,18 +25,11 @@ export const Input: FC<InputProps> = ({
   watch,
 }) => {
   const dispatch = useAppDispatch();
-  const formError = useAppSelector(selectFormErrors);
 
   const value = watch(name);
 
   useEffect(() => {
     dispatch(setData({ [name]: value }));
-  }, [value, dispatch]);
-
-  useEffect(() => {
-    if (errors[name]) {
-      dispatch(setErrors({ [name]: errors[name]?.message }));
-    }
   }, [value, dispatch]);
 
   return (
@@ -53,9 +45,9 @@ export const Input: FC<InputProps> = ({
       <label htmlFor={name} className="billing__label">
         {label}
       </label>
-      {Boolean(formError[name]?.length) && (
+      {errors[name] && (
         <p role="alert" className="form__error">
-          {formError[name]}
+          {errors[name]?.message}
         </p>
       )}
     </div>
