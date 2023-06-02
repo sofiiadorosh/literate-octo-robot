@@ -42,7 +42,7 @@ export const CheckoutForm: FC = () => {
   } = useForm<FormValues>({
     defaultValues: defaultData,
     resolver: zodResolver(schema),
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   useEffect(() => {

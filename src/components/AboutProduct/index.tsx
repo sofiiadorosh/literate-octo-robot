@@ -63,6 +63,8 @@ export const AboutProduct: FC = () => {
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
   const [selectedTab, setSelectedTab] = useState(Tabs.DESCRIPTION);
+  const [ordered, setOrdered] = useState(0);
+  const [left, setLeft] = useState(maxQuantity);
 
   useEffect(() => {
     if (tabRef.current) {
@@ -113,12 +115,17 @@ export const AboutProduct: FC = () => {
     setSelectedTab(tab);
   };
 
-  const getLeftQuantity = () => {
-    const orderedQuantity = items
+  useEffect(() => {
+    const sameItems = items.filter(
+      item => item.id === id && item.unit === unit
+    );
+    const orderedQuantity = sameItems
       .map(item => item.quantity)
       .reduce((acc, item) => (acc += item), 0);
-    return parseInt(stock) - orderedQuantity;
-  };
+    setOrdered(orderedQuantity);
+    const leftQuantity = parseInt(stock) - orderedQuantity;
+    setLeft(leftQuantity);
+  }, [items, unit, count]);
 
   const addToCartHandler = () => {
     const _id = nanoid();
@@ -182,11 +189,13 @@ export const AboutProduct: FC = () => {
                 onSetUnit={setUnitHandler}
                 onSetCountByValue={setCountHandler}
                 onSetCountByStep={setNextCountHandler}
-                stock={stock}
+                ordered={ordered}
+                left={left}
+                page="product"
               />
               <button
                 type="button"
-                disabled={!getLeftQuantity()}
+                disabled={!left}
                 className="details__add-button"
                 onClick={addToCartHandler}
               >

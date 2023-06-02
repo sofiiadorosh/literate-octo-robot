@@ -133,10 +133,12 @@ export const Order: FC = () => {
     }
     const formData = new FormData(e.currentTarget);
     const promocode = formData.get('promocode') as string;
-    if (!promocode) {
+    if (!promocode.trim()) {
       return showMessage(PromocodeMessage.EMPTY);
     }
-    const isValidPromocode = promocodes.some(item => item === promocode);
+    const isValidPromocode = promocodes.some(
+      item => item.trim() === promocode.trim()
+    );
     if (isValidPromocode) {
       dispatch(applyPromocode());
       return showMessage(PromocodeMessage.VALID);

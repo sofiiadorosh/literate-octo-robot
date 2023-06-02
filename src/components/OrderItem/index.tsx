@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@hooks';
 import {
   selectPromocodeDiscount,
   selectCartItems,
+  selectCart,
 } from '@store/cart/selectors';
 import { updateCartItem, removeFromCart } from '@store/cart/slice';
 import { CartItem, ButtonNames } from '@types';
@@ -44,6 +45,7 @@ export const OrderItem: FC<OrderItemProps> = ({
   const dispatch = useAppDispatch();
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
   const cartItems = useAppSelector(selectCartItems);
+  const items = useAppSelector(selectCart);
 
   const maxQuantity = parseInt(stock);
 
@@ -52,6 +54,9 @@ export const OrderItem: FC<OrderItemProps> = ({
   const [count, setCount] = useState(chosenQuantity);
   const [matchedItem, setMatchedItem] = useState<CartItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ordered, setOrdered] = useState(0);
+  const [left, setLeft] = useState(maxQuantity);
+
   const getTotalPrice = () => {
     return setFixedPrice(price[unit] * chosenQuantity);
   };
@@ -98,6 +103,18 @@ export const OrderItem: FC<OrderItemProps> = ({
       setCount(prevState => prevState - 1);
     }
   };
+
+  useEffect(() => {
+    const sameItems = items.filter(
+      item => item.id === id && item.unit === unit
+    );
+    const orderedQuantity = sameItems
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    setOrdered(orderedQuantity);
+    const leftQuantity = parseInt(stock) - orderedQuantity;
+    setLeft(leftQuantity);
+  }, [items]);
 
   useEffect(() => {
     setCount(chosenQuantity);
@@ -183,7 +200,8 @@ export const OrderItem: FC<OrderItemProps> = ({
               onSetUnit={setUnitHandler}
               onSetCountByValue={setCountHandler}
               onSetCountByStep={setNextCountHandler}
-              stock={stock}
+              ordered={ordered}
+              left={left}
             />
           </div>
         </div>

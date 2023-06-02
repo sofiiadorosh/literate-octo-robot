@@ -20,8 +20,13 @@ type CartItemAction = {
   quantity?: number;
 };
 
+type FormErrors = {
+  [K in keyof FormValues]?: string;
+};
+
 export interface CartState {
   data: FormValues;
+  formErrors: FormErrors;
   country: string;
   cart: Cart[];
   appliedPromocode: boolean;
@@ -48,6 +53,14 @@ export const cartInitialState = {
     sending: false,
     agreement: false,
   },
+  formErrors: {
+    firstName: '',
+    emailName: '',
+    phoneName: '',
+    countryName: '',
+    apartmentName: '',
+    zipName: '',
+  },
   country: '',
   cart: [],
   appliedPromocode: false,
@@ -66,6 +79,12 @@ const cartSlice = createSlice({
   reducers: {
     setData(state, action: PayloadAction<Partial<FormValues>>) {
       return { ...state, data: { ...state.data, ...action.payload } };
+    },
+    setErrors(state, action: PayloadAction<Partial<FormErrors>>) {
+      return {
+        ...state,
+        formErrors: { ...state.formErrors, ...action.payload },
+      };
     },
     setCountry(state, action: PayloadAction<Partial<string>>) {
       return { ...state, country: action.payload };
@@ -172,6 +191,16 @@ const cartSlice = createSlice({
           sending: false,
           agreement: false,
         },
+        formErrors: {
+          firstName: '',
+          emailName: '',
+          phoneName: '',
+          countryName: '',
+          apartmentName: '',
+          zipName: '',
+          sending: '',
+          agreement: '',
+        },
         cart: [],
         country: '',
         appliedPromocode: false,
@@ -206,6 +235,7 @@ const cartSlice = createSlice({
 
 export const {
   setData,
+  setErrors,
   setCountry,
   addToCart,
   removeFromCart,
