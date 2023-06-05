@@ -18,6 +18,13 @@ import { FiltersState } from './filters/slice';
 import { productDetailsReducer } from './productDetails/slice';
 import { ProductDetailsState } from './productDetails/slice';
 import { productsReducer } from './products/slice';
+import { ProductsState } from './products/slice';
+
+const productsPersistConfig = {
+  key: 'products',
+  storage,
+  whitelist: ['wishlist'],
+};
 
 const filtersPersistConfig = {
   key: 'filters',
@@ -36,7 +43,10 @@ const cartPersistConfig = {
 
 export const store = configureStore({
   reducer: {
-    products: productsReducer,
+    products: persistReducer<ProductsState>(
+      productsPersistConfig,
+      productsReducer
+    ),
     filters: persistReducer<FiltersState>(filtersPersistConfig, filtersReducer),
     productDetails: persistReducer<ProductDetailsState>(
       productDetailsPersistConfig,

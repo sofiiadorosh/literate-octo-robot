@@ -1,6 +1,10 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { ReactComponent as Heart } from '@assets/heart.svg';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { selectWishlistIds } from '@store/products/selectors';
+import { setWishlist } from '@store/products/slice';
 import { Product } from '@types';
 import { getNewPrice } from '@utils';
 
@@ -8,11 +12,22 @@ import './SimilarItem.scss';
 
 type SimilarItemProps = {
   item: Product;
+  page?: string;
 };
 
 export const SimilarItem: FC<SimilarItemProps> = ({
   item: { id, previewImage, discount, title, overview, price },
+  page,
 }) => {
+  const dispatch = useAppDispatch();
+  const items = useAppSelector(selectWishlistIds);
+
+  const isProductInWishlist = items.some(item => item === id);
+
+  const updateWishlistHandler = () => {
+    dispatch(setWishlist(id));
+  };
+
   const getPrice = () => {
     return getNewPrice(price.pcs, discount);
   };
@@ -34,9 +49,27 @@ export const SimilarItem: FC<SimilarItemProps> = ({
             <span>{getPrice()} USD</span>
             <span className="similar__price_old">{price.pcs} USD</span>
           </div>
-          <NavLink to={`/products/${id}`} className="similar__button">
-            Buy now
-          </NavLink>
+          <div className="similar__button-wrapper">
+            <NavLink to={`/products/${id}`} className="similar__button">
+              Buy now
+            </NavLink>
+            {page && page === 'wish' && (
+              <button
+                type="button"
+                className="wish__button"
+                onClick={updateWishlistHandler}
+              >
+                <Heart
+                  className={
+                    isProductInWishlist
+                      ? 'wish__icon wish__icon_active'
+                      : 'wish__icon'
+                  }
+                />
+                <span>Remove</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </li>

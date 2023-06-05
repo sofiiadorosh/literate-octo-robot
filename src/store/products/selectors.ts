@@ -16,6 +16,10 @@ import { RootState } from '../index';
 
 export const selectProducts = (state: RootState) => state.products.items;
 
+export const selectWishlistIds = (state: RootState) => state.products.wishlist;
+
+export const selectWishlist = (state: RootState) => state.products.products;
+
 export const selectIsLoading = (state: RootState) => state.products.isLoading;
 
 export const selectError = (state: RootState) => state.products.error;

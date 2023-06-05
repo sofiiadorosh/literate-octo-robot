@@ -209,7 +209,7 @@
 
   &__wish-button {
     @extend %secondary-button;
-    width: 193px;
+    width: 230px;
     padding: 6px 12px;
     background-color: transparent;
   }
@@ -218,7 +218,12 @@
     width: 16px;
     height: 16px;
     stroke: currentColor;
+
+    &_active {
+      stroke: $light-red;
+    }
   }
+
   &__tab {
     display: flex;
     flex-direction: column;

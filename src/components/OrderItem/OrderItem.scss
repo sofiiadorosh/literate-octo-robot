@@ -73,6 +73,10 @@
 
   &__wish-icon {
     stroke: $light-red;
+
+    &_active {
+      fill: $light-red;
+    }
   }
 
   &__remove-icon {

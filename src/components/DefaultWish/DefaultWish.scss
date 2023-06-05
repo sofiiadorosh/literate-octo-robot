@@ -1,0 +1,33 @@
+@import '@styles/shared.scss';
+
+.default-wish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  &__title {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  &__description {
+    width: 95%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+
+    @media screen and (min-width: 672px) {
+      width: 60%;
+    }
+  }
+
+  &__link {
+    @extend %primary-button;
+    width: 180px;
+  }
+}

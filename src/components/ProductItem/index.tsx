@@ -1,10 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { Stars } from '@components/Stars';
-import { Product } from '@types';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { selectWishlistIds } from '@store/products/selectors';
+import { setWishlist } from '@store/products/slice';
+import { Product, ButtonWishText } from '@types';
 import { getNewPrice } from '@utils';
 
 import './ProductItem.scss';
@@ -30,6 +33,25 @@ export const ProductItem: FC<ProductItemProps> = ({
     deliveryTime,
   },
 }) => {
+  const dispatch = useAppDispatch();
+  const items = useAppSelector(selectWishlistIds);
+
+  const [buttonName, setButtonName] = useState('');
+
+  const isProductInWishlist = items.some(item => item === id);
+
+  const updateWishlistHandler = () => {
+    dispatch(setWishlist(id));
+  };
+
+  const getButtonText = () =>
+    isProductInWishlist ? ButtonWishText.REMOVE : ButtonWishText.ADD;
+
+  useEffect(() => {
+    const name = getButtonText();
+    setButtonName(name);
+  }, [isProductInWishlist]);
+
   return (
     <li className="product">
       <NavLink to={id} className="product__thumb">
@@ -51,7 +73,7 @@ export const ProductItem: FC<ProductItemProps> = ({
           <ul className="product-info__list">
             <li className="product-info__item">
               <span>Fresheness</span>
-              <span className="product-info__name product-info__name_accent">
+              <span className="product-infoname product-infoname_accent">
                 {fresheness}
               </span>
             </li>
@@ -65,7 +87,7 @@ export const ProductItem: FC<ProductItemProps> = ({
             </li>
             <li className="product-info__item">
               <span>Stock</span>
-              <span className="product-info__name product-info__name_accent">
+              <span className="product-infoname product-infoname_accent">
                 {stock}
               </span>
             </li>
@@ -89,9 +111,19 @@ export const ProductItem: FC<ProductItemProps> = ({
               <span>Product Detail</span>
               <Arrow className="product-order__wish-icon" />
             </NavLink>
-            <button type="button" className="product-order__add-button">
-              <Heart className="product-order__add-icon" />
-              <span>Add to wish list</span>
+            <button
+              type="button"
+              className="product-order__add-button"
+              onClick={updateWishlistHandler}
+            >
+              <Heart
+                className={
+                  isProductInWishlist
+                    ? 'product-order__add-icon product-order__add-icon_active'
+                    : 'product-order__add-icon'
+                }
+              />
+              <span>{buttonName}</span>
             </button>
           </div>
         </div>
