@@ -22,7 +22,7 @@ const WishlistPage: FC = () => {
 
   useEffect(() => {
     dispatch(getProductsByIds(ids));
-  }, [ids, dispatch]);
+  }, []);
 
   if (isLoading) {
     return <Loader />;
