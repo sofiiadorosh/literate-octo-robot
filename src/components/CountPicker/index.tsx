@@ -30,6 +30,16 @@ export const CountPicker: FC<CountPickerProps> = ({
   onSetUnit,
   page,
 }) => {
+  const areProductsAvailable =
+    (count === remainder || !remainder) &&
+    ordered &&
+    page &&
+    page === 'product';
+  const isCountGreaterThanMax = count > max && !ordered;
+  const isCountLessThanOne = count - 1 < 1;
+  const isMaxOrNoRemainderOrdered = (count === max || !remainder) && ordered;
+  const isExceedingRemainderOrMax =
+    (count > remainder || count > max) && page && page === 'product';
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,14 +58,10 @@ export const CountPicker: FC<CountPickerProps> = ({
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
     if (Number.isNaN(count)) return;
-    if (count > max && !ordered) {
+    if (isCountGreaterThanMax) {
       setError(`There are ${max} items in stock.`);
       return;
-    } else if (
-      (count > remainder || count > max) &&
-      page &&
-      page === 'product'
-    ) {
+    } else if (isExceedingRemainderOrMax) {
       setError(`There are ${remainder} items in stock.`);
       return;
     } else if (count > max) {
@@ -80,23 +86,13 @@ export const CountPicker: FC<CountPickerProps> = ({
     if (typeButton === ButtonNames.SUP && count === max && !ordered) {
       setError(`There are ${max} items in stock.`);
       return;
-    } else if (
-      typeButton === ButtonNames.SUP &&
-      (count === remainder || !remainder) &&
-      ordered &&
-      page &&
-      page === 'product'
-    ) {
+    } else if (typeButton === ButtonNames.SUP && areProductsAvailable) {
       setError(`There are ${remainder} items  left in stock.`);
       return;
-    } else if (
-      typeButton === ButtonNames.SUP &&
-      (count === max || !remainder) &&
-      ordered
-    ) {
+    } else if (typeButton === ButtonNames.SUP && isMaxOrNoRemainderOrdered) {
       setError(`There are ${max} items in stock.`);
       return;
-    } else if (typeButton === ButtonNames.SUB && count - 1 < 1) {
+    } else if (typeButton === ButtonNames.SUB && isCountLessThanOne) {
       setError('At least 1 item has to be to add to cart.');
       return;
     }
