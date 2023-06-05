@@ -3,7 +3,9 @@ import React, { FC, useState, useRef, useEffect } from 'react';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
+import { ConfirmQuantityChange } from '@components/ConfirmQuantityChange';
 import { CountPicker } from '@components/CountPicker';
+import { Modal } from '@components/Modal';
 import { ProductDescription } from '@components/ProductDescription';
 import { Questions } from '@components/Questions';
 import { Reviews } from '@components/Reviews';
@@ -65,6 +67,7 @@ export const AboutProduct: FC = () => {
   const [selectedTab, setSelectedTab] = useState(Tabs.DESCRIPTION);
   const [ordered, setOrdered] = useState(0);
   const [remainder, setRemainder] = useState(maxQuantity);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (tabRef.current) {
@@ -128,6 +131,10 @@ export const AboutProduct: FC = () => {
   }, [items, unit, count]);
 
   const addToCartHandler = () => {
+    const itemInCart = items.find(item => item.id === id && item.unit === unit);
+    if (itemInCart && !isModalOpen) {
+      return setIsModalOpen(true);
+    }
     const _id = nanoid();
     const product = {
       _id,
@@ -138,6 +145,10 @@ export const AboutProduct: FC = () => {
     };
     dispatch(addToCart(product));
     return setCount(1);
+  };
+
+  const closeModalHandler = () => {
+    setIsModalOpen(false);
   };
 
   const itemInCart = items.find(item => item.id === id && item.unit === unit);
@@ -225,6 +236,14 @@ export const AboutProduct: FC = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <Modal closeModal={closeModalHandler}>
+          <ConfirmQuantityChange
+            addToCart={addToCartHandler}
+            closeModal={closeModalHandler}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
