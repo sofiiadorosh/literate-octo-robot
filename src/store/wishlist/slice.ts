@@ -26,7 +26,7 @@ const wishlistSlice = createSlice({
       if (state.wishlist.includes(action.payload)) {
         return {
           ...state,
-          wishlist: [...state.wishlist.filter(item => item !== action.payload)],
+          wishlist: state.wishlist.filter(item => item !== action.payload),
         };
       }
       return {

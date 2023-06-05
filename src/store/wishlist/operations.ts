@@ -13,7 +13,7 @@ export const getProductsByIds = createAsyncThunk<
   Product[],
   string[],
   { rejectValue: string }
->('products/getByIds', async (productIds, thunkAPI) => {
+>('wishlist/getByIds', async (productIds, thunkAPI) => {
   try {
     const requests = productIds.map(productId => getProductById(productId));
     const products = await Promise.all(requests);
