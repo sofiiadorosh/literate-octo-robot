@@ -211,6 +211,9 @@ export const OrderItem: FC<OrderItemProps> = ({
         <Modal closeModal={closeModalHandler}>
           <ConfirmUnitChange
             unit={tempUnit}
+            stock={maxQuantity}
+            prevQuantity={matchedItem?.chosenQuantity}
+            currentQuantity={chosenQuantity}
             setUnit={() => setUnit(tempUnit)}
             closeModal={closeModalHandler}
           />

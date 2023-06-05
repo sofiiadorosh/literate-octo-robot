@@ -4,12 +4,18 @@ import './ConfirmUnitChange.scss';
 
 type ConfirmUnitChangeProps = {
   unit: string;
+  stock: number;
+  prevQuantity: number | undefined;
+  currentQuantity: number;
   setUnit: () => void;
   closeModal: () => void;
 };
 
 export const ConfirmUnitChange: FC<ConfirmUnitChangeProps> = ({
   unit,
+  stock,
+  prevQuantity,
+  currentQuantity,
   setUnit,
   closeModal,
 }) => {
@@ -17,12 +23,30 @@ export const ConfirmUnitChange: FC<ConfirmUnitChangeProps> = ({
     setUnit();
     closeModal();
   };
+
   return (
     <div className="change-unit">
       <p className="change-unit__question">
-        You already have a product of the same unit type in your cart. Are you
-        certain you want to change the unit to {unit}? If you proceed, only one
-        product will remain, with the total quantity being updated accordingly.
+        You currently have a product of the same unit type in your cart with a
+        quantity of&nbsp;
+        <span className="change-unit__question_green">{prevQuantity}</span>. Are
+        you sure you want to change the unit to a&nbsp;
+        <span className="change-unit__question_green">{unit}</span>? If you
+        proceed, the total quantity will be updated accordingly, resulting in a
+        total of&nbsp;
+        {prevQuantity && prevQuantity + currentQuantity > stock ? (
+          <>
+            <span className="change-unit__question_red">{stock}</span> because
+            it exceeds the maximum stock limit.
+          </>
+        ) : (
+          <>
+            <span className="change-unit__question_green">
+              {prevQuantity && prevQuantity + currentQuantity}
+            </span>
+            &nbsp; products in your cart ({prevQuantity} + {currentQuantity}).
+          </>
+        )}
       </p>
       <div className="change-unit__button-wrapper">
         <button
