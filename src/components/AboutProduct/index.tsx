@@ -15,8 +15,8 @@ import { useAppSelector, useAppDispatch } from '@hooks';
 import { selectCart } from '@store/cart/selectors';
 import { addToCart } from '@store/cart/slice';
 import { selectProductDetails } from '@store/productDetails/selectors';
-import { selectWishlistIds } from '@store/products/selectors';
-import { setWishlist } from '@store/products/slice';
+import { selectWishlistIds } from '@store/wishlist/selectors';
+import { setWishlist } from '@store/wishlist/slice';
 import { ButtonNames, Tabs, ButtonWishText } from '@types';
 import { getNewPrice, setFixedPrice } from '@utils';
 

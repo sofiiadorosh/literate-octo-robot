@@ -18,12 +18,12 @@ import { FiltersState } from './filters/slice';
 import { productDetailsReducer } from './productDetails/slice';
 import { ProductDetailsState } from './productDetails/slice';
 import { productsReducer } from './products/slice';
-import { ProductsState } from './products/slice';
+import { WishlistState } from './wishlist/slice';
+import { wishlistReducer } from './wishlist/slice';
 
-const productsPersistConfig = {
-  key: 'products',
+const wishlistPersistConfig = {
+  key: 'wishlist',
   storage,
-  whitelist: ['wishlist'],
 };
 
 const filtersPersistConfig = {
@@ -43,16 +43,17 @@ const cartPersistConfig = {
 
 export const store = configureStore({
   reducer: {
-    products: persistReducer<ProductsState>(
-      productsPersistConfig,
-      productsReducer
-    ),
+    products: productsReducer,
     filters: persistReducer<FiltersState>(filtersPersistConfig, filtersReducer),
     productDetails: persistReducer<ProductDetailsState>(
       productDetailsPersistConfig,
       productDetailsReducer
     ),
     cart: persistReducer<CartState>(cartPersistConfig, cartReducer),
+    wishlist: persistReducer<WishlistState>(
+      wishlistPersistConfig,
+      wishlistReducer
+    ),
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

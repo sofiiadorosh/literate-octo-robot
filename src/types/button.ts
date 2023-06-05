@@ -5,5 +5,5 @@ export enum ButtonNames {
 
 export enum ButtonWishText {
   'ADD' = 'Add to wish list',
-  'REMOVE' = 'Remove from wish list',
+  'REMOVE' = 'In wish list',
 }

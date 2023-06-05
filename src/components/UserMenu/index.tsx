@@ -6,7 +6,7 @@ import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as User } from '@assets/user.svg';
 import { useAppSelector } from '@hooks';
 import { selectCart } from '@store/cart/selectors';
-import { selectWishlistIds } from '@store/products/selectors';
+import { selectWishlistIds } from '@store/wishlist/selectors';
 
 import './UserMenu.scss';
 

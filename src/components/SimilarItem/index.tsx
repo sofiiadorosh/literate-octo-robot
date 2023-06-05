@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectWishlistIds } from '@store/products/selectors';
-import { setWishlist } from '@store/products/slice';
+import { selectWishlistIds } from '@store/wishlist/selectors';
+import { setWishlist } from '@store/wishlist/slice';
 import { Product } from '@types';
 import { getNewPrice } from '@utils';
 

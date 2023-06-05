@@ -14,8 +14,8 @@ import {
   selectCart,
 } from '@store/cart/selectors';
 import { updateCartItem, removeFromCart } from '@store/cart/slice';
-import { selectWishlistIds } from '@store/products/selectors';
-import { setWishlist } from '@store/products/slice';
+import { selectWishlistIds } from '@store/wishlist/selectors';
+import { setWishlist } from '@store/wishlist/slice';
 import { CartItem, ButtonNames } from '@types';
 import { setFixedPrice } from '@utils';
 

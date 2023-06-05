@@ -5,8 +5,8 @@ import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { Stars } from '@components/Stars';
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectWishlistIds } from '@store/products/selectors';
-import { setWishlist } from '@store/products/slice';
+import { selectWishlistIds } from '@store/wishlist/selectors';
+import { setWishlist } from '@store/wishlist/slice';
 import { Product, ButtonWishText } from '@types';
 import { getNewPrice } from '@utils';
 
