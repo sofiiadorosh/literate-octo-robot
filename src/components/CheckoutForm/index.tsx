@@ -6,9 +6,11 @@ import { useForm } from 'react-hook-form';
 import { AdditionalInfo } from '@components/AdditionalInfo';
 import { BillingInfo } from '@components/BillingInfo';
 import { Confirmation } from '@components/Confirmation';
-import { useAppSelector } from '@hooks';
+import { useAppSelector, useAppDispatch } from '@hooks';
 import { schema } from '@schemas';
 import { selectData } from '@store/cart/selectors';
+import { clearCart } from '@store/cart/slice';
+import { setFormSubmitted } from '@store/cart/slice';
 import { FormValues } from '@types';
 
 import './CheckoutForm.scss';
@@ -28,6 +30,7 @@ const defaultValues = {
 };
 
 export const CheckoutForm: FC = () => {
+  const dispatch = useAppDispatch();
   const defaultData = useAppSelector(selectData);
   const {
     register,
@@ -36,20 +39,38 @@ export const CheckoutForm: FC = () => {
     formState: { errors, isValid, isSubmitSuccessful },
     watch,
     reset,
+    trigger,
   } = useForm<FormValues>({
     defaultValues: defaultData,
     resolver: zodResolver(schema),
-    mode: 'onTouched',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
+
+  useEffect(() => {
+    const touchedFields = Object.entries(defaultData)
+      .map(([name, value]) => {
+        if (typeof value === 'string' && value.length) {
+          return name;
+        }
+        return undefined;
+      })
+      .filter(Boolean) as (keyof FormValues)[];
+
+    trigger(touchedFields);
+  }, [defaultData]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
+
+      dispatch(setFormSubmitted(true));
     }
   }, [isSubmitSuccessful, reset]);
 
   const onSubmitHandler = (data: FormValues) => {
-    console.log('form submitted', data);
+    console.log(data);
+    dispatch(clearCart());
   };
 
   return (
@@ -57,10 +78,16 @@ export const CheckoutForm: FC = () => {
       <h1 className="form__heading">Form</h1>
       <form
         className="form"
-        autoComplete="do-not-autofill"
+        autoComplete="off"
         noValidate
         onSubmit={handleSubmit(onSubmitHandler)}
       >
+        <input
+          type="password"
+          name="password"
+          autoComplete="new-password"
+          style={{ display: 'none' }}
+        />
         <BillingInfo
           register={register}
           watch={watch}

@@ -32,15 +32,13 @@
     gap: 8px;
     flex-shrink: 0;
     width: 180px;
+    height: 42px;
     font-family: $secondary-font-stack;
     font-weight: 700;
     font-size: 15px;
     line-height: 1.47;
     cursor: pointer;
 
-    &:hover .dropdown {
-      display: block;
-    }
     &:hover .search-bar__icon {
       transform: rotate(180deg);
     }

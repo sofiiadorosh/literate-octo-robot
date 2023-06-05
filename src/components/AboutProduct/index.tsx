@@ -1,27 +1,35 @@
+import { nanoid } from '@reduxjs/toolkit';
 import React, { FC, useState, useRef, useEffect } from 'react';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
+import { ConfirmQuantityChange } from '@components/ConfirmQuantityChange';
 import { CountPicker } from '@components/CountPicker';
+import { Modal } from '@components/Modal';
 import { ProductDescription } from '@components/ProductDescription';
 import { Questions } from '@components/Questions';
 import { Reviews } from '@components/Reviews';
 import { Stars } from '@components/Stars';
 import { TabsList } from '@components/TabList';
-import { useAppSelector } from '@hooks';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { selectCart } from '@store/cart/selectors';
+import { addToCart } from '@store/cart/slice';
 import { selectProductDetails } from '@store/productDetails/selectors';
 import { ButtonNames, Tabs } from '@types';
-import { getNewPrice } from '@utils';
+import { getNewPrice, setFixedPrice } from '@utils';
 
 import './AboutProduct.scss';
 
 export const AboutProduct: FC = () => {
+  const dispatch = useAppDispatch();
   const selectedProduct = useAppSelector(selectProductDetails);
+  const items = useAppSelector(selectCart);
 
   if (!selectedProduct) {
     return null;
   }
   const {
+    id,
     images,
     overview,
     title,
@@ -57,6 +65,9 @@ export const AboutProduct: FC = () => {
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
   const [selectedTab, setSelectedTab] = useState(Tabs.DESCRIPTION);
+  const [ordered, setOrdered] = useState(0);
+  const [remainder, setRemainder] = useState(maxQuantity);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (tabRef.current) {
@@ -64,7 +75,7 @@ export const AboutProduct: FC = () => {
     }
   }, [selectedTab]);
 
-  const getTotalPrice = (price: number) => Number(price * count).toFixed(2);
+  const getTotalPrice = (price: number) => setFixedPrice(price * count);
 
   const getNewTotalPrice = () => {
     const newPrice = getNewPrice(price[unit], discount);
@@ -106,6 +117,41 @@ export const AboutProduct: FC = () => {
   const setTab = (tab: Tabs) => {
     setSelectedTab(tab);
   };
+
+  useEffect(() => {
+    const sameItems = items.filter(
+      item => item.id === id && item.unit === unit
+    );
+    const orderedQuantity = sameItems
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    setOrdered(orderedQuantity);
+    const productRemainder = parseInt(stock) - orderedQuantity;
+    setRemainder(productRemainder);
+  }, [items, unit, count]);
+
+  const addToCartHandler = () => {
+    const itemInCart = items.find(item => item.id === id && item.unit === unit);
+    if (itemInCart && !isModalOpen) {
+      return setIsModalOpen(true);
+    }
+    const _id = nanoid();
+    const product = {
+      _id,
+      id,
+      unit,
+      quantity: count,
+      stock,
+    };
+    dispatch(addToCart(product));
+    return setCount(1);
+  };
+
+  const closeModalHandler = () => {
+    setIsModalOpen(false);
+  };
+
+  const itemInCart = items.find(item => item.id === id && item.unit === unit);
 
   return (
     <div className="details">
@@ -151,12 +197,23 @@ export const AboutProduct: FC = () => {
                 onSetUnit={setUnitHandler}
                 onSetCountByValue={setCountHandler}
                 onSetCountByStep={setNextCountHandler}
+                ordered={ordered}
+                remainder={remainder}
+                page="product"
               />
-              <button type="button" className="details__add-button">
+              <button
+                type="button"
+                disabled={!remainder}
+                className="details__add-button"
+                onClick={addToCartHandler}
+              >
                 <Plus className="details__add-icon" />
                 <span>Add to cart</span>
               </button>
             </div>
+            {itemInCart && (
+              <span className="details__tag">{`${itemInCart.quantity} ${itemInCart.unit} is in cart now`}</span>
+            )}
           </div>
           <button type="button" className="details__wish-button">
             <Heart className="details__wish-icon" />
@@ -179,6 +236,14 @@ export const AboutProduct: FC = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <Modal closeModal={closeModalHandler}>
+          <ConfirmQuantityChange
+            addToCart={addToCartHandler}
+            closeModal={closeModalHandler}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

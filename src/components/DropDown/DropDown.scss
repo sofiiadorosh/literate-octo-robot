@@ -2,20 +2,25 @@
 
 .dropdown {
   position: absolute;
-  left: 0;
-  top: 100%;
-  display: none;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 100%);
   width: 100%;
   min-width: 160px;
-  height: 150px;
-  background-color: $white;
+  max-height: 150px;
+  font-family: $primary-font-stack;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.36;
+  background-color: $light-green;
+  border: 1px solid $accent;
   border-radius: 4px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   overflow: auto;
+  cursor: pointer;
   z-index: 1;
 
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 2px;
   }
   &::-webkit-scrollbar-track {
     background-color: $primary-grey;
@@ -30,15 +35,15 @@
   }
 
   &__item {
-    padding: 8px;
-    font-family: $secondary-font-stack;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    cursor: pointer;
+    padding: 10px 12px;
+    &:not(:last-child) {
+      border-bottom: 1px dashed $accent;
+    }
 
     &:hover {
-      background-color: $secondary-dark-white;
+      color: $white;
+      background-color: $accent;
+      border-color: $white;
     }
   }
 }

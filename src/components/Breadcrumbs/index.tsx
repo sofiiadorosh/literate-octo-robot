@@ -14,6 +14,8 @@ interface BreadcrumbPath {
 enum Paths {
   'PRODUCTS' = 'products',
   'ALL_PRODUCTS' = 'All products',
+  'CONFIRMATION' = 'confirmation',
+  'ORDER_CONFIRMATION' = 'Order confirmation',
 }
 
 export const Breadcrumbs: FC = () => {
@@ -42,6 +44,9 @@ export const Breadcrumbs: FC = () => {
   const getBreadcrumbName = (part: string): string => {
     if (part === Paths.PRODUCTS) {
       return Paths.ALL_PRODUCTS;
+    }
+    if (part === Paths.CONFIRMATION) {
+      return Paths.ORDER_CONFIRMATION;
     }
     const isProductId = /^\d+$/.test(part);
     if (isProductId) {

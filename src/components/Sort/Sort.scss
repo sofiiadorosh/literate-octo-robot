@@ -3,9 +3,10 @@
 .sort {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 38px;
-  padding: 9.5px 16px;
+  padding: 0 16px;
   background-color: $secondary-dark-white;
   border: 1px solid $primary-grey;
   border-radius: 12px;
@@ -23,7 +24,7 @@
 
   &__line {
     width: 1px;
-    height: 100%;
+    height: 19px;
     background-color: $primary-grey;
   }
 
@@ -34,15 +35,12 @@
     align-items: center;
     gap: 4px;
     width: 184px;
+    height: 38px;
     font-family: $secondary-font-stack;
     font-weight: 600;
     font-size: 12px;
     line-height: 1.5;
     cursor: pointer;
-
-    &:hover .dropdown {
-      display: block;
-    }
 
     &:hover .sort__icon {
       transform: rotate(180deg);

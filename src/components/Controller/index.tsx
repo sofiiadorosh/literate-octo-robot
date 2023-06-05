@@ -108,11 +108,11 @@ export const InputController: FC<InputControllerProps> = ({
     }
   }, [value]);
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (e: MouseEvent) => {
     if (
       menuRef.current &&
-      !menuRef.current.contains(event.target as Node) &&
-      event.target !== inputRef.current
+      !menuRef.current.contains(e.target as Node) &&
+      e.target !== inputRef.current
     ) {
       setMenuOpen(false);
       onChange('');
@@ -135,7 +135,7 @@ export const InputController: FC<InputControllerProps> = ({
           name === Controller.CITY && watch && !watch(Controller.COUNTRY)
         }
         type="text"
-        autoComplete="do-not-autofill"
+        autoComplete="off"
         value={String(value)}
         placeholder={placeholder}
         className="billing__input"

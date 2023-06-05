@@ -3,10 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Cart } from '@assets/cart.svg';
 import { ReactComponent as User } from '@assets/user.svg';
+import { useAppSelector } from '@hooks';
+import { selectCart } from '@store/cart/selectors';
 
 import './UserMenu.scss';
 
 export const UserMenu: FC = () => {
+  const items = useAppSelector(selectCart);
   return (
     <ul className="user-list">
       <li className="user-list__item">
@@ -18,7 +21,7 @@ export const UserMenu: FC = () => {
         <NavLink to="/checkout" className="user-list__link">
           <Cart className="user-list__icon" />
         </NavLink>
-        <span className="cart">4</span>
+        {Boolean(items.length) && <span className="cart">{items.length}</span>}
       </li>
     </ul>
   );

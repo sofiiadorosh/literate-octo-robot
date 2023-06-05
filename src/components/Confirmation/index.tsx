@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { ReactComponent as Check } from '@assets/check.svg';
 import { useAppDispatch } from '@hooks';
+import { useAppSelector } from '@hooks';
+import { selectCartItems } from '@store/cart/selectors';
 import { setData } from '@store/cart/slice';
 import { FormValues } from '@types';
 
@@ -28,6 +30,8 @@ export const Confirmation: FC<ConfirmationProps> = ({
   isValid,
 }) => {
   const dispatch = useAppDispatch();
+  const items = useAppSelector(selectCartItems);
+
   const agreementValue = watch(Confirm.AGREEMENT);
   const sendingValue = watch(Confirm.SENDING);
 
@@ -38,6 +42,8 @@ export const Confirmation: FC<ConfirmationProps> = ({
   useEffect(() => {
     dispatch(setData({ sending: sendingValue }));
   }, [sendingValue, dispatch]);
+
+  const isQuantityValid = items.every(item => item.chosenQuantity);
 
   return (
     <div className="confirm">
@@ -102,7 +108,11 @@ export const Confirmation: FC<ConfirmationProps> = ({
           )}
         </div>
       </div>
-      <button type="submit" className="form__button" disabled={!isValid}>
+      <button
+        type="submit"
+        className="form__button"
+        disabled={!isValid || Boolean(!items.length) || !isQuantityValid}
+      >
         Complete order
       </button>
     </div>

@@ -1,0 +1,186 @@
+@import '@styles/shared.scss';
+
+.order {
+  width: 100%;
+  max-height: 812px;
+  padding: 32px 16px;
+  background-color: $white;
+  border: 1px solid $primary-grey;
+  border-radius: 12px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow: auto;
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $primary-grey;
+    border-radius: 100px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $accent;
+    border-radius: 100px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1199px) {
+    width: 670px;
+  }
+
+  &__title {
+    margin-bottom: 4px;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+  }
+
+  &__description {
+    margin-bottom: 40px;
+    font-weight: 400;
+    line-height: 1.33;
+    color: $secondary-grey;
+  }
+
+  &__summary-list {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  &__field {
+    position: relative;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  &__label {
+    @extend %hidden;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 11px 140px 12px 21px;
+    color: $primary-dark;
+    background-color: $secondary-dark-white;
+    border: 1px solid $primary-grey;
+    border-radius: 12px;
+    outline: none;
+
+    &::placeholder {
+      font-family: $primary-font-stack;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.36;
+      color: $secondary-grey;
+    }
+
+    &:not(:placeholder-shown) + .order__button-control > .order__clear-button {
+      display: flex;
+    }
+  }
+
+  &__button-control {
+    position: absolute;
+    top: 6px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__clear-button {
+    @extend %button;
+    display: none;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    color: $primary-dark;
+    border-radius: 50%;
+    transition: background-color 250ms $timing-function;
+
+    &:hover {
+      background-color: $primary-grey;
+    }
+  }
+
+  &__clear-icon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+  }
+
+  &__divider {
+    width: 1px;
+    height: 20px;
+    background-color: $primary-grey;
+  }
+
+  &__promocode-button {
+    @extend %button;
+    height: 28px;
+    font-family: $secondary-font-stack;
+    color: $primary-dark;
+    transition: color 250ms $timing-function;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+
+  &__message {
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  &__total-name {
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  &__delivery-day {
+    font-family: $primary-font-stack;
+    font-weight: 400;
+    line-height: 1.33;
+    color: $accent;
+  }
+
+  &__total-price {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-family: $secondary-font-stack;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.5;
+    color: $accent;
+
+    &_old {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      font-size: 12px;
+      text-decoration: line-through;
+      color: $secondary-grey;
+    }
+  }
+}

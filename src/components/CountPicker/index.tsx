@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ButtonNames } from '@types';
@@ -10,9 +10,12 @@ type CountPickerProps = {
   max: number;
   count: number;
   unit: string;
+  ordered: number;
+  remainder: number;
   onSetCountByStep: (type: ButtonNames) => void;
   onSetCountByValue: (count: number) => void;
   onSetUnit: (unit: string) => void;
+  page?: string;
 };
 
 export const CountPicker: FC<CountPickerProps> = ({
@@ -20,10 +23,26 @@ export const CountPicker: FC<CountPickerProps> = ({
   max,
   count,
   unit,
+  ordered,
+  remainder,
   onSetCountByValue,
   onSetCountByStep,
   onSetUnit,
+  page,
 }) => {
+  const areProductsAvailable =
+    (count === remainder || !remainder) &&
+    ordered &&
+    page &&
+    page === 'product';
+  const isCountGreaterThanMax = count > max && !ordered;
+  const isCountLessThanOne = count - 1 < 1;
+  const isMaxOrNoRemainderOrdered = (count === max || !remainder) && ordered;
+  const isExceedingRemainderOrMax =
+    (count > remainder || count > max) && page && page === 'product';
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
   const setErrorToNull = () => {
@@ -32,17 +51,25 @@ export const CountPicker: FC<CountPickerProps> = ({
     }, 3000);
   };
 
+  useEffect(() => {
+    setErrorToNull();
+  }, [error]);
+
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
     if (Number.isNaN(count)) return;
-    if (count > max) {
-      setError(`There are only ${max} items in stock.`);
-      setErrorToNull();
+    if (isCountGreaterThanMax) {
+      setError(`There are ${max} items in stock.`);
+      return;
+    } else if (isExceedingRemainderOrMax) {
+      setError(`There are ${remainder} items in stock.`);
+      return;
+    } else if (count > max) {
+      setError(`There are ${max} items in stock.`);
       return;
     } else if (!count) {
+      onSetCountByValue(count);
       setError('At least 1 item has to be to add to cart.');
-      setErrorToNull();
-    } else if (count < 0) {
       return;
     }
     onSetCountByValue(count);
@@ -56,20 +83,58 @@ export const CountPicker: FC<CountPickerProps> = ({
     HTMLButtonElement
   > = e => {
     const typeButton = e.currentTarget.getAttribute('data-type') as ButtonNames;
-    if (typeButton === ButtonNames.SUP && count === max) {
-      setError(`There are only ${max} items in stock.`);
-      setErrorToNull();
+    if (typeButton === ButtonNames.SUP && count === max && !ordered) {
+      setError(`There are ${max} items in stock.`);
       return;
-    } else if (typeButton === ButtonNames.SUB && count - 1 < 1) {
+    } else if (typeButton === ButtonNames.SUP && areProductsAvailable) {
+      setError(`There are ${remainder} items  left in stock.`);
+      return;
+    } else if (typeButton === ButtonNames.SUP && isMaxOrNoRemainderOrdered) {
+      setError(`There are ${max} items in stock.`);
+      return;
+    } else if (typeButton === ButtonNames.SUB && isCountLessThanOne) {
       setError('At least 1 item has to be to add to cart.');
-      setErrorToNull();
       return;
     }
     onSetCountByStep(typeButton);
   };
 
+  const openMenuHandler = () => setMenuOpen(true);
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const blurHandler = () => {
+    if (!count) {
+      onSetCountByValue(1);
+    }
+  };
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [unit]);
+
   return (
     <div className="count">
+      <input
+        type="password"
+        name="password"
+        autoComplete="new-password"
+        style={{ display: 'none' }}
+      />
       <input
         name="count"
         type="text"
@@ -78,9 +143,11 @@ export const CountPicker: FC<CountPickerProps> = ({
         placeholder="1"
         className="count__input"
         value={count}
+        autoComplete="off"
         onChange={setCountHandler}
+        onBlur={blurHandler}
       />
-      <div>
+      <div className="count__control">
         <button
           type="button"
           className="count__button"
@@ -91,6 +158,7 @@ export const CountPicker: FC<CountPickerProps> = ({
         </button>
         <button
           type="button"
+          disabled={count <= 1}
           className="count__button"
           data-type={ButtonNames.SUB}
           onClick={onButtonClickHandler}
@@ -99,22 +167,24 @@ export const CountPicker: FC<CountPickerProps> = ({
         </button>
       </div>
       <span className="count__dash"></span>
-      <div className="count__unit">
+      <div className="count__unit" onClick={openMenuHandler}>
         <span>{unit}</span>
         <Arrow className="count__unit-icon" />
-        <div className="dropdown">
-          <ul className="dropdown__list">
-            {items.map(item => (
-              <li
-                key={item}
-                className="dropdown__item"
-                onClick={() => setUnitHandler(item)}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {menuOpen && (
+          <div className="count__dropdown" ref={dropdownRef}>
+            <ul className="count__list">
+              {items.map(item => (
+                <li
+                  key={item}
+                  className="count__item"
+                  onClick={() => setUnitHandler(item)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       {error && <p className="count__error">{error}</p>}
     </div>

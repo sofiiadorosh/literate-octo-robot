@@ -1,0 +1,42 @@
+@import '@styles/shared.scss';
+
+.change-unit {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__question {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+
+    &_green {
+      font-weight: 600;
+      color: $accent;
+    }
+
+    &_red {
+      font-weight: 600;
+      color: $red;
+    }
+  }
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+  }
+
+  &__button {
+    &_primary {
+      @extend %primary-button;
+    }
+    &_secondary {
+      @extend %secondary-button;
+      width: 164px;
+      height: 47px;
+    }
+  }
+}
