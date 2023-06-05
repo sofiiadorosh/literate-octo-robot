@@ -64,7 +64,7 @@ export const AboutProduct: FC = () => {
   const [count, setCount] = useState(1);
   const [selectedTab, setSelectedTab] = useState(Tabs.DESCRIPTION);
   const [ordered, setOrdered] = useState(0);
-  const [left, setLeft] = useState(maxQuantity);
+  const [remainder, setRemainder] = useState(maxQuantity);
 
   useEffect(() => {
     if (tabRef.current) {
@@ -123,8 +123,8 @@ export const AboutProduct: FC = () => {
       .map(item => item.quantity)
       .reduce((acc, item) => (acc += item), 0);
     setOrdered(orderedQuantity);
-    const leftQuantity = parseInt(stock) - orderedQuantity;
-    setLeft(leftQuantity);
+    const productRemainder = parseInt(stock) - orderedQuantity;
+    setRemainder(productRemainder);
   }, [items, unit, count]);
 
   const addToCartHandler = () => {
@@ -140,7 +140,7 @@ export const AboutProduct: FC = () => {
     return setCount(1);
   };
 
-  const isItemInCart = () => items.some(item => item.id === id);
+  const itemInCart = items.find(item => item.id === id && item.unit === unit);
 
   return (
     <div className="details">
@@ -148,9 +148,6 @@ export const AboutProduct: FC = () => {
         <div className="details__tag-wrapper">
           <span className="details__tag">- {discount}%</span>
           <span className="details__tag">{shipping} shipping</span>
-          {isItemInCart() && (
-            <span className="details__tag"> You added this item to cart!</span>
-          )}
         </div>
         <div className="details__image-wrapper">
           {images.map(image => (
@@ -190,12 +187,12 @@ export const AboutProduct: FC = () => {
                 onSetCountByValue={setCountHandler}
                 onSetCountByStep={setNextCountHandler}
                 ordered={ordered}
-                left={left}
+                remainder={remainder}
                 page="product"
               />
               <button
                 type="button"
-                disabled={!left}
+                disabled={!remainder}
                 className="details__add-button"
                 onClick={addToCartHandler}
               >
@@ -203,6 +200,9 @@ export const AboutProduct: FC = () => {
                 <span>Add to cart</span>
               </button>
             </div>
+            {itemInCart && (
+              <span className="details__tag">{`${itemInCart.quantity} ${itemInCart.unit} is in cart now`}</span>
+            )}
           </div>
           <button type="button" className="details__wish-button">
             <Heart className="details__wish-icon" />

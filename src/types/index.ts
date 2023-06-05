@@ -12,3 +12,4 @@ export * from './formValue';
 export * from './option';
 export * from './order';
 export * from './promocode';
+export * from './tax';

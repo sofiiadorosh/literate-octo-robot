@@ -33,7 +33,7 @@ export const SearchBar: FC = () => {
 
   const chooseOptionHandler = (name: string) => {
     dispatch(setCategory(name));
-    setMenuOpen(false);
+    closeMenuHandler();
   };
 
   const openMenuHandler = () => {

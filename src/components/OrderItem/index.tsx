@@ -48,6 +48,7 @@ export const OrderItem: FC<OrderItemProps> = ({
   const items = useAppSelector(selectCart);
 
   const maxQuantity = parseInt(stock);
+  const updatedUnits = units.filter(unit => unit !== chosenUnit);
 
   const [unit, setUnit] = useState(chosenUnit);
   const [tempUnit, setTempUnit] = useState('');
@@ -55,7 +56,7 @@ export const OrderItem: FC<OrderItemProps> = ({
   const [matchedItem, setMatchedItem] = useState<CartItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ordered, setOrdered] = useState(0);
-  const [left, setLeft] = useState(maxQuantity);
+  const [remainder, setRemainder] = useState(maxQuantity);
 
   const getTotalPrice = () => {
     return setFixedPrice(price[unit] * chosenQuantity);
@@ -112,8 +113,8 @@ export const OrderItem: FC<OrderItemProps> = ({
       .map(item => item.quantity)
       .reduce((acc, item) => (acc += item), 0);
     setOrdered(orderedQuantity);
-    const leftQuantity = parseInt(stock) - orderedQuantity;
-    setLeft(leftQuantity);
+    const productRemainder = parseInt(stock) - orderedQuantity;
+    setRemainder(productRemainder);
   }, [items]);
 
   useEffect(() => {
@@ -193,7 +194,7 @@ export const OrderItem: FC<OrderItemProps> = ({
               <span className="order__price_old">{getTotalPrice()}</span>
             </div>
             <CountPicker
-              items={units}
+              items={updatedUnits}
               max={maxQuantity}
               count={count}
               unit={unit}
@@ -201,7 +202,7 @@ export const OrderItem: FC<OrderItemProps> = ({
               onSetCountByValue={setCountHandler}
               onSetCountByStep={setNextCountHandler}
               ordered={ordered}
-              left={left}
+              remainder={remainder}
             />
           </div>
         </div>

@@ -17,7 +17,7 @@ export const Sort: FC = () => {
 
   const setSortHandler = (sort: SortingFilters) => {
     dispatch(setSort(sort));
-    setMenuOpen(false);
+    closeMenuHandler();
   };
 
   const openMenuHandler = () => {

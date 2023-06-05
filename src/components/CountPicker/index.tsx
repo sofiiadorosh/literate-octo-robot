@@ -11,7 +11,7 @@ type CountPickerProps = {
   count: number;
   unit: string;
   ordered: number;
-  left: number;
+  remainder: number;
   onSetCountByStep: (type: ButtonNames) => void;
   onSetCountByValue: (count: number) => void;
   onSetUnit: (unit: string) => void;
@@ -24,7 +24,7 @@ export const CountPicker: FC<CountPickerProps> = ({
   count,
   unit,
   ordered,
-  left,
+  remainder,
   onSetCountByValue,
   onSetCountByStep,
   onSetUnit,
@@ -51,7 +51,14 @@ export const CountPicker: FC<CountPickerProps> = ({
     if (count > max && !ordered) {
       setError(`There are ${max} items in stock.`);
       return;
-    } else if (count > left && count > max) {
+    } else if (
+      (count > remainder || count > max) &&
+      page &&
+      page === 'product'
+    ) {
+      setError(`There are ${remainder} items in stock.`);
+      return;
+    } else if (count > max) {
       setError(`There are ${max} items in stock.`);
       return;
     } else if (!count) {
@@ -75,16 +82,16 @@ export const CountPicker: FC<CountPickerProps> = ({
       return;
     } else if (
       typeButton === ButtonNames.SUP &&
-      (count === left || !left) &&
+      (count === remainder || !remainder) &&
       ordered &&
       page &&
       page === 'product'
     ) {
-      setError(`There are ${left} items  left in stock.`);
+      setError(`There are ${remainder} items  left in stock.`);
       return;
     } else if (
       typeButton === ButtonNames.SUP &&
-      (count === max || !left) &&
+      (count === max || !remainder) &&
       ordered
     ) {
       setError(`There are ${max} items in stock.`);

@@ -16,7 +16,7 @@ import {
   setPromocodeDiscount,
   setTax,
 } from '@store/cart/slice';
-import { Promocode } from '@types';
+import { Promocode, PromocodeRange, TaxRange, PromocodeMessage } from '@types';
 import {
   getFormattedDate,
   getRandomValue,
@@ -25,23 +25,6 @@ import {
 } from '@utils';
 
 import './Order.scss';
-
-enum PromocodeRange {
-  'MAX' = 50,
-  'MIN' = 10,
-}
-
-enum TaxRange {
-  'MAX' = 30,
-  'MIN' = 10,
-}
-
-enum PromocodeMessage {
-  'EMPTY' = 'Please enter a promocode.',
-  'INVALID' = 'Invalid promo code. Please try again.',
-  'VALID' = 'Promo code was applied successfully!',
-  'APPLIED' = 'Promo code has been already applied.',
-}
 
 export const Order: FC = () => {
   const dispatch = useAppDispatch();
