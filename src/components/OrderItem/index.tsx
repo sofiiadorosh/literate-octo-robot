@@ -14,6 +14,8 @@ import {
   selectCart,
 } from '@store/cart/selectors';
 import { updateCartItem, removeFromCart } from '@store/cart/slice';
+import { selectWishlistIds } from '@store/wishlist/selectors';
+import { setWishlist } from '@store/wishlist/slice';
 import { CartItem, ButtonNames } from '@types';
 import { setFixedPrice } from '@utils';
 
@@ -46,7 +48,9 @@ export const OrderItem: FC<OrderItemProps> = ({
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
   const cartItems = useAppSelector(selectCartItems);
   const items = useAppSelector(selectCart);
+  const wishlist = useAppSelector(selectWishlistIds);
 
+  const isProductInWishlist = wishlist.some(item => item === id);
   const maxQuantity = parseInt(stock);
   const updatedUnits = units.filter(unit => unit !== chosenUnit);
 
@@ -145,6 +149,10 @@ export const OrderItem: FC<OrderItemProps> = ({
     bodyEl.style.overflow = isModalOpen ? 'hidden' : 'visible';
   }, [isModalOpen]);
 
+  const updateWishlistHandler = () => {
+    dispatch(setWishlist(id));
+  };
+
   return (
     <>
       <li className="order__item">
@@ -153,8 +161,18 @@ export const OrderItem: FC<OrderItemProps> = ({
             <img src={previewImage} alt={title} className="order__image" />
           </NavLink>
           <div className="order__control">
-            <button type="button" className="order__button">
-              <Heart className="order__button-icon order__wish-icon" />
+            <button
+              type="button"
+              className="order__button"
+              onClick={updateWishlistHandler}
+            >
+              <Heart
+                className={
+                  isProductInWishlist
+                    ? 'order__button-icon order__wish-icon order__wish-icon_active'
+                    : 'order__button-icon order__wish-icon'
+                }
+              />
               <span>Wishlist</span>
             </button>
             <button

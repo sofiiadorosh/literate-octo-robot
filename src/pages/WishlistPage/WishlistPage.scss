@@ -1,0 +1,41 @@
+@import '@styles/shared.scss';
+
+.wish {
+  padding: 32px 0;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 32px;
+    width: 251px;
+    margin: 0 auto;
+
+    @media screen and (min-width: 564px) {
+      width: 534px;
+    }
+
+    @media screen and (min-width: 847px) {
+      width: 817px;
+    }
+
+    @media screen and (min-width: 1170px) {
+      width: 1100px;
+    }
+  }
+
+  &__button {
+    @extend %secondary-button;
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    stroke: $primary-dark;
+
+    &_active {
+      stroke: $light-red;
+    }
+  }
+}

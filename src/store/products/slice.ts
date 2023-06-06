@@ -4,7 +4,7 @@ import { Product } from '@types';
 
 import { getProducts } from './operations';
 
-interface ProductsState {
+export interface ProductsState {
   items: Product[];
   isLoading: boolean;
   error: null | string;

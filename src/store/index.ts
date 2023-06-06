@@ -18,6 +18,13 @@ import { FiltersState } from './filters/slice';
 import { productDetailsReducer } from './productDetails/slice';
 import { ProductDetailsState } from './productDetails/slice';
 import { productsReducer } from './products/slice';
+import { WishlistState } from './wishlist/slice';
+import { wishlistReducer } from './wishlist/slice';
+
+const wishlistPersistConfig = {
+  key: 'wishlist',
+  storage,
+};
 
 const filtersPersistConfig = {
   key: 'filters',
@@ -43,6 +50,10 @@ export const store = configureStore({
       productDetailsReducer
     ),
     cart: persistReducer<CartState>(cartPersistConfig, cartReducer),
+    wishlist: persistReducer<WishlistState>(
+      wishlistPersistConfig,
+      wishlistReducer
+    ),
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -15,7 +15,9 @@ import { useAppSelector, useAppDispatch } from '@hooks';
 import { selectCart } from '@store/cart/selectors';
 import { addToCart } from '@store/cart/slice';
 import { selectProductDetails } from '@store/productDetails/selectors';
-import { ButtonNames, Tabs } from '@types';
+import { selectWishlistIds } from '@store/wishlist/selectors';
+import { setWishlist } from '@store/wishlist/slice';
+import { ButtonNames, Tabs, ButtonWishText } from '@types';
 import { getNewPrice, setFixedPrice } from '@utils';
 
 import './AboutProduct.scss';
@@ -24,6 +26,7 @@ export const AboutProduct: FC = () => {
   const dispatch = useAppDispatch();
   const selectedProduct = useAppSelector(selectProductDetails);
   const items = useAppSelector(selectCart);
+  const wishlistItems = useAppSelector(selectWishlistIds);
 
   if (!selectedProduct) {
     return null;
@@ -68,6 +71,7 @@ export const AboutProduct: FC = () => {
   const [ordered, setOrdered] = useState(0);
   const [remainder, setRemainder] = useState(maxQuantity);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [buttonName, setButtonName] = useState('');
 
   useEffect(() => {
     if (tabRef.current) {
@@ -151,7 +155,20 @@ export const AboutProduct: FC = () => {
     setIsModalOpen(false);
   };
 
+  const updateWishlistHandler = () => {
+    dispatch(setWishlist(id));
+  };
+
+  const isProductInWishlist = wishlistItems.some(item => item === id);
   const itemInCart = items.find(item => item.id === id && item.unit === unit);
+
+  useEffect(() => {
+    const name = getButtonText();
+    setButtonName(name);
+  }, [isProductInWishlist]);
+
+  const getButtonText = () =>
+    isProductInWishlist ? ButtonWishText.REMOVE : ButtonWishText.ADD;
 
   return (
     <div className="details">
@@ -215,9 +232,19 @@ export const AboutProduct: FC = () => {
               <span className="details__tag">{`${itemInCart.quantity} ${itemInCart.unit} is in cart now`}</span>
             )}
           </div>
-          <button type="button" className="details__wish-button">
-            <Heart className="details__wish-icon" />
-            <span>Add to my wish list</span>
+          <button
+            type="button"
+            className="details__wish-button"
+            onClick={updateWishlistHandler}
+          >
+            <Heart
+              className={
+                isProductInWishlist
+                  ? 'details__wish-icon details__wish-icon_active'
+                  : 'details__wish-icon'
+              }
+            />
+            <span>{buttonName}</span>
           </button>
         </div>
         <div className="details__tab">
