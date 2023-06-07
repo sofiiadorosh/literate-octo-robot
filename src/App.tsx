@@ -27,7 +27,12 @@ const App = () => {
         <Route path="profile" element={<ProfilePage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:productId" element={<ProductDetailsPage />} />
-        <Route path="checkout" element={<CheckoutPage />} />
+        <Route
+          path="checkout"
+          element={
+            <PrivateRoute redirectTo="/profile" component={<CheckoutPage />} />
+          }
+        />
         <Route
           path="wishlist"
           element={
