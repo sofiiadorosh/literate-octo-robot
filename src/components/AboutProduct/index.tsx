@@ -191,7 +191,9 @@ export const AboutProduct: FC = () => {
   const isProductInWishlist = wishlistItems.find(
     ({ id: userId, products }) => userId === user?.id && products.includes(id)
   );
-  const itemInCart = items.find(item => item.id === id && item.unit === unit);
+  const itemInCart = items.find(
+    item => item.id === id && item.unit === unit && item.userId === user?.id
+  );
 
   useEffect(() => {
     const name = getButtonText();
