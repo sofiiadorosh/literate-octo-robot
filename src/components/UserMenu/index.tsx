@@ -16,6 +16,7 @@ export const UserMenu: FC = () => {
   const wishlist = useAppSelector(selectWishlistIds);
   const { user } = useAuth();
   const products = wishlist.find(({ id: userId }) => userId === user?.id);
+  const cartItems = cart.filter(item => item.userId === user?.id);
 
   return (
     <ul className="user-list">
@@ -36,7 +37,9 @@ export const UserMenu: FC = () => {
         <NavLink to="/checkout" className="user-list__link">
           <Cart className="user-list__icon" />
         </NavLink>
-        {Boolean(cart.length) && <span className="cart">{cart.length}</span>}
+        {Boolean(cartItems.length) && (
+          <span className="cart">{cartItems.length}</span>
+        )}
       </li>
     </ul>
   );

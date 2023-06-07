@@ -138,19 +138,27 @@ export const AboutProduct: FC = () => {
   }, [items, unit, count]);
 
   const addToCartHandler = () => {
-    const itemInCart = items.find(item => item.id === id && item.unit === unit);
+    if (!isAuthorized) {
+      return setIsSignedIn(true);
+    }
+    const itemInCart = items.find(
+      item => item.id === id && item.unit === unit && item.userId === user?.id
+    );
     if (itemInCart && !isModalOpen) {
       return setIsModalOpen(true);
     }
     const _id = nanoid();
-    const product = {
-      _id,
-      id,
-      unit,
-      quantity: count,
-      stock,
-    };
-    dispatch(addToCart(product));
+    if (user && user.id) {
+      const product = {
+        userId: user?.id,
+        _id,
+        id,
+        unit,
+        quantity: count,
+        stock,
+      };
+      dispatch(addToCart(product));
+    }
     return setCount(1);
   };
 

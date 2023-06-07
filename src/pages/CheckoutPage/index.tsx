@@ -5,7 +5,7 @@ import { CompletedOrder } from '@components/CompletedOrder';
 import { Container } from '@components/Container';
 import { Modal } from '@components/Modal';
 import { Order } from '@components/Order';
-import { useAppSelector, useAppDispatch } from '@hooks';
+import { useAppSelector, useAppDispatch, useAuth } from '@hooks';
 import { getProductsByIds } from '@store/cart/operations';
 import { selectCart, selectIsFormSubmitted } from '@store/cart/selectors';
 import { setFormSubmitted } from '@store/cart/slice';
@@ -16,9 +16,11 @@ const CheckoutPage: FC = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector(selectCart);
   const isFormSubmitted = useAppSelector(selectIsFormSubmitted);
+  const { user } = useAuth();
+  const items = cart.filter(item => item.userId === user?.id);
 
   useEffect(() => {
-    const ids = cart.map(item => item.id);
+    const ids = items.map(item => item.id);
     dispatch(getProductsByIds(ids));
   }, [cart, dispatch]);
 

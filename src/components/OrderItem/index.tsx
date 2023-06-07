@@ -131,13 +131,19 @@ export const OrderItem: FC<OrderItemProps> = ({
   }, [chosenQuantity]);
 
   useEffect(() => {
-    dispatch(updateCartItem({ _id: itemId, id, unit }));
-    setMatchedItem(null);
-    setTempUnit('');
+    if (user && user.id) {
+      dispatch(updateCartItem({ userId: user?.id, _id: itemId, id, unit }));
+      setMatchedItem(null);
+      setTempUnit('');
+    }
   }, [unit]);
 
   useEffect(() => {
-    dispatch(updateCartItem({ _id: itemId, id, quantity: count }));
+    if (user && user.id) {
+      dispatch(
+        updateCartItem({ userId: user?.id, _id: itemId, id, quantity: count })
+      );
+    }
   }, [count]);
 
   const removeFromCartHandler = () => {

@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState, useRef } from 'react';
 import { ReactComponent as Clear } from '@assets/close.svg';
 import { DefaultCart } from '@components/DefaultCart';
 import { OrderList } from '@components/OrderList';
-import { useAppSelector, useAppDispatch } from '@hooks';
+import { useAppSelector, useAppDispatch, useAuth } from '@hooks';
 import {
   selectCart,
   selectCartItems,
@@ -36,6 +36,8 @@ export const Order: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const promocodes = Object.values(Promocode);
+  const { user } = useAuth();
+  const cartItems = cart.filter(item => item.userId === user?.id);
 
   const [taxation, setTaxation] = useState(0);
   const [message, setMessage] = useState('');
@@ -131,7 +133,7 @@ export const Order: FC = () => {
 
   return (
     <div className="order">
-      {cart.length ? (
+      {cartItems.length ? (
         <>
           <h2 className="order__title">Order Summary</h2>
           <p className="order__description">
