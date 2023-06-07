@@ -156,6 +156,24 @@ const cartSlice = createSlice({
     setFormSubmitted(state, action: PayloadAction<boolean>) {
       return { ...state, isFormSubmitted: action.payload };
     },
+    clearData(state) {
+      return {
+        ...state,
+        data: {
+          firstName: '',
+          lastName: '',
+          emailName: '',
+          phoneName: '',
+          countryName: '',
+          cityName: '',
+          apartmentName: '',
+          zipName: '',
+          notes: '',
+          sending: false,
+          agreement: false,
+        },
+      };
+    },
     clearCart(state) {
       return {
         ...state,
@@ -214,6 +232,7 @@ export const {
   applyPromocode,
   setPromocodeDiscount,
   setTax,
+  clearData,
   setFormSubmitted,
 } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

@@ -3,8 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Arrow } from '@assets/arrow.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
+import { LoginForm } from '@components/LoginForm';
+import { Modal } from '@components/Modal';
 import { Stars } from '@components/Stars';
-import { useAppDispatch, useAppSelector } from '@hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '@hooks';
 import { selectWishlistIds } from '@store/wishlist/selectors';
 import { setWishlist } from '@store/wishlist/slice';
 import { Product, ButtonWishText } from '@types';
@@ -35,14 +37,33 @@ export const ProductItem: FC<ProductItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectWishlistIds);
+  const { isAuthorized, user } = useAuth();
 
   const [buttonName, setButtonName] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isProductInWishlist = items.some(item => item === id);
+  const isProductInWishlist = items.find(
+    ({ id: userId, products }) => userId === user?.id && products.includes(id)
+  );
 
   const updateWishlistHandler = () => {
-    dispatch(setWishlist(id));
+    if (!isAuthorized) {
+      return setIsModalOpen(true);
+    }
+    if (user && user.id) {
+      dispatch(setWishlist({ userId: user?.id, productId: id }));
+    }
   };
+
+  const closeModalHandler = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const bodyEl = document.getElementById('body') as HTMLElement;
+
+    bodyEl.style.overflow = isModalOpen ? 'hidden' : 'visible';
+  }, [isModalOpen]);
 
   const getButtonText = () =>
     isProductInWishlist ? ButtonWishText.REMOVE : ButtonWishText.ADD;
@@ -128,6 +149,11 @@ export const ProductItem: FC<ProductItemProps> = ({
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <Modal closeModal={closeModalHandler}>
+          <LoginForm closeModal={closeModalHandler} />
+        </Modal>
+      )}
     </li>
   );
 };

@@ -8,7 +8,10 @@ export interface WishlistState {
   items: Product[];
   isLoading: boolean;
   error: null | string;
-  wishlist: string[];
+  wishlist: {
+    id: string;
+    products: string[];
+  }[];
 }
 
 const wishlistInitialState: WishlistState = {
@@ -22,17 +25,42 @@ const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState: wishlistInitialState,
   reducers: {
-    setWishlist(state, action: PayloadAction<string>) {
-      if (state.wishlist.includes(action.payload)) {
-        return {
-          ...state,
-          wishlist: state.wishlist.filter(item => item !== action.payload),
-          items: state.items.filter(item => item.id !== action.payload),
-        };
+    setWishlist(
+      state,
+      action: PayloadAction<{ userId: string; productId: string }>
+    ) {
+      const { userId, productId } = action.payload;
+      const existingItem = state.wishlist.find(item => item.id === userId);
+
+      if (existingItem) {
+        if (existingItem.products.includes(productId)) {
+          const filteredProducts = existingItem.products.filter(
+            id => id !== productId
+          );
+
+          return {
+            ...state,
+            wishlist: state.wishlist.map(item =>
+              item.id === userId
+                ? { ...item, products: filteredProducts }
+                : item
+            ),
+            items: state.items.filter(item => item.id !== productId),
+          };
+        } else {
+          return {
+            ...state,
+            wishlist: state.wishlist.map(item =>
+              item.id === userId
+                ? { ...item, products: [productId, ...item.products] }
+                : item
+            ),
+          };
+        }
       }
       return {
         ...state,
-        wishlist: [action.payload, ...state.wishlist],
+        wishlist: [{ id: userId, products: [productId] }, ...state.wishlist],
       };
     },
   },

@@ -12,8 +12,12 @@
   &__item:first-child {
     position: relative;
   }
+  &:nth-child(2) {
+    position: relative;
+  }
 
   &__link {
+    @extend %button;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +33,6 @@
 
     &.active {
       color: $accent;
-      cursor: auto;
     }
   }
 

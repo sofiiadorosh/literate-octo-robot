@@ -4,7 +4,7 @@ import { Container } from '@components/Container';
 import { DefaultWish } from '@components/DefaultWish';
 import { Loader } from '@components/Loader';
 import { SimilarItem } from '@components/SimilarItem';
-import { useAppSelector, useAppDispatch } from '@hooks';
+import { useAppSelector, useAppDispatch, useAuth } from '@hooks';
 import { getProductsByIds } from '@store/wishlist/operations';
 import {
   selectWishlistIds,
@@ -16,14 +16,19 @@ import './WishlistPage.scss';
 
 const WishlistPage: FC = () => {
   const dispatch = useAppDispatch();
-  const ids = useAppSelector(selectWishlistIds);
+  const wishlist = useAppSelector(selectWishlistIds);
   const items = useAppSelector(selectWishlist);
   const isLoading = useAppSelector(selectIsLoading);
+  const { isAuthorized, user } = useAuth();
 
   useEffect(() => {
-    dispatch(getProductsByIds(ids));
-  }, []);
-
+    if (isAuthorized && user && wishlist) {
+      const ids = wishlist.find(({ id }) => id === user.id);
+      if (ids) {
+        dispatch(getProductsByIds(ids.products));
+      }
+    }
+  }, [isAuthorized, user, wishlist]);
   if (isLoading) {
     return <Loader />;
   }
