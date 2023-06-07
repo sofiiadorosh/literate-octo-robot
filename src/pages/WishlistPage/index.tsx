@@ -28,7 +28,7 @@ const WishlistPage: FC = () => {
         dispatch(getProductsByIds(ids.products));
       }
     }
-  }, [isAuthorized, user, wishlist]);
+  }, []);
   if (isLoading) {
     return <Loader />;
   }
