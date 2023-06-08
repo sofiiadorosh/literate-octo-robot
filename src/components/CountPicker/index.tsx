@@ -46,11 +46,8 @@ export const CountPicker: FC<CountPickerProps> = ({
     ordered &&
     page &&
     page === 'product';
-  const isCountGreaterThanMax = count > max && !ordered;
   const isCountLessThanOne = count - 1 < 1;
   const isCountMaxOrNoRemainder = (count === max || !remainder) && ordered;
-  const isExceedingRemainder =
-    count > remainder && ordered && page && page === 'product';
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -88,6 +85,9 @@ export const CountPicker: FC<CountPickerProps> = ({
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
     if (Number.isNaN(count)) return;
+    const isCountGreaterThanMax = count > max && !ordered && max === remainder;
+    const isExceedingRemainder =
+      count > remainder && ordered && page && page === 'product';
     if (isCountGreaterThanMax) {
       return setErrorMessage(ErrorMessage.MAX_STOCK, ProductsQuantity.MAX);
     }
