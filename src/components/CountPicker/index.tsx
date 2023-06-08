@@ -25,10 +25,10 @@ export const CountPicker: FC<CountPickerProps> = ({
   unit,
   ordered,
   remainder,
+  page,
   onSetCountByValue,
   onSetCountByStep,
   onSetUnit,
-  page,
 }) => {
   const areProductsAvailable =
     (count === remainder || !remainder) &&
@@ -37,7 +37,7 @@ export const CountPicker: FC<CountPickerProps> = ({
     page === 'product';
   const isCountGreaterThanMax = count > max && !ordered;
   const isCountLessThanOne = count - 1 < 1;
-  const isMaxOrNoRemainderOrdered = (count === max || !remainder) && ordered;
+  const isCountMaxOrNoRemainder = (count === max || !remainder) && ordered;
   const isExceedingRemainderOrMax =
     (count > remainder || count > max) && page && page === 'product';
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -45,27 +45,31 @@ export const CountPicker: FC<CountPickerProps> = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
-  const setErrorToNull = () => {
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
-  };
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError(null);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
 
   useEffect(() => {
-    setErrorToNull();
-  }, [error]);
+    setMenuOpen(false);
+  }, [unit]);
+
+  const setUnitHandler = (unit: string) => {
+    onSetUnit(unit);
+  };
 
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
     if (Number.isNaN(count)) return;
-    if (isCountGreaterThanMax) {
+    if (isCountGreaterThanMax || count > max) {
       setError(`There are ${max} items in stock.`);
       return;
     } else if (isExceedingRemainderOrMax) {
       setError(`There are ${remainder} items in stock.`);
-      return;
-    } else if (count > max) {
-      setError(`There are ${max} items in stock.`);
       return;
     } else if (!count) {
       onSetCountByValue(count);
@@ -75,22 +79,18 @@ export const CountPicker: FC<CountPickerProps> = ({
     onSetCountByValue(count);
   };
 
-  const setUnitHandler = (unit: string) => {
-    onSetUnit(unit);
-  };
-
   const onButtonClickHandler: React.MouseEventHandler<
     HTMLButtonElement
   > = e => {
     const typeButton = e.currentTarget.getAttribute('data-type') as ButtonNames;
-    if (typeButton === ButtonNames.SUP && count === max && !ordered) {
+    if (
+      (typeButton === ButtonNames.SUP && count === max && !ordered) ||
+      (typeButton === ButtonNames.SUP && isCountMaxOrNoRemainder)
+    ) {
       setError(`There are ${max} items in stock.`);
       return;
     } else if (typeButton === ButtonNames.SUP && areProductsAvailable) {
       setError(`There are ${remainder} items  left in stock.`);
-      return;
-    } else if (typeButton === ButtonNames.SUP && isMaxOrNoRemainderOrdered) {
-      setError(`There are ${max} items in stock.`);
       return;
     } else if (typeButton === ButtonNames.SUB && isCountLessThanOne) {
       setError('At least 1 item has to be to add to cart.');
@@ -100,6 +100,12 @@ export const CountPicker: FC<CountPickerProps> = ({
   };
 
   const openMenuHandler = () => setMenuOpen(true);
+
+  const blurHandler = () => {
+    if (!count) {
+      onSetCountByValue(1);
+    }
+  };
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -116,16 +122,6 @@ export const CountPicker: FC<CountPickerProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  const blurHandler = () => {
-    if (!count) {
-      onSetCountByValue(1);
-    }
-  };
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [unit]);
 
   return (
     <div className="count">

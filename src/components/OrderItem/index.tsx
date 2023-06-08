@@ -67,20 +67,6 @@ export const OrderItem: FC<OrderItemProps> = ({
   const [remainder, setRemainder] = useState(maxQuantity);
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const getTotalPrice = () => {
-    return setFixedPrice(price[unit] * chosenQuantity);
-  };
-
-  const getNewTotalPrice = () => {
-    const totalDiscount = (1 - discount / 100) * (1 - promocodeDiscount / 100);
-
-    return setFixedPrice(price[unit] * totalDiscount * chosenQuantity);
-  };
-
-  const setUnitHandler = (unit: string) => {
-    setTempUnit(unit);
-  };
-
   useEffect(() => {
     if (matchedItem) {
       return setIsModalOpen(true);
@@ -102,30 +88,6 @@ export const OrderItem: FC<OrderItemProps> = ({
     }
   }, [tempUnit]);
 
-  const setCountHandler = (count: number) => {
-    setCount(count);
-  };
-
-  const setNextCountHandler = (typeButton: ButtonNames) => {
-    if (typeButton === ButtonNames.SUP) {
-      setCount(prevState => prevState + 1);
-    } else if (typeButton === ButtonNames.SUB) {
-      setCount(prevState => prevState - 1);
-    }
-  };
-
-  useEffect(() => {
-    const sameItems = items.filter(
-      item => item.id === id && item.unit === unit
-    );
-    const orderedQuantity = sameItems
-      .map(item => item.quantity)
-      .reduce((acc, item) => (acc += item), 0);
-    setOrdered(orderedQuantity);
-    const productRemainder = parseInt(stock) - orderedQuantity;
-    setRemainder(productRemainder);
-  }, [items]);
-
   useEffect(() => {
     setCount(chosenQuantity);
   }, [chosenQuantity]);
@@ -146,8 +108,55 @@ export const OrderItem: FC<OrderItemProps> = ({
     }
   }, [count]);
 
+  useEffect(() => {
+    const sameItems = items.filter(
+      item => item.id === id && item.unit === unit
+    );
+    const orderedQuantity = sameItems
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    setOrdered(orderedQuantity);
+    const productRemainder = parseInt(stock) - orderedQuantity;
+    setRemainder(productRemainder);
+  }, [items]);
+
+  const setCountHandler = (count: number) => {
+    setCount(count);
+  };
+
+  const setNextCountHandler = (typeButton: ButtonNames) => {
+    if (typeButton === ButtonNames.SUP) {
+      setCount(prevState => prevState + 1);
+    } else if (typeButton === ButtonNames.SUB) {
+      setCount(prevState => prevState - 1);
+    }
+  };
+
+  const setUnitHandler = (unit: string) => {
+    setTempUnit(unit);
+  };
+
+  const getTotalPrice = () => {
+    return setFixedPrice(price[unit] * chosenQuantity);
+  };
+
+  const getNewTotalPrice = () => {
+    const totalDiscount = (1 - discount / 100) * (1 - promocodeDiscount / 100);
+
+    return setFixedPrice(price[unit] * totalDiscount * chosenQuantity);
+  };
+
   const removeFromCartHandler = () => {
     dispatch(removeFromCart(itemId));
+  };
+
+  const updateWishlistHandler = () => {
+    if (!isAuthorized) {
+      return setIsSignedIn(true);
+    }
+    if (user && user.id) {
+      dispatch(setWishlist({ userId: user?.id, productId: id }));
+    }
   };
 
   const closeModalHandler = () => {
@@ -166,15 +175,6 @@ export const OrderItem: FC<OrderItemProps> = ({
 
     bodyEl.style.overflow = isSignedIn ? 'hidden' : 'visible';
   }, [isSignedIn]);
-
-  const updateWishlistHandler = () => {
-    if (!isAuthorized) {
-      return setIsSignedIn(true);
-    }
-    if (user && user.id) {
-      dispatch(setWishlist({ userId: user?.id, productId: id }));
-    }
-  };
 
   return (
     <>

@@ -9,12 +9,13 @@ import { Logo } from '@components/Logo';
 import { Navigation } from '@components/Navigation';
 import { SearchBar } from '@components/SearchBar';
 import { UserMenu } from '@components/UserMenu';
+import { Pathname } from '@types';
 
 import './Header.scss';
 
 export const Header: FC = () => {
   const location = useLocation();
-  const isSearchBarVisible = location.pathname === '/products';
+  const isSearchBarVisible = location.pathname === Pathname.PRODUCTS;
 
   return (
     <>

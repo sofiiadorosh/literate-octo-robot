@@ -34,9 +34,9 @@ export const Order: FC = () => {
   const promocodeDiscount = useAppSelector(selectPromocodeDiscount);
   const tax = useAppSelector(selectTax);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { user } = useAuth();
 
   const promocodes = Object.values(Promocode);
-  const { user } = useAuth();
   const cartItems = cart.filter(item => item.userId === user?.id);
 
   const [taxation, setTaxation] = useState(0);
@@ -56,24 +56,25 @@ export const Order: FC = () => {
     }
   }, []);
 
-  const subTotalPrice = items.reduce(
-    (acc, { product, chosenQuantity, chosenUnit }) => {
+  const calculateSubTotalPrice = () => {
+    return items.reduce((acc, { product, chosenQuantity, chosenUnit }) => {
       const unit = product.units.find(unit => unit === chosenUnit);
       if (unit) {
         const price = product.price[chosenUnit];
         const totalDiscount =
           (1 - product.discount / 100) * (1 - promocodeDiscount / 100);
-
         acc += price * totalDiscount * chosenQuantity;
       }
       return setFixedPrice(acc);
-    },
-    0
-  );
-
-  const getOldTotalPrice = () => {
-    return setFixedPrice(subTotalPrice / ((100 - promocodeDiscount) / 100));
+    }, 0);
   };
+
+  const subTotalPrice = calculateSubTotalPrice();
+
+  const getOldTotalPrice = () =>
+    setFixedPrice(subTotalPrice / ((100 - promocodeDiscount) / 100));
+
+  const getTotalPrice = () => setFixedPrice(subTotalPrice + taxation);
 
   useEffect(() => {
     getTaxation();
@@ -83,8 +84,6 @@ export const Order: FC = () => {
     const calculatedTax = setFixedPrice(subTotalPrice * (tax / 100));
     setTaxation(calculatedTax);
   };
-
-  const getTotalPrice = () => setFixedPrice(subTotalPrice + taxation);
 
   const getDeliveryDate = () => {
     const date = items.map(({ product }) => product.deliveryTime);

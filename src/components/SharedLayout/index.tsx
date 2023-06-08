@@ -4,12 +4,13 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from '@components/Footer';
 import { Header } from '@components/Header';
 import { Loader } from '@components/Loader';
+import { Pathname } from '@types';
 
 import './SharedLayout.scss';
 
 const SharedLayout: FC = () => {
   const location = useLocation();
-  const isFooterVisible = location.pathname !== '/checkout';
+  const isFooterVisible = location.pathname !== Pathname.CHECKOUT;
   return (
     <div className="layout">
       <Header />

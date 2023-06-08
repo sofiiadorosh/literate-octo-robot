@@ -10,8 +10,8 @@ type InputProps = {
   label: string;
   type: string;
   placeholder: string;
-  register: UseFormRegister<FormValues>;
   errors: FieldErrors<FormValues>;
+  register: UseFormRegister<FormValues>;
   watch: (name: string | boolean) => string | boolean;
 };
 

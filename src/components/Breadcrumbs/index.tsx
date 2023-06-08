@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '@hooks';
 import { selectProductDetails } from '@store/productDetails/selectors';
+import { Pathname } from '@types';
 
 import './Breadcrumbs.scss';
 
@@ -11,11 +12,8 @@ interface BreadcrumbPath {
   link: string;
 }
 
-enum Paths {
-  'PRODUCTS' = 'products',
+enum Path {
   'ALL_PRODUCTS' = 'All products',
-  'CONFIRMATION' = 'confirmation',
-  'ORDER_CONFIRMATION' = 'Order confirmation',
 }
 
 export const Breadcrumbs: FC = () => {
@@ -24,7 +22,7 @@ export const Breadcrumbs: FC = () => {
   const { pathname } = location;
 
   const getBreadcrumbPaths = (): BreadcrumbPath[] => {
-    const paths: BreadcrumbPath[] = [{ name: 'Homepage', link: '/' }];
+    const paths: BreadcrumbPath[] = [{ name: 'Homepage', link: Pathname.HOME }];
 
     const parts = pathname.split('/').filter(part => part !== '');
     let accumulatedPath = '/';
@@ -42,11 +40,8 @@ export const Breadcrumbs: FC = () => {
   };
 
   const getBreadcrumbName = (part: string): string => {
-    if (part === Paths.PRODUCTS) {
-      return Paths.ALL_PRODUCTS;
-    }
-    if (part === Paths.CONFIRMATION) {
-      return Paths.ORDER_CONFIRMATION;
+    if (part === Pathname.PRODUCTS.slice(1)) {
+      return Path.ALL_PRODUCTS;
     }
     const isProductId = /^\d+$/.test(part);
     if (isProductId) {

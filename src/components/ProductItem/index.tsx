@@ -39,12 +39,17 @@ export const ProductItem: FC<ProductItemProps> = ({
   const items = useAppSelector(selectWishlistIds);
   const { isAuthorized, user } = useAuth();
 
-  const [buttonName, setButtonName] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const isProductInWishlist = items.find(
     ({ id: userId, products }) => userId === user?.id && products.includes(id)
   );
+
+  const [buttonTextContent, setButtonTextContent] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const textContent = getButtonText();
+    setButtonTextContent(textContent);
+  }, [isProductInWishlist]);
 
   const updateWishlistHandler = () => {
     if (!isAuthorized) {
@@ -67,11 +72,6 @@ export const ProductItem: FC<ProductItemProps> = ({
 
   const getButtonText = () =>
     isProductInWishlist ? ButtonWishText.REMOVE : ButtonWishText.ADD;
-
-  useEffect(() => {
-    const name = getButtonText();
-    setButtonName(name);
-  }, [isProductInWishlist]);
 
   return (
     <li className="product">
@@ -144,7 +144,7 @@ export const ProductItem: FC<ProductItemProps> = ({
                     : 'product-order__add-icon'
                 }
               />
-              <span>{buttonName}</span>
+              <span>{buttonTextContent}</span>
             </button>
           </div>
         </div>
