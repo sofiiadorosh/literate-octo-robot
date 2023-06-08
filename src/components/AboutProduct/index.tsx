@@ -66,12 +66,6 @@ export const AboutProduct: FC = () => {
   };
   const maxQuantity = parseInt(stock);
   const tabRef = useRef<HTMLDivElement>(null);
-  const itemInCart = cartItems.find(
-    item => item.id === id && item.unit === unit && item.userId === user?.id
-  );
-  const isProductInWishlist = wishlistItems.find(
-    ({ id: userId, products }) => userId === user?.id && products.includes(id)
-  );
 
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
@@ -111,11 +105,6 @@ export const AboutProduct: FC = () => {
 
     bodyEl.style.overflow = isSignedIn ? 'hidden' : 'visible';
   }, [isSignedIn]);
-
-  useEffect(() => {
-    const textContent = getButtonText();
-    setButtonTextContent(textContent);
-  }, [isProductInWishlist]);
 
   const getDescriptionItems = (): JSX.Element[] => {
     const descriptionItems: JSX.Element[] = [];
@@ -198,6 +187,18 @@ export const AboutProduct: FC = () => {
       dispatch(setWishlist({ userId: user?.id, productId: id }));
     }
   };
+
+  const itemInCart = cartItems.find(
+    item => item.id === id && item.unit === unit && item.userId === user?.id
+  );
+  const isProductInWishlist = wishlistItems.find(
+    ({ id: userId, products }) => userId === user?.id && products.includes(id)
+  );
+
+  useEffect(() => {
+    const textContent = getButtonText();
+    setButtonTextContent(textContent);
+  }, [isProductInWishlist]);
 
   return (
     <div className="details">
