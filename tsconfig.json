@@ -28,7 +28,8 @@
       "@constants": ["constants"],
       "@utils": ["utils"],
       "@services": ["services"],
-      "@schemas": ["schemas"]
+      "@schemas": ["schemas"],
+      "@config": ["config"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]

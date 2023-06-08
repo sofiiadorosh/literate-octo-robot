@@ -6,6 +6,7 @@ import { FormValues, CartItem, Product } from '@types';
 import { getProductsByIds } from './operations';
 
 type Cart = {
+  userId?: string;
   _id: string;
   id: string;
   unit: string;
@@ -14,6 +15,7 @@ type Cart = {
 };
 
 type CartItemAction = {
+  userId: string;
   _id: string;
   id: string;
   unit?: string;
@@ -71,17 +73,17 @@ const cartSlice = createSlice({
       return { ...state, country: action.payload };
     },
     addToCart(state, action: PayloadAction<Cart>) {
-      const { _id, id, stock, unit, quantity } = action.payload;
+      const { userId, _id, id, stock, unit, quantity } = action.payload;
 
       const existingItem = state.cart.find(
-        item => item.id === id && item.unit === unit
+        item => item.id === id && item.unit === unit && item.userId === userId
       );
 
       if (existingItem) {
         return {
           ...state,
           cart: state.cart.map(item =>
-            item.id === id && item.unit === unit
+            item.id === id && item.unit === unit && item.userId === userId
               ? {
                   ...item,
                   quantity: item.quantity + quantity,
@@ -92,7 +94,7 @@ const cartSlice = createSlice({
       } else {
         return {
           ...state,
-          cart: [{ _id, id, stock, unit, quantity }, ...state.cart],
+          cart: [{ userId, _id, id, stock, unit, quantity }, ...state.cart],
         };
       }
     },
@@ -103,10 +105,14 @@ const cartSlice = createSlice({
       };
     },
     updateCartItem(state, action: PayloadAction<CartItemAction>) {
-      const { _id, id, unit, quantity } = action.payload;
+      const { userId, _id, id, unit, quantity } = action.payload;
 
       const existingItem = state.cart.find(
-        item => item.id === id && item.unit === unit && item._id !== _id
+        item =>
+          item.id === id &&
+          item.unit === unit &&
+          item.userId === userId &&
+          item._id !== _id
       );
       if (existingItem) {
         const combinedCart = state.cart.map(item => {
@@ -155,6 +161,24 @@ const cartSlice = createSlice({
     },
     setFormSubmitted(state, action: PayloadAction<boolean>) {
       return { ...state, isFormSubmitted: action.payload };
+    },
+    clearData(state) {
+      return {
+        ...state,
+        data: {
+          firstName: '',
+          lastName: '',
+          emailName: '',
+          phoneName: '',
+          countryName: '',
+          cityName: '',
+          apartmentName: '',
+          zipName: '',
+          notes: '',
+          sending: false,
+          agreement: false,
+        },
+      };
     },
     clearCart(state) {
       return {
@@ -214,6 +238,7 @@ export const {
   applyPromocode,
   setPromocodeDiscount,
   setTax,
+  clearData,
   setFormSubmitted,
 } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

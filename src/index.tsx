@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ErrorFallback } from '@components/ErrorFallback';
 import { store, persistor } from '@store';
 import App from 'App';
+import '@config';
 
 import './styles/base.scss';
 

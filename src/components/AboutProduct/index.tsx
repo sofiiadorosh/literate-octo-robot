@@ -5,13 +5,14 @@ import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ReactComponent as Plus } from '@assets/plus.svg';
 import { ConfirmQuantityChange } from '@components/ConfirmQuantityChange';
 import { CountPicker } from '@components/CountPicker';
+import { LoginForm } from '@components/LoginForm';
 import { Modal } from '@components/Modal';
 import { ProductDescription } from '@components/ProductDescription';
 import { Questions } from '@components/Questions';
 import { Reviews } from '@components/Reviews';
 import { Stars } from '@components/Stars';
 import { TabsList } from '@components/TabList';
-import { useAppSelector, useAppDispatch } from '@hooks';
+import { useAppSelector, useAppDispatch, useAuth } from '@hooks';
 import { selectCart } from '@store/cart/selectors';
 import { addToCart } from '@store/cart/slice';
 import { selectProductDetails } from '@store/productDetails/selectors';
@@ -27,6 +28,7 @@ export const AboutProduct: FC = () => {
   const selectedProduct = useAppSelector(selectProductDetails);
   const items = useAppSelector(selectCart);
   const wishlistItems = useAppSelector(selectWishlistIds);
+  const { isAuthorized, user } = useAuth();
 
   if (!selectedProduct) {
     return null;
@@ -64,6 +66,9 @@ export const AboutProduct: FC = () => {
   };
   const maxQuantity = parseInt(stock);
   const tabRef = useRef<HTMLDivElement>(null);
+  const itemInCart = items.find(
+    item => item.id === id && item.unit === unit && item.userId === user?.id
+  );
 
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
@@ -72,6 +77,7 @@ export const AboutProduct: FC = () => {
   const [remainder, setRemainder] = useState(maxQuantity);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [buttonName, setButtonName] = useState('');
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     if (tabRef.current) {
@@ -135,32 +141,56 @@ export const AboutProduct: FC = () => {
   }, [items, unit, count]);
 
   const addToCartHandler = () => {
-    const itemInCart = items.find(item => item.id === id && item.unit === unit);
+    if (!isAuthorized) {
+      return setIsSignedIn(true);
+    }
     if (itemInCart && !isModalOpen) {
       return setIsModalOpen(true);
     }
     const _id = nanoid();
-    const product = {
-      _id,
-      id,
-      unit,
-      quantity: count,
-      stock,
-    };
-    dispatch(addToCart(product));
+    if (user && user.id) {
+      const product = {
+        userId: user?.id,
+        _id,
+        id,
+        unit,
+        quantity: count,
+        stock,
+      };
+      dispatch(addToCart(product));
+    }
     return setCount(1);
   };
 
   const closeModalHandler = () => {
     setIsModalOpen(false);
+    setIsSignedIn(false);
   };
 
   const updateWishlistHandler = () => {
-    dispatch(setWishlist(id));
+    if (!isAuthorized) {
+      return setIsSignedIn(true);
+    }
+    if (user && user.id) {
+      dispatch(setWishlist({ userId: user?.id, productId: id }));
+    }
   };
 
-  const isProductInWishlist = wishlistItems.some(item => item === id);
-  const itemInCart = items.find(item => item.id === id && item.unit === unit);
+  useEffect(() => {
+    const bodyEl = document.getElementById('body') as HTMLElement;
+
+    bodyEl.style.overflow = isModalOpen ? 'hidden' : 'visible';
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    const bodyEl = document.getElementById('body') as HTMLElement;
+
+    bodyEl.style.overflow = isSignedIn ? 'hidden' : 'visible';
+  }, [isSignedIn]);
+
+  const isProductInWishlist = wishlistItems.find(
+    ({ id: userId, products }) => userId === user?.id && products.includes(id)
+  );
 
   useEffect(() => {
     const name = getButtonText();
@@ -269,6 +299,11 @@ export const AboutProduct: FC = () => {
             addToCart={addToCartHandler}
             closeModal={closeModalHandler}
           />
+        </Modal>
+      )}
+      {isSignedIn && (
+        <Modal closeModal={closeModalHandler}>
+          <LoginForm closeModal={closeModalHandler} />
         </Modal>
       )}
     </div>

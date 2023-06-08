@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Heart } from '@assets/heart.svg';
-import { useAppDispatch, useAppSelector } from '@hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '@hooks';
 import { selectWishlistIds } from '@store/wishlist/selectors';
 import { setWishlist } from '@store/wishlist/slice';
 import { Product } from '@types';
@@ -21,11 +21,16 @@ export const SimilarItem: FC<SimilarItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectWishlistIds);
+  const { user } = useAuth();
 
-  const isProductInWishlist = items.some(item => item === id);
+  const isProductInWishlist = items.find(
+    ({ id: userId, products }) => userId === user?.id && products.includes(id)
+  );
 
   const updateWishlistHandler = () => {
-    dispatch(setWishlist(id));
+    if (user && user.id) {
+      dispatch(setWishlist({ userId: user?.id, productId: id }));
+    }
   };
 
   const getPrice = () => {

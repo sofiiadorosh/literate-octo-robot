@@ -5,9 +5,10 @@ import { ReactComponent as Remove } from '@assets/close.svg';
 import { ReactComponent as Heart } from '@assets/heart.svg';
 import { ConfirmUnitChange } from '@components/ConfirmUnitChange';
 import { CountPicker } from '@components/CountPicker';
+import { LoginForm } from '@components/LoginForm';
 import { Modal } from '@components/Modal';
 import { Stars } from '@components/Stars';
-import { useAppDispatch, useAppSelector } from '@hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '@hooks';
 import {
   selectPromocodeDiscount,
   selectCartItems,
@@ -49,8 +50,11 @@ export const OrderItem: FC<OrderItemProps> = ({
   const cartItems = useAppSelector(selectCartItems);
   const items = useAppSelector(selectCart);
   const wishlist = useAppSelector(selectWishlistIds);
+  const { isAuthorized, user } = useAuth();
 
-  const isProductInWishlist = wishlist.some(item => item === id);
+  const isProductInWishlist = wishlist.find(
+    ({ id: userId, products }) => userId === user?.id && products.includes(id)
+  );
   const maxQuantity = parseInt(stock);
   const updatedUnits = units.filter(unit => unit !== chosenUnit);
 
@@ -61,6 +65,7 @@ export const OrderItem: FC<OrderItemProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ordered, setOrdered] = useState(0);
   const [remainder, setRemainder] = useState(maxQuantity);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const getTotalPrice = () => {
     return setFixedPrice(price[unit] * chosenQuantity);
@@ -126,13 +131,19 @@ export const OrderItem: FC<OrderItemProps> = ({
   }, [chosenQuantity]);
 
   useEffect(() => {
-    dispatch(updateCartItem({ _id: itemId, id, unit }));
-    setMatchedItem(null);
-    setTempUnit('');
+    if (user && user.id) {
+      dispatch(updateCartItem({ userId: user?.id, _id: itemId, id, unit }));
+      setMatchedItem(null);
+      setTempUnit('');
+    }
   }, [unit]);
 
   useEffect(() => {
-    dispatch(updateCartItem({ _id: itemId, id, quantity: count }));
+    if (user && user.id) {
+      dispatch(
+        updateCartItem({ userId: user?.id, _id: itemId, id, quantity: count })
+      );
+    }
   }, [count]);
 
   const removeFromCartHandler = () => {
@@ -141,6 +152,7 @@ export const OrderItem: FC<OrderItemProps> = ({
 
   const closeModalHandler = () => {
     setIsModalOpen(false);
+    setIsSignedIn(false);
   };
 
   useEffect(() => {
@@ -149,8 +161,19 @@ export const OrderItem: FC<OrderItemProps> = ({
     bodyEl.style.overflow = isModalOpen ? 'hidden' : 'visible';
   }, [isModalOpen]);
 
+  useEffect(() => {
+    const bodyEl = document.getElementById('body') as HTMLElement;
+
+    bodyEl.style.overflow = isSignedIn ? 'hidden' : 'visible';
+  }, [isSignedIn]);
+
   const updateWishlistHandler = () => {
-    dispatch(setWishlist(id));
+    if (!isAuthorized) {
+      return setIsSignedIn(true);
+    }
+    if (user && user.id) {
+      dispatch(setWishlist({ userId: user?.id, productId: id }));
+    }
   };
 
   return (
@@ -235,6 +258,11 @@ export const OrderItem: FC<OrderItemProps> = ({
             setUnit={() => setUnit(tempUnit)}
             closeModal={closeModalHandler}
           />
+        </Modal>
+      )}
+      {isSignedIn && (
+        <Modal closeModal={closeModalHandler}>
+          <LoginForm closeModal={closeModalHandler} />
         </Modal>
       )}
     </>

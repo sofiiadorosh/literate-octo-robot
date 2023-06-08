@@ -1,0 +1,46 @@
+@import '@styles/shared.scss';
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 36px 0;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+  }
+
+  &__picture {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: repeat(2, 120px);
+    gap: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+
+    &_accent {
+      font-family: $secondary-font-stack;
+      font-weight: 600;
+      color: $accent;
+    }
+  }
+
+  &__button {
+    @extend %primary-button;
+    margin-right: auto;
+  }
+}

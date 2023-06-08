@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { AdditionalInfo } from '@components/AdditionalInfo';
 import { BillingInfo } from '@components/BillingInfo';
 import { Confirmation } from '@components/Confirmation';
-import { useAppSelector, useAppDispatch } from '@hooks';
+import { useAppSelector, useAppDispatch, useAuth } from '@hooks';
 import { schema } from '@schemas';
 import { selectData } from '@store/cart/selectors';
 import { clearCart } from '@store/cart/slice';
@@ -32,6 +32,16 @@ const defaultValues = {
 export const CheckoutForm: FC = () => {
   const dispatch = useAppDispatch();
   const defaultData = useAppSelector(selectData);
+  const { isAuthorized, user } = useAuth();
+
+  const getUserData = () => {
+    if (!user) return;
+    const { name, email } = user;
+    if (!email || !name) return;
+    const [firstName, lastName] = name.split(' ');
+    return { ...defaultData, firstName, lastName, emailName: email };
+  };
+
   const {
     register,
     control,
@@ -41,7 +51,7 @@ export const CheckoutForm: FC = () => {
     reset,
     trigger,
   } = useForm<FormValues>({
-    defaultValues: defaultData,
+    defaultValues: isAuthorized ? getUserData() : defaultData,
     resolver: zodResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onChange',
