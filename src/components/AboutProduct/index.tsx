@@ -66,6 +66,9 @@ export const AboutProduct: FC = () => {
   };
   const maxQuantity = parseInt(stock);
   const tabRef = useRef<HTMLDivElement>(null);
+  const itemInCart = items.find(
+    item => item.id === id && item.unit === unit && item.userId === user?.id
+  );
 
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
@@ -141,9 +144,6 @@ export const AboutProduct: FC = () => {
     if (!isAuthorized) {
       return setIsSignedIn(true);
     }
-    const itemInCart = items.find(
-      item => item.id === id && item.unit === unit && item.userId === user?.id
-    );
     if (itemInCart && !isModalOpen) {
       return setIsModalOpen(true);
     }
@@ -190,9 +190,6 @@ export const AboutProduct: FC = () => {
 
   const isProductInWishlist = wishlistItems.find(
     ({ id: userId, products }) => userId === user?.id && products.includes(id)
-  );
-  const itemInCart = items.find(
-    item => item.id === id && item.unit === unit && item.userId === user?.id
   );
 
   useEffect(() => {
