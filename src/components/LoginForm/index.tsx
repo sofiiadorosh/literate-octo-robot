@@ -12,6 +12,7 @@ type LoginFormProps = {
 
 export const LoginForm: FC<LoginFormProps> = ({ closeModal }) => {
   const dispatch = useAppDispatch();
+
   const googleSignInHandler = async () => {
     await dispatch(googleSignIn());
     if (closeModal) {

@@ -26,7 +26,7 @@ import './AboutProduct.scss';
 export const AboutProduct: FC = () => {
   const dispatch = useAppDispatch();
   const selectedProduct = useAppSelector(selectProductDetails);
-  const items = useAppSelector(selectCart);
+  const cartItems = useAppSelector(selectCart);
   const wishlistItems = useAppSelector(selectWishlistIds);
   const { isAuthorized, user } = useAuth();
 
@@ -66,9 +66,6 @@ export const AboutProduct: FC = () => {
   };
   const maxQuantity = parseInt(stock);
   const tabRef = useRef<HTMLDivElement>(null);
-  const itemInCart = items.find(
-    item => item.id === id && item.unit === unit && item.userId === user?.id
-  );
 
   const [unit, setUnit] = useState(units[0]);
   const [count, setCount] = useState(1);
@@ -76,7 +73,7 @@ export const AboutProduct: FC = () => {
   const [ordered, setOrdered] = useState(0);
   const [remainder, setRemainder] = useState(maxQuantity);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [buttonName, setButtonName] = useState('');
+  const [buttonTextContent, setButtonTextContent] = useState('');
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
@@ -85,28 +82,29 @@ export const AboutProduct: FC = () => {
     }
   }, [selectedTab]);
 
-  const getTotalPrice = (price: number) => setFixedPrice(price * count);
+  useEffect(() => {
+    const sameItems = cartItems.filter(
+      item => item.id === id && item.unit === unit
+    );
+    const orderedQuantity = sameItems
+      .map(item => item.quantity)
+      .reduce((acc, item) => (acc += item), 0);
+    setOrdered(orderedQuantity);
+    const productRemainder = parseInt(stock) - orderedQuantity;
+    setRemainder(productRemainder);
+  }, [cartItems, unit, count]);
 
-  const getNewTotalPrice = () => {
-    const newPrice = getNewPrice(price[unit], discount);
-    return getTotalPrice(newPrice);
-  };
+  useEffect(() => {
+    const bodyEl = document.getElementById('body') as HTMLElement;
 
-  const setUnitHandler = (unit: string) => {
-    setUnit(unit);
-  };
+    bodyEl.style.overflow = isModalOpen ? 'hidden' : 'visible';
+  }, [isModalOpen]);
 
-  const setCountHandler = (count: number) => {
-    setCount(count);
-  };
+  useEffect(() => {
+    const bodyEl = document.getElementById('body') as HTMLElement;
 
-  const setNextCountHandler = (typeButton: ButtonNames) => {
-    if (typeButton === ButtonNames.SUP) {
-      setCount(prevState => prevState + 1);
-    } else if (typeButton === ButtonNames.SUB) {
-      setCount(prevState => prevState - 1);
-    }
-  };
+    bodyEl.style.overflow = isSignedIn ? 'hidden' : 'visible';
+  }, [isSignedIn]);
 
   const getDescriptionItems = (): JSX.Element[] => {
     const descriptionItems: JSX.Element[] = [];
@@ -124,21 +122,35 @@ export const AboutProduct: FC = () => {
     return descriptionItems;
   };
 
+  const getTotalPrice = (price: number) => setFixedPrice(price * count);
+
+  const getNewTotalPrice = () => {
+    const newPrice = getNewPrice(price[unit], discount);
+    return getTotalPrice(newPrice);
+  };
+
+  const getButtonText = () =>
+    isProductInWishlist ? ButtonWishText.REMOVE : ButtonWishText.ADD;
+
+  const setUnitHandler = (unit: string) => {
+    setUnit(unit);
+  };
+
+  const setCountHandler = (count: number) => {
+    setCount(count);
+  };
+
+  const setNextCountHandler = (typeButton: ButtonNames) => {
+    if (typeButton === ButtonNames.SUP) {
+      setCount(prevState => prevState + 1);
+    } else if (typeButton === ButtonNames.SUB) {
+      setCount(prevState => prevState - 1);
+    }
+  };
+
   const setTab = (tab: Tabs) => {
     setSelectedTab(tab);
   };
-
-  useEffect(() => {
-    const sameItems = items.filter(
-      item => item.id === id && item.unit === unit
-    );
-    const orderedQuantity = sameItems
-      .map(item => item.quantity)
-      .reduce((acc, item) => (acc += item), 0);
-    setOrdered(orderedQuantity);
-    const productRemainder = parseInt(stock) - orderedQuantity;
-    setRemainder(productRemainder);
-  }, [items, unit, count]);
 
   const addToCartHandler = () => {
     if (!isAuthorized) {
@@ -176,29 +188,17 @@ export const AboutProduct: FC = () => {
     }
   };
 
-  useEffect(() => {
-    const bodyEl = document.getElementById('body') as HTMLElement;
-
-    bodyEl.style.overflow = isModalOpen ? 'hidden' : 'visible';
-  }, [isModalOpen]);
-
-  useEffect(() => {
-    const bodyEl = document.getElementById('body') as HTMLElement;
-
-    bodyEl.style.overflow = isSignedIn ? 'hidden' : 'visible';
-  }, [isSignedIn]);
-
+  const itemInCart = cartItems.find(
+    item => item.id === id && item.unit === unit && item.userId === user?.id
+  );
   const isProductInWishlist = wishlistItems.find(
     ({ id: userId, products }) => userId === user?.id && products.includes(id)
   );
 
   useEffect(() => {
-    const name = getButtonText();
-    setButtonName(name);
+    const textContent = getButtonText();
+    setButtonTextContent(textContent);
   }, [isProductInWishlist]);
-
-  const getButtonText = () =>
-    isProductInWishlist ? ButtonWishText.REMOVE : ButtonWishText.ADD;
 
   return (
     <div className="details">
@@ -274,7 +274,7 @@ export const AboutProduct: FC = () => {
                   : 'details__wish-icon'
               }
             />
-            <span>{buttonName}</span>
+            <span>{buttonTextContent}</span>
           </button>
         </div>
         <div className="details__tab">

@@ -17,11 +17,11 @@ type InputControllerProps = {
   label: string;
   placeholder: string;
   options: OptionType[];
-  register: UseFormRegister<FormValues>;
   errors: FieldErrors<FormValues>;
   control: Control<FormValues>;
-  onSetCountry?: (selectedOption: string) => void;
+  register: UseFormRegister<FormValues>;
   watch: (name: string | boolean) => string | boolean;
+  onSetCountry?: (selectedOption: string) => void;
 };
 
 enum Controller {
@@ -56,16 +56,32 @@ export const InputController: FC<InputControllerProps> = ({
   });
   const controlledValue = watch(name);
 
-  useEffect(() => {
-    dispatch(setData({ [name]: controlledValue }));
-  }, [value, dispatch]);
-
   const menuRef = useRef<HTMLUListElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [inputValue, setInputValue] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(setData({ [name]: controlledValue }));
+  }, [value, dispatch]);
+
+  useEffect(() => {
+    const updatedOptions = options.filter(option =>
+      option.value
+        .trim()
+        .toLowerCase()
+        .includes(inputValue.trim().toLowerCase())
+    );
+    setFilteredOptions(updatedOptions);
+  }, [inputValue, options]);
+
+  useEffect(() => {
+    if (!value) {
+      onCityChange('');
+    }
+  }, [value]);
 
   const setOptionHandler = (option: string) => {
     onChange(option);
@@ -92,22 +108,6 @@ export const InputController: FC<InputControllerProps> = ({
     setMenuOpen(true);
   };
 
-  useEffect(() => {
-    const updatedOptions = options.filter(option =>
-      option.value
-        .trim()
-        .toLowerCase()
-        .includes(inputValue.trim().toLowerCase())
-    );
-    setFilteredOptions(updatedOptions);
-  }, [inputValue, options]);
-
-  useEffect(() => {
-    if (!value) {
-      onCityChange('');
-    }
-  }, [value]);
-
   const handleClickOutside = (e: MouseEvent) => {
     if (
       menuRef.current &&
@@ -115,8 +115,7 @@ export const InputController: FC<InputControllerProps> = ({
       e.target !== inputRef.current
     ) {
       setMenuOpen(false);
-      onChange('');
-      setInputValue('');
+      onClearInputHandler();
     }
   };
 
@@ -170,7 +169,7 @@ export const InputController: FC<InputControllerProps> = ({
           ) : (
             filteredOptions.map((option, index) => (
               <li
-                key={`${option.latitude}-${option.value}-${index}`}
+                key={index}
                 className="billing__item"
                 onClick={() => {
                   if (option.code && onSetCountry) {

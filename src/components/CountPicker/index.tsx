@@ -5,6 +5,17 @@ import { ButtonNames } from '@types';
 
 import './CountPicker.scss';
 
+enum ProductsQuantity {
+  'MAX' = 'max',
+  'REMAINDER' = 'remainder',
+}
+
+enum ErrorMessage {
+  MAX_STOCK = 'There are max items in stock.',
+  REMAINING_STOCK = 'There are remainder items left in stock.',
+  MIN_COUNT = 'At least 1 item has to be added to cart.',
+}
+
 type CountPickerProps = {
   items: string[];
   max: number;
@@ -25,81 +36,113 @@ export const CountPicker: FC<CountPickerProps> = ({
   unit,
   ordered,
   remainder,
+  page,
   onSetCountByValue,
   onSetCountByStep,
   onSetUnit,
-  page,
 }) => {
   const areProductsAvailable =
     (count === remainder || !remainder) &&
     ordered &&
     page &&
     page === 'product';
-  const isCountGreaterThanMax = count > max && !ordered;
   const isCountLessThanOne = count - 1 < 1;
-  const isMaxOrNoRemainderOrdered = (count === max || !remainder) && ordered;
-  const isExceedingRemainderOrMax =
-    (count > remainder || count > max) && page && page === 'product';
+  const isCountMaxOrNoRemainder = (count === max || !remainder) && ordered;
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
-  const setErrorToNull = () => {
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
-  };
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError(null);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
 
   useEffect(() => {
-    setErrorToNull();
-  }, [error]);
+    setMenuOpen(false);
+  }, [unit]);
+
+  const setUnitHandler = (unit: string) => {
+    onSetUnit(unit);
+  };
+
+  const setErrorMessage = (message: ErrorMessage, countName?: string) => {
+    if (countName) {
+      return setError(
+        message.replace(
+          countName,
+          String(countName === ProductsQuantity.MAX ? max : remainder)
+        )
+      );
+    }
+    return setError(message);
+  };
 
   const setCountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const count = Number(e.currentTarget.value);
     if (Number.isNaN(count)) return;
+    const isCountGreaterThanMax = count > max && !ordered && max === remainder;
+    const isExceedingRemainder =
+      count > remainder && ordered && page && page === 'product';
     if (isCountGreaterThanMax) {
-      setError(`There are ${max} items in stock.`);
-      return;
-    } else if (isExceedingRemainderOrMax) {
-      setError(`There are ${remainder} items in stock.`);
-      return;
-    } else if (count > max) {
-      setError(`There are ${max} items in stock.`);
-      return;
-    } else if (!count) {
+      return setErrorMessage(ErrorMessage.MAX_STOCK, ProductsQuantity.MAX);
+    }
+    if (isExceedingRemainder) {
+      return setErrorMessage(
+        ErrorMessage.REMAINING_STOCK,
+        ProductsQuantity.REMAINDER
+      );
+    }
+    if (count > max) {
+      return setErrorMessage(ErrorMessage.MAX_STOCK, ProductsQuantity.MAX);
+    }
+    if (!count) {
       onSetCountByValue(count);
-      setError('At least 1 item has to be to add to cart.');
+      setErrorMessage(ErrorMessage.MIN_COUNT);
       return;
     }
     onSetCountByValue(count);
-  };
-
-  const setUnitHandler = (unit: string) => {
-    onSetUnit(unit);
   };
 
   const onButtonClickHandler: React.MouseEventHandler<
     HTMLButtonElement
   > = e => {
     const typeButton = e.currentTarget.getAttribute('data-type') as ButtonNames;
-    if (typeButton === ButtonNames.SUP && count === max && !ordered) {
-      setError(`There are ${max} items in stock.`);
-      return;
-    } else if (typeButton === ButtonNames.SUP && areProductsAvailable) {
-      setError(`There are ${remainder} items  left in stock.`);
-      return;
-    } else if (typeButton === ButtonNames.SUP && isMaxOrNoRemainderOrdered) {
-      setError(`There are ${max} items in stock.`);
-      return;
-    } else if (typeButton === ButtonNames.SUB && isCountLessThanOne) {
-      setError('At least 1 item has to be to add to cart.');
-      return;
+    switch (typeButton) {
+      case ButtonNames.SUP:
+        if ((count === max && !ordered) || isCountMaxOrNoRemainder) {
+          return setErrorMessage(ErrorMessage.MAX_STOCK, ProductsQuantity.MAX);
+        } else if (areProductsAvailable) {
+          return setErrorMessage(
+            ErrorMessage.REMAINING_STOCK,
+            ProductsQuantity.REMAINDER
+          );
+        }
+        break;
+
+      case ButtonNames.SUB:
+        if (isCountLessThanOne) {
+          return setErrorMessage(ErrorMessage.MIN_COUNT);
+        }
+        break;
+
+      default:
+        break;
     }
     onSetCountByStep(typeButton);
   };
 
   const openMenuHandler = () => setMenuOpen(true);
+
+  const blurHandler = () => {
+    if (!count) {
+      onSetCountByValue(1);
+    }
+  };
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -116,16 +159,6 @@ export const CountPicker: FC<CountPickerProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  const blurHandler = () => {
-    if (!count) {
-      onSetCountByValue(1);
-    }
-  };
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [unit]);
 
   return (
     <div className="count">

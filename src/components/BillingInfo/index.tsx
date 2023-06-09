@@ -31,24 +31,22 @@ export const BillingInfo: FC<BillingInfoProps> = ({
   const [cityOptions, setCityOptions] = useState<[] | OptionType[]>([]);
 
   const countries = Country.getAllCountries();
-  const allCities = City.getAllCities();
+  const cities = City.getAllCities();
   const countryOptions = countries.map(country => ({
     label: country.name,
     value: country.name,
     code: country.isoCode,
-    latitude: country.latitude,
   }));
 
   useEffect(() => {
     if (countryValue) {
       setCityOptions([]);
-      const cities = allCities.filter(
+      const citiesByCountry = cities.filter(
         city => city.countryCode === countryValue
       );
-      const options = cities.map(city => ({
+      const options = citiesByCountry.map(city => ({
         label: city.name,
         value: city.name,
-        latitude: city.latitude,
       }));
       setCityOptions(options);
     }

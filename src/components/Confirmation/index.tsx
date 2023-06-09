@@ -32,6 +32,8 @@ export const Confirmation: FC<ConfirmationProps> = ({
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
 
+  const isQuantityValid = items.every(item => item.chosenQuantity);
+
   const agreementValue = watch(Confirm.AGREEMENT);
   const sendingValue = watch(Confirm.SENDING);
 
@@ -42,8 +44,6 @@ export const Confirmation: FC<ConfirmationProps> = ({
   useEffect(() => {
     dispatch(setData({ sending: sendingValue }));
   }, [sendingValue, dispatch]);
-
-  const isQuantityValid = items.every(item => item.chosenQuantity);
 
   return (
     <div className="confirm">
@@ -59,7 +59,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
               type="checkbox"
               autoComplete="do-not-autofill"
               className="confirm__input"
-              {...register('sending')}
+              {...register(Confirm.SENDING)}
               defaultChecked={watch(Confirm.SENDING)}
             />
             <span className="confirm__checkbox">
@@ -83,7 +83,7 @@ export const Confirmation: FC<ConfirmationProps> = ({
               type="checkbox"
               autoComplete="do-not-autofill"
               className="confirm__input"
-              {...register('agreement')}
+              {...register(Confirm.AGREEMENT)}
               defaultChecked={watch(Confirm.AGREEMENT)}
             />
             <span className="confirm__checkbox">
