@@ -4,4 +4,5 @@ export enum Pathname {
   'CHECKOUT' = '/checkout',
   'WISHLIST' = '/wishlist',
   'PROFILE' = './profile',
+  'NOT_FOUND' = '*',
 }

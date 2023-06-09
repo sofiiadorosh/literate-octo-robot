@@ -5,6 +5,7 @@ import { PrivateRoute } from '@components/PrivateRoute';
 import SharedLayout from '@components/SharedLayout';
 import { useAppDispatch } from '@hooks';
 import { getProducts } from '@store/products/operations';
+import { Pathname } from '@types';
 const HomePage = lazy(() => import('@pages/HomePage'));
 const ProductsPage = lazy(() => import('@pages/ProductsPage'));
 const ProductDetailsPage = lazy(() => import('@pages/ProductDetailsPage'));
@@ -22,24 +23,30 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<SharedLayout />}>
+      <Route path={Pathname.HOME} element={<SharedLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="products" element={<ProductsPage />} />
+        <Route path={Pathname.PROFILE} element={<ProfilePage />} />
+        <Route path={Pathname.PRODUCTS} element={<ProductsPage />} />
         <Route path="products/:productId" element={<ProductDetailsPage />} />
         <Route
-          path="checkout"
+          path={Pathname.CHECKOUT}
           element={
-            <PrivateRoute redirectTo="/profile" component={<CheckoutPage />} />
+            <PrivateRoute
+              redirectTo={Pathname.PROFILE}
+              component={<CheckoutPage />}
+            />
           }
         />
         <Route
-          path="wishlist"
+          path={Pathname.WISHLIST}
           element={
-            <PrivateRoute redirectTo="/profile" component={<WishlistPage />} />
+            <PrivateRoute
+              redirectTo={Pathname.PROFILE}
+              component={<WishlistPage />}
+            />
           }
         />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path={Pathname.NOT_FOUND} element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
